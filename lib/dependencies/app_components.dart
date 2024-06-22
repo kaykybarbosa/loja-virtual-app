@@ -3,7 +3,7 @@ import 'package:lojavirtualapp/firebase_options.dart';
 
 abstract class AppComponents {
   static Future<void> initApp() async {
-    _initFirebase();
+    await _initFirebase();
   }
 }
 
