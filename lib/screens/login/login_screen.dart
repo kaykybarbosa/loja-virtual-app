@@ -150,15 +150,15 @@ class _SubmitBtn extends StatelessWidget {
   final Function() onPressed;
 
   @override
-  Widget build(BuildContext context) => Consumer<UserManager>(builder: (_, userManager, __) {
-        return ElevatedButton(
+  Widget build(BuildContext context) => Consumer<UserManager>(
+        builder: (_, userManager, __) => ElevatedButton(
           onPressed: userManager.isLoading ? null : onPressed,
           child: userManager.isLoading
-              ? const CircularProgressIndicator.adaptive()
+              ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator.adaptive())
               : const Text(
                   'Entrar',
                   style: TextStyle(fontSize: 18),
                 ),
-        );
-      });
+        ),
+      );
 }
