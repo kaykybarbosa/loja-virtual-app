@@ -1,10 +1,16 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserManager extends ChangeNotifier {
-  final _auth = FirebaseAuth.instance;
+  UserManager() {
+    _loadCurrentUser();
+  }
 
-  bool isLoading = false;
+  final _auth = FirebaseAuth.instance;
+  bool _loading = false;
+  User? _currentUser;
 
   Future<void> signIn({
     required String email,
@@ -12,7 +18,7 @@ class UserManager extends ChangeNotifier {
     Function()? onSuccess,
     Function(String error)? onFail,
   }) async {
-    _setIsLoading(true);
+    loading = true;
 
     try {
       final result = await _auth.signInWithEmailAndPassword(
@@ -20,17 +26,31 @@ class UserManager extends ChangeNotifier {
         password: password,
       );
 
+      currentUser = result.user!;
+
       if (onSuccess != null) onSuccess();
     } catch (e) {
       if (onFail != null) onFail('E-mail ou senha inválido');
     }
 
-    _setIsLoading(false);
+    loading = false;
   }
 
-  void _setIsLoading(bool value) {
-    isLoading = value;
+  void _loadCurrentUser() {
+    final user = _auth.currentUser;
 
-    notifyListeners();
+    if (user != null) {
+      currentUser = user;
+    }
   }
+
+  // G E T T E R S
+  bool get isLoading => _loading;
+
+  User? get getCurrentUser => _currentUser;
+
+  // S E T T E R S
+  set loading(bool value) => {_loading = value, notifyListeners()};
+
+  set currentUser(User user) => {_currentUser = user, notifyListeners(), log(user.uid)};
 }
