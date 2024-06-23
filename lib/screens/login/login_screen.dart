@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lojavirtualapp/common/custom_form_field/custom_form_field.dart';
+import 'package:lojavirtualapp/common/submit_form_button.dart';
 import 'package:lojavirtualapp/models/user_manager.dart';
+import 'package:lojavirtualapp/routes/app_routes.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
-import 'package:lojavirtualapp/utils/validators/validators.dart';
+import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/validators.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -52,12 +58,23 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Entrar'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => context.push(AppRoutes.register),
+              icon: const Text(
+                'Criar conta',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: MyColors.base100,
+                ),
+              ),
+            )
+          ],
         ),
         body: Form(
           key: _formKey,
@@ -87,19 +104,19 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ));
-  }
+        ),
+      );
 }
 
 class _Email extends StatelessWidget {
   const _Email();
 
   @override
-  Widget build(BuildContext context) => Consumer<UserManager>(builder: (_, userManager, __) {
-        return TextFormField(
+  Widget build(BuildContext context) => Consumer<UserManager>(
+        builder: (_, userManager, __) => CustomFormField(
+          hintText: 'E-mail',
           enabled: !userManager.isLoading,
           controller: context.findAncestorStateOfType<_LoginScreenState>()?._emailController,
-          decoration: const InputDecoration(hintText: 'E-mail'),
           keyboardType: TextInputType.emailAddress,
           validator: (email) {
             if (email == null || !emailValid(email)) {
@@ -107,28 +124,39 @@ class _Email extends StatelessWidget {
             }
             return null;
           },
-        );
-      });
+        ),
+      );
 }
 
-class _Password extends StatelessWidget {
+class _Password extends StatefulWidget {
   const _Password();
 
   @override
-  Widget build(BuildContext context) => Consumer<UserManager>(builder: (_, userManager, __) {
-        return TextFormField(
-          obscureText: true,
+  State<_Password> createState() => _PasswordState();
+}
+
+class _PasswordState extends State<_Password> {
+  bool _obscureText = true;
+
+  set obscureText(bool value) => setState(() => _obscureText = value);
+
+  @override
+  Widget build(BuildContext context) => Consumer<UserManager>(
+        builder: (_, userManager, __) => CustomFormField(
+          hintText: 'Senha',
+          obscureText: _obscureText,
           enabled: !userManager.isLoading,
           controller: context.findAncestorStateOfType<_LoginScreenState>()?._passwordController,
-          decoration: const InputDecoration(hintText: 'Senha'),
+          suffixIcon: _obscureText ? MyIcons.eyeOff : MyIcons.eyeOn,
+          suffixOnTap: () => obscureText = !_obscureText,
           validator: (password) {
             if (password == null || password.isEmpty || password.length < 6) {
               return 'Senha inválida';
             }
             return null;
           },
-        );
-      });
+        ),
+      );
 }
 
 class _FogortPasswordBtn extends StatelessWidget {
@@ -151,14 +179,10 @@ class _SubmitBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, __) => ElevatedButton(
+        builder: (_, userManager, __) => SubmitFormButton(
+          text: 'Entrar',
+          isLoading: userManager.isLoading,
           onPressed: userManager.isLoading ? null : onPressed,
-          child: userManager.isLoading
-              ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator.adaptive())
-              : const Text(
-                  'Entrar',
-                  style: TextStyle(fontSize: 18),
-                ),
         ),
       );
 }
