@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualapp/models/user_manager.dart';
-import 'package:lojavirtualapp/routes/app_pages.dart';
+import 'package:lojavirtualapp/data/managers/user_manager.dart';
+import 'package:lojavirtualapp/data/routes/app_pages.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 import 'package:lojavirtualapp/utils/theme/theme_data/app_bar_theme.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          routerConfig: router,
+          routerConfig: routerConfig,
           debugShowCheckedModeBanner: false,
         ),
       );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualapp/common/custom_drawer/custom_drawer.dart';
-import 'package:lojavirtualapp/models/page_manager.dart';
-import 'package:lojavirtualapp/screens/login/login_screen.dart';
+import 'package:lojavirtualapp/data/managers/page_manager.dart';
+import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
+import 'package:lojavirtualapp/ui/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatefulWidget {

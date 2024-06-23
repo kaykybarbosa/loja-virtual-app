@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:lojavirtualapp/routes/app_routes.dart';
-import 'package:lojavirtualapp/screens/base/base_screen.dart';
-import 'package:lojavirtualapp/screens/login/login_screen.dart';
-import 'package:lojavirtualapp/screens/register/Register_screen.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
+import 'package:lojavirtualapp/ui/screens/base/base_screen.dart';
+import 'package:lojavirtualapp/ui/screens/login/login_screen.dart';
+import 'package:lojavirtualapp/ui/screens/register/register_screen.dart';
 
-final router = GoRouter(
+final routerConfig = GoRouter(
   initialLocation: AppRoutes.base,
   routes: <RouteBase>[
     GoRoute(

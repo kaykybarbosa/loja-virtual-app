@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:lojavirtualapp/common/custom_form_field/custom_form_field.dart';
-import 'package:lojavirtualapp/common/submit_form_button.dart';
-import 'package:lojavirtualapp/models/user_manager.dart';
-import 'package:lojavirtualapp/models/user_model.dart';
+import 'package:lojavirtualapp/data/managers/user_manager.dart';
+import 'package:lojavirtualapp/domain/models/user_model.dart';
+import 'package:lojavirtualapp/ui/common/custom_form_field/custom_form_field.dart';
+import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
 import 'package:lojavirtualapp/utils/validators.dart';
