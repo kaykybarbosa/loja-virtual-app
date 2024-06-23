@@ -1,8 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/domain/models/user_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_form_field/custom_form_field.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
@@ -22,9 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   UserModel _user = const UserModel();
 
-  set user(UserModel user) {
-    _user = user;
-  }
+  set user(UserModel user) => _user = user;
 
   void _createUser() {
     context.read<UserManager>().signUp(
@@ -34,9 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             message: error,
             type: AnimatedSnackBarType.error,
           ),
-          onSuccess: () {
-            log('user registered successfuly');
-          },
+          onSuccess: () => context.pushReplacement(AppRoutes.base),
         );
   }
 
@@ -87,10 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Gap(16),
 
                   /// Submit form
-                  SubmitFormButton(
-                    text: 'Criar conta',
-                    onPressed: _formSubmitted,
-                  ),
+                  _SubmitForm(_formSubmitted),
                 ],
               ),
             ),
@@ -106,17 +99,20 @@ class _FullName extends StatelessWidget {
   Widget build(BuildContext context) {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
-    return CustomFormField(
-      hintText: 'Nome completo',
-      validator: (name) {
-        if (name == null || name.isEmpty) {
-          return 'Nome completo obrigatório';
-        } else if (name.trim().split(' ').length <= 1) {
-          return 'Nome completo inválido';
-        }
-        return null;
-      },
-      onSaved: (name) => ancestorState?.user = ancestorState._user.copyWith(fullName: name),
+    return Consumer<UserManager>(
+      builder: (_, userManager, __) => CustomFormField(
+        hintText: 'Nome completo',
+        enabled: !userManager.isLoading,
+        validator: (name) {
+          if (name == null || name.isEmpty) {
+            return 'Nome completo obrigatório';
+          } else if (name.trim().split(' ').length <= 1) {
+            return 'Nome completo inválido';
+          }
+          return null;
+        },
+        onSaved: (name) => ancestorState?.user = ancestorState._user.copyWith(fullName: name),
+      ),
     );
   }
 }
@@ -128,18 +124,21 @@ class _Email extends StatelessWidget {
   Widget build(BuildContext context) {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
-    return CustomFormField(
-      hintText: 'E-mail',
-      keyboardType: TextInputType.emailAddress,
-      validator: (email) {
-        if (email == null || email.isEmpty) {
-          return 'E-mail obrigatório';
-        } else if (!emailValid(email)) {
-          return 'E-mail inválido';
-        }
-        return null;
-      },
-      onSaved: (email) => ancestorState?.user = ancestorState._user.copyWith(email: email),
+    return Consumer<UserManager>(
+      builder: (_, userManager, __) => CustomFormField(
+        hintText: 'E-mail',
+        enabled: !userManager.isLoading,
+        keyboardType: TextInputType.emailAddress,
+        validator: (email) {
+          if (email == null || email.isEmpty) {
+            return 'E-mail obrigatório';
+          } else if (!emailValid(email)) {
+            return 'E-mail inválido';
+          }
+          return null;
+        },
+        onSaved: (email) => ancestorState?.user = ancestorState._user.copyWith(email: email),
+      ),
     );
   }
 }
@@ -160,20 +159,23 @@ class _PasswordState extends State<_Password> {
   Widget build(BuildContext context) {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
-    return CustomFormField(
-      hintText: 'Senha',
-      obscureText: _obscureText,
-      suffixIcon: _obscureText ? MyIcons.eyeOff : MyIcons.eyeOn,
-      suffixOnTap: () => obscureText = !_obscureText,
-      validator: (password) {
-        if (password == null || password.isEmpty) {
-          return 'Senha obrigatória';
-        } else if (password.length < 6) {
-          return 'Sua senha deve conter pelo menos 6 caracteres';
-        }
-        return null;
-      },
-      onSaved: (password) => ancestorState?.user = ancestorState._user.copyWith(password: password),
+    return Consumer<UserManager>(
+      builder: (_, userManager, __) => CustomFormField(
+        hintText: 'Senha',
+        enabled: !userManager.isLoading,
+        obscureText: _obscureText,
+        suffixIcon: _obscureText ? MyIcons.eyeOff : MyIcons.eyeOn,
+        suffixOnTap: () => obscureText = !_obscureText,
+        validator: (password) {
+          if (password == null || password.isEmpty) {
+            return 'Senha obrigatória';
+          } else if (password.length < 6) {
+            return 'Sua senha deve conter pelo menos 6 caracteres';
+          }
+          return null;
+        },
+        onSaved: (password) => ancestorState?.user = ancestorState._user.copyWith(password: password),
+      ),
     );
   }
 }
@@ -185,16 +187,34 @@ class _ConfirmPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
-    return CustomFormField(
-      obscureText: true,
-      hintText: 'Confirme a senha',
-      validator: (password) {
-        if (password == null || password.isEmpty || password.length < 6) {
-          return 'As senha não coincidem';
-        }
-        return null;
-      },
-      onSaved: (password) => ancestorState?.user = ancestorState._user.copyWith(confirmPassword: password),
+    return Consumer<UserManager>(
+      builder: (_, userManager, __) => CustomFormField(
+        obscureText: true,
+        enabled: !userManager.isLoading,
+        hintText: 'Confirme a senha',
+        validator: (password) {
+          if (password == null || password.isEmpty || password.length < 6) {
+            return 'As senha não coincidem';
+          }
+          return null;
+        },
+        onSaved: (password) => ancestorState?.user = ancestorState._user.copyWith(confirmPassword: password),
+      ),
     );
   }
+}
+
+class _SubmitForm extends StatelessWidget {
+  const _SubmitForm(this.onPressed);
+
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) => Consumer<UserManager>(
+        builder: (_, userManager, __) => SubmitFormButton(
+          text: 'Criar conta',
+          isLoading: userManager.isLoading,
+          onPressed: userManager.isLoading ? null : onPressed,
+        ),
+      );
 }
