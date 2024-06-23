@@ -11,7 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => UserManager()),
+          ChangeNotifierProvider(
+            create: (_) => UserManager(),
+            lazy: false,
+          ),
         ],
         child: MaterialApp.router(
           title: 'Loja do Kbuloso',
