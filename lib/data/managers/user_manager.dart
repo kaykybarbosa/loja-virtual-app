@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -78,13 +76,21 @@ class UserManager extends ChangeNotifier {
     loading = false;
   }
 
+  Future<void> signOut() async {
+    await _auth.signOut();
+    _currentUser = null;
+    notifyListeners();
+  }
+
   // G E T T E R S
   bool get isLoading => _loading;
 
   UserModel? get getCurrentUser => _currentUser;
 
+  bool get currentUserIsAuth => _currentUser != null;
+
   // S E T T E R S
   set loading(bool value) => {_loading = value, notifyListeners()};
 
-  set currentUser(UserModel user) => {_currentUser = user, notifyListeners(), log('$user')};
+  set currentUser(UserModel user) => {_currentUser = user, notifyListeners()};
 }
