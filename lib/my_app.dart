@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/models/user_manager.dart';
-import 'package:lojavirtualapp/screens/base/base_screen.dart';
+import 'package:lojavirtualapp/routes/app_pages.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 import 'package:lojavirtualapp/utils/theme/theme_data/app_bar_theme.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => UserManager()),
         ],
-        child: MaterialApp(
+        child: MaterialApp.router(
           title: 'Loja do Kbuloso',
           theme: ThemeData(
             useMaterial3: true,
@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+          routerConfig: router,
           debugShowCheckedModeBanner: false,
-          home: BaseScreen(),
         ),
       );
 }
