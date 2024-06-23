@@ -4,10 +4,27 @@ import 'package:lojavirtualapp/models/page_manager.dart';
 import 'package:lojavirtualapp/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
-class BaseScreen extends StatelessWidget {
-  BaseScreen({super.key});
+class BaseScreen extends StatefulWidget {
+  const BaseScreen({super.key});
 
-  final PageController _controller = PageController();
+  @override
+  State<BaseScreen> createState() => _BaseScreenState();
+}
+
+class _BaseScreenState extends State<BaseScreen> {
+  late final PageController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
