@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 type: AnimatedSnackBarType.error,
               );
             },
-            onSuccess: () => context.pushReplacement(AppRoutes.base),
+            onSuccess: () => context.pop(),
           );
     }
   }

@@ -9,4 +9,7 @@ abstract class MyColors {
   static const Color base500 = Colors.grey;
 
   static const Color gradient = Color.fromARGB(255, 203, 236, 241);
+
+  static const Color warn = Colors.red;
+  static  Color warn50 = Colors.red.withAlpha(50);
 }
