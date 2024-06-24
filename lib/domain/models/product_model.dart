@@ -66,7 +66,7 @@ class ProductModel extends Equatable with ChangeNotifier {
 
   bool get hasStock => totalStock > 0;
 
-  ItemSizeModel? findSized(String name) {
+  ItemSizeModel? findSize(String name) {
     try {
       return sizes.firstWhere((size) => size.name == name);
     } catch (e) {
