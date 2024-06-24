@@ -66,6 +66,14 @@ class ProductModel extends Equatable with ChangeNotifier {
 
   bool get hasStock => totalStock > 0;
 
+  ItemSizeModel? findSized(String name) {
+    try {
+      return sizes.firstWhere((size) => size.name == name);
+    } catch (e) {
+      return null;
+    }
+  }
+
   // S E T T E R S
   set selectedSize(ItemSizeModel size) {
     _selectedSize = size;
