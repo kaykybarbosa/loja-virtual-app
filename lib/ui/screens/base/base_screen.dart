@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
+import 'package:lojavirtualapp/ui/screens/products/products_screen.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -38,11 +39,7 @@ class _BaseScreenState extends State<BaseScreen> {
             appBar: AppBar(title: const Text('Início')),
             body: Container(),
           ),
-          Scaffold(
-            drawer: const CustomDrawer(),
-            appBar: AppBar(title: const Text('Produtos')),
-            body: Container(),
-          ),
+          const ProductsScreen(),
           Scaffold(
             drawer: const CustomDrawer(),
             appBar: AppBar(title: const Text('Meus pedidos')),
