@@ -2,22 +2,36 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:lojavirtualapp/domain/models/item_size_model.dart';
 
-class ProductModel extends Equatable {
-  const ProductModel({
+// ignore: must_be_immutable
+class ProductModel extends Equatable with ChangeNotifier {
+  ProductModel({
     this.id = '',
     this.name = '',
     this.description = '',
     this.images = const [],
-  });
+    this.sizes = const [],
+    ItemSizeModel? selectedSize,
+  }) : _selectedSize = selectedSize;
 
   final String id;
   final String name;
   final String description;
   final List<String> images;
+  final List<ItemSizeModel> sizes;
+  ItemSizeModel? _selectedSize;
 
   @override
-  List<Object?> get props => [id, name, description, images];
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        images,
+        sizes,
+        _selectedSize,
+      ];
 
   Map<String, dynamic> toMap() => {
         'name': name,
@@ -30,9 +44,31 @@ class ProductModel extends Equatable {
         name: map['name'],
         description: map['description'],
         images: List<String>.from((map['images'])),
+        sizes: map['sizes'].map<ItemSizeModel>((size) => ItemSizeModel.fromMap(size)).toList(),
       );
 
   String toJson() => json.encode(toMap());
 
   factory ProductModel.fromJson(String source) => ProductModel.fromMap(json.decode(source));
+
+  // G E T T E R S
+  ItemSizeModel? get getSelectedSize => _selectedSize;
+
+  int get totalStock {
+    int totalStock = 0;
+
+    for (var size in sizes) {
+      totalStock += size.stock;
+    }
+
+    return totalStock;
+  }
+
+  bool get hasStock => totalStock > 0;
+
+  // S E T T E R S
+  set selectedSize(ItemSizeModel size) {
+    _selectedSize = size;
+    notifyListeners();
+  }
 }
