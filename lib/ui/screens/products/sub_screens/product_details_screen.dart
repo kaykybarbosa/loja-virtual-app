@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
@@ -17,8 +18,8 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ProductModel(),
+    return ChangeNotifierProvider.value(
+      value: product,
       child: Scaffold(
         backgroundColor: MyColors.base100,
         appBar: AppBar(
@@ -101,13 +102,14 @@ class ProductDetailsScreen extends StatelessWidget {
 
                   /// -- Botão
                   if (product.hasStock)
-                    Consumer2<UserManager, ProductModel>(builder: (_, user, product, __) {
+                    Consumer2<UserManager, ProductModel>(builder: (_, user, productManager, __) {
                       return SubmitFormButton(
                         width: double.infinity,
-                        onPressed: product.getSelectedSize != null
+                        onPressed: productManager.getSelectedSize != null
                             ? () {
                                 if (user.currentUserIsAuth) {
-                                  /// TODO: add to cart
+                                  context.read<CartManager>().addToCart(productManager);
+                                  context.push(AppRoutes.cart);
                                 } else {
                                   context.push(AppRoutes.login);
                                 }
