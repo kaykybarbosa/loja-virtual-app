@@ -1,4 +1,5 @@
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
+import 'package:lojavirtualapp/data/managers/home_manager.dart';
 import 'package:lojavirtualapp/data/managers/product_manager.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,10 @@ abstract class AppProviders {
       lazy: false,
       create: (_) => CartManager(),
       update: (_, userManager, cartManager) => cartManager!..updateUser(userManager),
+    ),
+    ChangeNotifierProvider(
+      lazy: false,
+      create: (_) => HomeManager(),
     ),
   ];
 }
