@@ -31,6 +31,8 @@ class UserModel extends Equatable {
   /// TODO: Criar service para salvar os dados no DB.
   DocumentReference get firebaseRef => FirebaseFirestore.instance.doc('users/$id');
 
+  CollectionReference get cartRef => firebaseRef.collection('cart');
+
   Future<void> saveData() async => await firebaseRef.set(toMapDB());
 
   UserModel copyWith({
