@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
+import 'package:lojavirtualapp/ui/screens/home/home_screen.dart';
 import 'package:lojavirtualapp/ui/screens/products/products_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -34,11 +35,7 @@ class _BaseScreenState extends State<BaseScreen> {
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
-          Scaffold(
-            drawer: const CustomDrawer(),
-            appBar: AppBar(title: const Text('Início')),
-            body: Container(),
-          ),
+          const HomeScreen(),
           const ProductsScreen(),
           Scaffold(
             drawer: const CustomDrawer(),
