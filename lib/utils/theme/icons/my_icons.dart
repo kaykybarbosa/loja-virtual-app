@@ -8,4 +8,7 @@ abstract class MyIcons {
   static const IconData eyeOn = EvaIcons.eyeOutline;
   static const IconData eyeOff = EvaIcons.eyeOffOutline;
   static const IconData close = EvaIcons.close;
+  static const IconData cart = EvaIcons.shoppingCart;
+  static const IconData plus = EvaIcons.plus;
+  static const IconData remove = EvaIcons.minus;
 }
