@@ -1,0 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
+import 'package:lojavirtualapp/domain/models/section_item_model.dart';
+
+class SectionModel extends Equatable {
+  const SectionModel({
+    this.name = '',
+    this.type = '',
+    this.items = const [],
+  });
+
+  final String name;
+  final String type;
+  final List<SectionItemModel> items;
+
+  @override
+  List<Object> get props => [
+        name,
+        type,
+        items,
+      ];
+
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'type': type,
+        'items': items,
+      };
+
+  factory SectionModel.fromMap(Map<String, dynamic> map) => SectionModel(
+        name: map['name'],
+        type: map['type'],
+        items: map['items'].map<SectionItemModel>((item) => SectionItemModel.fromMap(item)).toList(),
+      );
+}
