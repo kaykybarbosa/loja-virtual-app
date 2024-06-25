@@ -10,6 +10,9 @@ abstract class MyColors {
 
   static const Color gradient = Color.fromARGB(255, 203, 236, 241);
 
+  static const Color gradientHome1 = Color.fromARGB(255, 211, 118, 130);
+  static const Color gradientHome2 = Color.fromARGB(255, 253, 181, 168);
+
   static const Color warn = Colors.red;
-  static  Color warn50 = Colors.red.withAlpha(50);
+  static Color warn50 = Colors.red.withAlpha(50);
 }
