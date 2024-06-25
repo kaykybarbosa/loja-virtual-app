@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/product_manager.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/products/widgets/product_list_tile.dart';
 import 'package:lojavirtualapp/ui/screens/products/widgets/search_dialog.dart';
@@ -75,6 +77,10 @@ class ProductsScreen extends StatelessWidget {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push(AppRoutes.cart),
+        child: const Icon(MyIcons.cart),
       ),
     );
   }
