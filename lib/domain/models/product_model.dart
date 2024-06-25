@@ -23,34 +23,6 @@ class ProductModel extends Equatable with ChangeNotifier {
   final List<ItemSizeModel> sizes;
   ItemSizeModel? _selectedSize;
 
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        description,
-        images,
-        sizes,
-        _selectedSize,
-      ];
-
-  Map<String, dynamic> toMap() => {
-        'name': name,
-        'description': description,
-        'images': images,
-      };
-
-  factory ProductModel.fromMap(Map<String, dynamic> map, {String? documentId}) => ProductModel(
-        id: documentId ?? '',
-        name: map['name'],
-        description: map['description'],
-        images: List<String>.from((map['images'])),
-        sizes: map['sizes'].map<ItemSizeModel>((size) => ItemSizeModel.fromMap(size)).toList(),
-      );
-
-  String toJson() => json.encode(toMap());
-
-  factory ProductModel.fromJson(String source) => ProductModel.fromMap(json.decode(source));
-
   // G E T T E R S
   ItemSizeModel? get getSelectedSize => _selectedSize;
 
@@ -79,4 +51,32 @@ class ProductModel extends Equatable with ChangeNotifier {
     _selectedSize = size;
     notifyListeners();
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        images,
+        sizes,
+        _selectedSize,
+      ];
+
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'description': description,
+        'images': images,
+      };
+
+  factory ProductModel.fromMap(Map<String, dynamic> map, {String? documentId}) => ProductModel(
+        id: documentId ?? '',
+        name: map['name'],
+        description: map['description'],
+        images: List<String>.from((map['images'])),
+        sizes: map['sizes'].map<ItemSizeModel>((size) => ItemSizeModel.fromMap(size)).toList(),
+      );
+
+  String toJson() => json.encode(toMap());
+
+  factory ProductModel.fromJson(String source) => ProductModel.fromMap(json.decode(source));
 }
