@@ -13,7 +13,7 @@ class CartScreen extends StatelessWidget {
       body: Consumer<CartManager>(
         builder: (_, cart, __) {
           return Column(
-            children: cart.products.map((product) => CartTile(product)).toList(),
+            children: cart.items.map((product) => CartTile(product)).toList(),
           );
         },
       ),
