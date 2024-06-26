@@ -12,7 +12,7 @@ class UserManager extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
 
-  bool _loading = false;
+  bool _isLoading = false;
   UserModel? _currentUser;
 
   Future<void> _loadCurrentUser([User? firebaseUser]) async {
@@ -31,7 +31,7 @@ class UserManager extends ChangeNotifier {
     Function()? onSuccess,
     Function(String error)? onFail,
   }) async {
-    loading = true;
+    _setIsLoading = true;
 
     try {
       final result = await _auth.signInWithEmailAndPassword(
@@ -48,7 +48,7 @@ class UserManager extends ChangeNotifier {
       if (onFail != null) onFail('E-mail ou senha inválido');
     }
 
-    loading = false;
+    _setIsLoading = false;
   }
 
   Future<void> signUp({
@@ -56,7 +56,7 @@ class UserManager extends ChangeNotifier {
     Function()? onSuccess,
     Function(String error)? onFail,
   }) async {
-    loading = true;
+    _setIsLoading = true;
     try {
       final result = await _auth.createUserWithEmailAndPassword(email: user.email, password: user.password);
 
@@ -73,7 +73,7 @@ class UserManager extends ChangeNotifier {
       if (onFail != null) onFail(e.toString());
     }
 
-    loading = false;
+    _setIsLoading = false;
   }
 
   Future<void> signOut() async {
@@ -83,14 +83,14 @@ class UserManager extends ChangeNotifier {
   }
 
   // G E T T E R S
-  bool get isLoading => _loading;
+  bool get isLoading => _isLoading;
 
   UserModel? get getCurrentUser => _currentUser;
 
   bool get currentUserIsAuth => _currentUser != null;
 
   // S E T T E R S
-  set loading(bool value) => {_loading = value, notifyListeners()};
+  set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};
 
   set currentUser(UserModel user) => {_currentUser = user, notifyListeners()};
 }
