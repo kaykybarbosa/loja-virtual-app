@@ -13,56 +13,57 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const CustomDrawer(),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  MyColors.gradientHome1,
-                  MyColors.gradientHome2,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+  Widget build(BuildContext context) => Scaffold(
+        drawer: const CustomDrawer(),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    MyColors.gradientHome1,
+                    MyColors.gradientHome2,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
               ),
             ),
-          ),
-          CustomScrollView(
-            slivers: <Widget>[
-              /// AppBar
-              SliverAppBar(
-                snap: true,
-                floating: true,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: const FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Text(
-                    'Loja do Kbuloso',
-                    style: TextStyle(color: MyColors.base100),
-                  ),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    onPressed: () => context.push(AppRoutes.cart),
-                    icon: const Icon(
-                      MyIcons.cart,
+            CustomScrollView(
+              slivers: <Widget>[
+                /// AppBar
+                SliverAppBar(
+                  snap: true,
+                  floating: true,
+                  scrolledUnderElevation: 0,
+                  backgroundColor: Colors.transparent,
+                  flexibleSpace: const FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text(
+                      'Loja do Kbuloso',
+                      style: TextStyle(color: MyColors.base100),
                     ),
                   ),
-                ],
-              ),
+                  actions: <Widget>[
+                    IconButton(
+                      onPressed: () => context.push(AppRoutes.cart),
+                      icon: const Icon(
+                        MyIcons.cart,
+                      ),
+                    ),
+                  ],
+                ),
 
-              /// Info
-              Consumer<HomeManager>(
-                builder: (_, homeManager, __) {
-                  return homeManager.getIsLoading
+                /// Info
+                Consumer<HomeManager>(
+                  builder: (_, homeManager, __) => homeManager.isLoading
                       ? const SliverToBoxAdapter(
-                          child: SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: CircularProgressIndicator(),
+                          child: Center(
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: CircularProgressIndicator(color: MyColors.base100),
+                            ),
                           ),
                         )
                       : SliverList(
@@ -79,13 +80,11 @@ class HomeScreen extends StatelessWidget {
                             },
                             childCount: homeManager.sections.length,
                           ),
-                        );
-                },
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+                        ),
+                )
+              ],
+            ),
+          ],
+        ),
+      );
 }

@@ -12,7 +12,7 @@ class HomeManager extends ChangeNotifier {
   bool _isLoading = false;
 
   Future<void> _loadSections() async {
-    isLoading = true;
+    _setIsLoading = true;
     _store.collection('home').snapshots().listen(
       (snapshot) {
         sections.clear();
@@ -21,14 +21,14 @@ class HomeManager extends ChangeNotifier {
           sections.add(SectionModel.fromMap(document.data()));
         }
 
-        isLoading = false;
+        _setIsLoading = false;
       },
     );
   }
 
   // G E T T E R S
-  bool get getIsLoading => _isLoading;
+  bool get isLoading => _isLoading;
 
   // S E T T E R S
-  set isLoading(bool value) => {_isLoading = value, notifyListeners()};
+  set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};
 }
