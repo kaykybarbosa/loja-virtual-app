@@ -8,12 +8,15 @@ class SectionHeader extends StatelessWidget {
   final SectionModel section;
 
   @override
-  Widget build(BuildContext context) => Text(
-        section.name,
-        style: const TextStyle(
-          fontSize: 18,
-          color: MyColors.base100,
-          fontWeight: FontWeight.w800,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          section.name,
+          style: const TextStyle(
+            fontSize: 18,
+            color: MyColors.base100,
+            fontWeight: FontWeight.w800,
+          ),
         ),
       );
 }

@@ -8,9 +8,12 @@ class ItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AspectRatio(
         aspectRatio: 1,
-        child: Image.network(
-          image,
-          fit: BoxFit.cover,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.network(
+            image,
+            fit: BoxFit.cover,
+          ),
         ),
       );
 }

@@ -10,28 +10,26 @@ class SectionList extends StatelessWidget {
   final SectionModel section;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SectionHeader(section: section),
-          SizedBox(
-            height: 150,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, index) {
-                final image = section.items[index].image;
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SectionHeader(section: section),
+            SizedBox(
+              height: 150,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) {
+                  final image = section.items[index].image;
 
-                return ItemTile(image: image);
-              },
-              separatorBuilder: (_, __) => const Gap(4),
-              itemCount: section.items.length,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+                  return ItemTile(image: image);
+                },
+                separatorBuilder: (_, __) => const Gap(4),
+                itemCount: section.items.length,
+              ),
+            )
+          ],
+        ),
+      );
 }
