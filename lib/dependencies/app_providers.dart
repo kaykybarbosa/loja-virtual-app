@@ -1,3 +1,4 @@
+import 'package:lojavirtualapp/data/managers/admin_users_manager.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/data/managers/home_manager.dart';
 import 'package:lojavirtualapp/data/managers/product_manager.dart';
@@ -24,5 +25,10 @@ abstract class AppProviders {
       lazy: false,
       create: (_) => HomeManager(),
     ),
+    ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
+      create: (context) => AdminUsersManager(),
+      lazy: false,
+      update: (_, userManager, adminUsersManager) => adminUsersManager!..updateUser(userManager),
+    )
   ];
 }

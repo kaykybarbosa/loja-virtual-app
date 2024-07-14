@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
+import 'package:lojavirtualapp/ui/screens/admin/admin_users/admin_users_screen.dart';
 import 'package:lojavirtualapp/ui/screens/home/home_screen.dart';
 import 'package:lojavirtualapp/ui/screens/products/products_screen.dart';
 import 'package:provider/provider.dart';
@@ -52,11 +53,7 @@ class _BaseScreenState extends State<BaseScreen> {
               ),
               // -- ADMIN
               if (userManager.adminEnabled) ...[
-                Scaffold(
-                  drawer: const CustomDrawer(),
-                  appBar: AppBar(title: const Text('Usuários')),
-                  body: Container(),
-                ),
+                const AdminUsersScreen(),
                 Scaffold(
                   drawer: const CustomDrawer(),
                   appBar: AppBar(title: const Text('Pedidos')),
