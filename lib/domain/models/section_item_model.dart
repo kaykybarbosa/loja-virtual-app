@@ -2,18 +2,21 @@
 import 'package:equatable/equatable.dart';
 
 class SectionItemModel extends Equatable {
-  const SectionItemModel({this.image = ''});
+  const SectionItemModel({this.image = '', this.productId = ''});
 
   final String image;
+  final String productId;
 
   @override
-  List<Object> get props => [image];
+  List<Object> get props => [image, productId];
 
   Map<String, dynamic> toMap() => {
         'image': image,
+        'productId': productId,
       };
 
   factory SectionItemModel.fromMap(Map<String, dynamic> map) => SectionItemModel(
         image: map['image'],
+        productId: map['productId'] ?? '',
       );
 }
