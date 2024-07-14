@@ -38,6 +38,14 @@ class ProductManager extends ChangeNotifier {
     return filteredProducts;
   }
 
+  ProductModel? findProductById(String productId) {
+    try {
+      return _allProducts.firstWhere((product) => product.id == productId);
+    } catch (e) {
+      return null;
+    }
+  }
+
   // G E T T E R S
   List<ProductModel> get allProducts => _allProducts;
 
