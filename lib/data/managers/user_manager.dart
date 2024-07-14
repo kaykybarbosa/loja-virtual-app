@@ -22,6 +22,12 @@ class UserManager extends ChangeNotifier {
       final docUser = await _store.collection('users').doc(user.uid).get();
 
       currentUser = UserModel.fromMapDB(docUser.id, docUser.data() ?? {});
+
+      final adminDoc = await FirebaseFirestore.instance.doc('admins/${_currentUser?.id}').get();
+
+      if (adminDoc.exists) {
+        currentUser = _currentUser!.copyWith(isAdmin: true);
+      }
     }
   }
 
@@ -88,6 +94,8 @@ class UserManager extends ChangeNotifier {
   UserModel? get getCurrentUser => _currentUser;
 
   bool get currentUserIsAuth => _currentUser != null;
+
+  bool get adminEnabled => currentUserIsAuth && _currentUser!.isAdmin;
 
   // S E T T E R S
   set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};

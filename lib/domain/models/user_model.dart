@@ -11,6 +11,7 @@ class UserModel extends Equatable {
     this.email = '',
     this.password = '',
     this.confirmPassword = '',
+    this.isAdmin = false,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class UserModel extends Equatable {
   final String email;
   final String password;
   final String confirmPassword;
+  final bool isAdmin;
 
   @override
   List<Object?> get props => [
@@ -26,6 +28,7 @@ class UserModel extends Equatable {
         email,
         password,
         confirmPassword,
+        isAdmin,
       ];
 
   /// TODO: Criar service para salvar os dados no DB.
@@ -41,6 +44,7 @@ class UserModel extends Equatable {
     String? email,
     String? password,
     String? confirmPassword,
+    bool? isAdmin,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -48,6 +52,7 @@ class UserModel extends Equatable {
       email: email ?? this.email,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
