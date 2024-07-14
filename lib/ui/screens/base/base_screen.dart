@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/page_manager.dart';
+import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/home/home_screen.dart';
 import 'package:lojavirtualapp/ui/screens/products/products_screen.dart';
@@ -31,23 +32,40 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return Provider(
       create: (_) => PageManager(_controller),
-      child: PageView(
-        controller: _controller,
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          const HomeScreen(),
-          const ProductsScreen(),
-          Scaffold(
-            drawer: const CustomDrawer(),
-            appBar: AppBar(title: const Text('Meus pedidos')),
-            body: Container(),
-          ),
-          Scaffold(
-            drawer: const CustomDrawer(),
-            appBar: AppBar(title: const Text('Lojas')),
-            body: Container(),
-          ),
-        ],
+      child: Consumer<UserManager>(
+        builder: (_, userManager, __) {
+          return PageView(
+            controller: _controller,
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              const HomeScreen(),
+              const ProductsScreen(),
+              Scaffold(
+                drawer: const CustomDrawer(),
+                appBar: AppBar(title: const Text('Meus pedidos')),
+                body: Container(),
+              ),
+              Scaffold(
+                drawer: const CustomDrawer(),
+                appBar: AppBar(title: const Text('Lojas')),
+                body: Container(),
+              ),
+              // -- ADMIN
+              if (userManager.adminEnabled) ...[
+                Scaffold(
+                  drawer: const CustomDrawer(),
+                  appBar: AppBar(title: const Text('Usuários')),
+                  body: Container(),
+                ),
+                Scaffold(
+                  drawer: const CustomDrawer(),
+                  appBar: AppBar(title: const Text('Pedidos')),
+                  body: Container(),
+                ),
+              ],
+            ],
+          );
+        },
       ),
     );
   }

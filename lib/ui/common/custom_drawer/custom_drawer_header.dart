@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
@@ -39,7 +40,10 @@ class CustomDrawerHeader extends StatelessWidget {
                 /// Sair
                 InkWell(
                   onTap: userManager.currentUserIsAuth
-                      ? () async => await userManager.signOut()
+                      ? () async => {
+                            context.read<PageManager>().setPage(0),
+                            await userManager.signOut(),
+                          }
                       : () => context.push(AppRoutes.login),
                   child: Text(
                     userManager.currentUserIsAuth ? 'Sair' : 'Entre ou cadastre-se >',
