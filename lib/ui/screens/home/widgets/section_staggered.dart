@@ -28,7 +28,7 @@ class SectionStaggered extends StatelessWidget {
                   return StaggeredGridTile.count(
                     crossAxisCellCount: 2,
                     mainAxisCellCount: index.isEven ? 2 : 1,
-                    child: ItemTile(image: item.image),
+                    child: ItemTile(item: item),
                   );
                 },
               ).toList(),

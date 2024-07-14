@@ -21,9 +21,9 @@ class SectionList extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
-                  final image = section.items[index].image;
+                  final item = section.items[index];
 
-                  return ItemTile(image: image);
+                  return ItemTile(item: item);
                 },
                 separatorBuilder: (_, __) => const Gap(4),
                 itemCount: section.items.length,
