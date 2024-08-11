@@ -40,12 +40,12 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               options: CarouselOptions(
                 height: 300,
-                slideIndicator: CircularSlideIndicator(
-                  currentIndicatorColor: MyColors.primary,
-                  indicatorBackgroundColor: MyColors.base400,
-                  indicatorRadius: 4,
-                  itemSpacing: 15,
-                ),
+                slideIndicator: const CircularSlideIndicator(
+                    // currentIndicatorColor: MyColors.primary,
+                    // indicatorBackgroundColor: MyColors.base400,
+                    // indicatorRadius: 4,
+                    // itemSpacing: 15,
+                    ),
               ),
             ),
 

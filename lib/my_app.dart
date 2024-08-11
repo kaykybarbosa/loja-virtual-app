@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
         providers: AppProviders.providers,
         child: MaterialApp.router(
-          title: 'Loja do Kbuloso',
           theme: TThemeData.light,
           routerConfig: routerConfig,
           debugShowCheckedModeBanner: false,

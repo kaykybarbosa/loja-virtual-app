@@ -44,9 +44,6 @@ dependencies:
   # Routes
   go_router: ^14.2.0
   faker: ^2.1.0
-  
-  
-
 
 dev_dependencies:
   flutter_test:

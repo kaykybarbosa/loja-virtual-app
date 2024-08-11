@@ -39,13 +39,20 @@ class _BaseScreenState extends State<BaseScreen> {
             controller: _controller,
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
+              /// Início
               const HomeScreen(),
+
+              /// Produtos
               const ProductsScreen(),
+
+              /// Meus pedidos
               Scaffold(
                 drawer: const CustomDrawer(),
                 appBar: AppBar(title: const Text('Meus pedidos')),
                 body: Container(),
               ),
+
+              /// Lojas
               Scaffold(
                 drawer: const CustomDrawer(),
                 appBar: AppBar(title: const Text('Lojas')),
