@@ -60,6 +60,7 @@ class _BaseScreenState extends State<BaseScreen> {
               ),
               // -- ADMIN
               if (userManager.adminEnabled) ...[
+                /// -- Usuários
                 const AdminUsersScreen(),
                 Scaffold(
                   drawer: const CustomDrawer(),
