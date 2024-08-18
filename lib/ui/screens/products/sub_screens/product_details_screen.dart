@@ -9,6 +9,7 @@ import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/size_widget.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -23,8 +24,23 @@ class ProductDetailsScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: MyColors.base100,
         appBar: AppBar(
-          centerTitle: true,
           title: Text(product.name),
+          actions: <Widget>[
+            Consumer<UserManager>(
+              builder: (_, userManager, __) {
+                return userManager.adminEnabled
+                    ? IconButton(
+                        onPressed: () => context.push(
+                          AppRoutes.editProduct,
+                          extra: product,
+                        ),
+                        tooltip: 'Editar',
+                        icon: const Icon(MyIcons.edit),
+                      )
+                    : Container();
+              },
+            )
+          ],
         ),
         body: ListView(
           children: <Widget>[
@@ -40,12 +56,14 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               options: CarouselOptions(
                 height: 300,
-                slideIndicator: const CircularSlideIndicator(
-                    // currentIndicatorColor: MyColors.primary,
-                    // indicatorBackgroundColor: MyColors.base400,
-                    // indicatorRadius: 4,
-                    // itemSpacing: 15,
-                    ),
+                slideIndicator: CircularSlideIndicator(
+                  slideIndicatorOptions: SlideIndicatorOptions(
+                    currentIndicatorColor: MyColors.primary,
+                    indicatorBackgroundColor: MyColors.base400,
+                    indicatorRadius: 4,
+                    itemSpacing: 15,
+                  ),
+                ),
               ),
             ),
 
