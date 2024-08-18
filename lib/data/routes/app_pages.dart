@@ -4,6 +4,7 @@ import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/screens/base/base_screen.dart';
 import 'package:lojavirtualapp/ui/screens/cart/cart_screen.dart';
 import 'package:lojavirtualapp/ui/screens/login/login_screen.dart';
+import 'package:lojavirtualapp/ui/screens/products/sub_screens/edit_product_screen.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/product_details_screen.dart';
 import 'package:lojavirtualapp/ui/screens/register/register_screen.dart';
 
@@ -29,6 +30,10 @@ final routerConfig = GoRouter(
     GoRoute(
       path: AppRoutes.cart,
       builder: (context, state) => const CartScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.editProduct,
+      builder: (context, state) => EditProductScreen(state.extra as ProductModel),
     ),
   ],
 );
