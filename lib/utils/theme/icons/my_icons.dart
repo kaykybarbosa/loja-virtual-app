@@ -17,4 +17,7 @@ abstract class MyIcons {
   static const IconData remove = EvaIcons.minus;
   static const IconData users = EvaIcons.people;
   static const IconData settings = EvaIcons.settings;
+  static const IconData edit = EvaIcons.editOutline;
+  static const IconData trash = EvaIcons.trashOutline;
+  static const IconData addPhoto = Icons.add_a_photo;
 }
