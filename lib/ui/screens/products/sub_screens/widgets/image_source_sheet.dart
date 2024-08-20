@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageSourceSheet extends StatelessWidget {
@@ -12,9 +15,35 @@ class ImageSourceSheet extends StatelessWidget {
 
   final picker = ImagePicker();
 
-  void _callFunction(XFile? xFile) {
+  void _callFunction(BuildContext context, {XFile? xFile}) {
     if (xFile != null) {
-      final file = File(xFile.path);
+      _editImage(context, path: xFile.path);
+    }
+  }
+
+  Future<void> _editImage(BuildContext context, {required String path}) async {
+    final CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: <PlatformUiSettings>[
+        /// -- Configuração para Android
+        AndroidUiSettings(
+          toolbarTitle: 'Editar imagem',
+          toolbarColor: Theme.of(context).primaryColor,
+          toolbarWidgetColor: Theme.of(context).colorScheme.onPrimary,
+        ),
+
+        /// -- Configuração para IOS
+        IOSUiSettings(
+          title: 'Editar imagem',
+          cancelButtonTitle: 'Cancelar',
+          doneButtonTitle: 'Concluir',
+        )
+      ],
+    );
+
+    if (croppedFile != null) {
+      final file = File(croppedFile.path);
 
       onImageSelected(file);
     }
@@ -34,7 +63,7 @@ class ImageSourceSheet extends StatelessWidget {
               onPressed: () async {
                 final result = await picker.pickImage(source: ImageSource.camera);
 
-                _callFunction(result);
+                _callFunction(context, xFile: result);
               },
               style: const ButtonStyle(
                 shape: WidgetStatePropertyAll(RoundedRectangleBorder()),
@@ -45,7 +74,7 @@ class ImageSourceSheet extends StatelessWidget {
               onPressed: () async {
                 final result = await picker.pickImage(source: ImageSource.gallery);
 
-                _callFunction(result);
+                _callFunction(context, xFile: result);
               },
               style: const ButtonStyle(
                 shape: WidgetStatePropertyAll(RoundedRectangleBorder()),
