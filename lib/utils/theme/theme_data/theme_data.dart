@@ -9,7 +9,10 @@ abstract class TThemeData {
       scaffoldBackgroundColor: MyColors.primary,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       appBarTheme: TAppBarTheme.light,
-      colorScheme: const ColorScheme.light(primary: MyColors.primary),
+      colorScheme: const ColorScheme.light(
+        primary: MyColors.primary,
+        error: MyColors.warn,
+      ),
       textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(
           padding: WidgetStatePropertyAll(EdgeInsets.zero),
