@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/image_form.dart';
+import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 
 class EditProductScreen extends StatelessWidget {
   EditProductScreen(this.product, {super.key});
@@ -19,16 +20,104 @@ class EditProductScreen extends StatelessWidget {
         key: _formKey,
         child: ListView(
           children: <Widget>[
+            /// Imagens
             ImageForm(product),
-            SubmitFormButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {}
-              },
-              text: 'Salvar',
+
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  /// Título
+                  TextFormField(
+                    initialValue: product.name,
+                    decoration: const InputDecoration(
+                      hintText: 'Título',
+                      border: InputBorder.none,
+                    ),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    validator: (name) {
+                      if (name == null || name.isEmpty) {
+                        return 'Título obrigatório';
+                      } else if (name.length < 6) {
+                        return 'Título muito curto';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  /// -- A partir
+                  const Text(
+                    'A partir de',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: MyColors.base500,
+                    ),
+                  ),
+
+                  /// -- Preço
+                  const Text(
+                    'R\$ ...',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: MyColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  /// -- Descrição
+                  const _SubTitle('Descrição'),
+                  TextFormField(
+                    initialValue: product.description,
+                    decoration: const InputDecoration(
+                      hintText: 'Descrição',
+                      border: InputBorder.none,
+                    ),
+                    maxLines: null,
+                    validator: (description) {
+                      if (description == null || description.isEmpty) {
+                        return 'Descrição obrigatório';
+                      } else if (description.length < 10) {
+                        return 'Descrição muito curta';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  /// -- Salvar
+                  SubmitFormButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {}
+                    },
+                    text: 'Salvar',
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class _SubTitle extends StatelessWidget {
+  const _SubTitle(this.title);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
 }
