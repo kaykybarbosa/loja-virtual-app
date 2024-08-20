@@ -18,6 +18,12 @@ class ImageForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormField<List<dynamic>>(
       initialValue: List.from(product.images),
+      validator: (images) {
+        if (images?.isEmpty ?? true) {
+          return 'Adicione ao menos uma imagem';
+        }
+        return null;
+      },
       builder: (state) {
         void onImageSelected(File file) {
           state.value?.add(file);
@@ -25,80 +31,95 @@ class ImageForm extends StatelessWidget {
           context.pop();
         }
 
-        return FlutterCarousel(
-          items: state.value?.map<Widget>((image) {
-            return AspectRatio(
-              aspectRatio: 1,
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  if (image is String)
-                    Image.network(
-                      image,
-                      fit: BoxFit.cover,
-                    )
-                  else
-                    Image.file(
-                      image,
-                      fit: BoxFit.cover,
-                    ),
+        return Column(
+          children: <Widget>[
+            FlutterCarousel(
+              items: state.value?.map<Widget>((image) {
+                return AspectRatio(
+                  aspectRatio: 1,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      if (image is String)
+                        Image.network(
+                          image,
+                          fit: BoxFit.cover,
+                        )
+                      else
+                        Image.file(
+                          image,
+                          fit: BoxFit.cover,
+                        ),
 
-                  /// Remover imagem
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      tooltip: 'Remover',
-                      onPressed: () => {
-                        state.value?.remove(image),
-                        state.didChange(state.value),
-                      },
-                      icon: const Icon(
-                        MyIcons.remove,
-                        color: MyColors.warn,
+                      /// Remover imagem
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          tooltip: 'Remover',
+                          onPressed: () => {
+                            state.value?.remove(image),
+                            state.didChange(state.value),
+                          },
+                          icon: const Icon(
+                            MyIcons.remove,
+                            color: MyColors.warn,
+                          ),
+                        ),
                       ),
+                    ],
+                  ),
+                );
+              }).toList()
+                ?..add(
+                  Container(
+                    width: double.infinity,
+                    color: MyColors.gray100,
+                    child: IconButton(
+                      icon: const Icon(MyIcons.addPhoto),
+                      color: Theme.of(context).primaryColor,
+                      iconSize: 50,
+                      onPressed: () {
+                        if (Platform.isAndroid) {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
+                          );
+                        } else {
+                          showCupertinoModalPopup(
+                            context: context,
+                            builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
+                          );
+                        }
+                      },
+                      highlightColor: Colors.transparent,
                     ),
                   ),
-                ],
-              ),
-            );
-          }).toList()
-            ?..add(
-              Container(
-                width: double.infinity,
-                color: MyColors.gray100,
-                child: IconButton(
-                  icon: const Icon(MyIcons.addPhoto),
-                  color: Theme.of(context).primaryColor,
-                  iconSize: 50,
-                  onPressed: () {
-                    if (Platform.isAndroid) {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
-                      );
-                    } else {
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
-                      );
-                    }
-                  },
-                  highlightColor: Colors.transparent,
+                ),
+              options: CarouselOptions(
+                height: 300,
+                viewportFraction: 1,
+                slideIndicator: CircularSlideIndicator(
+                  slideIndicatorOptions: SlideIndicatorOptions(
+                    currentIndicatorColor: MyColors.primary,
+                    indicatorBackgroundColor: MyColors.base400,
+                    indicatorRadius: 4,
+                    itemSpacing: 15,
+                  ),
                 ),
               ),
             ),
-          options: CarouselOptions(
-            height: 300,
-            viewportFraction: 1,
-            slideIndicator: CircularSlideIndicator(
-              slideIndicatorOptions: SlideIndicatorOptions(
-                currentIndicatorColor: MyColors.primary,
-                indicatorBackgroundColor: MyColors.base400,
-                indicatorRadius: 4,
-                itemSpacing: 15,
+
+            /// Mensagem do erro
+            if (state.hasError)
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 16),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '${state.errorText}',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
               ),
-            ),
-          ),
+          ],
         );
       },
     );
