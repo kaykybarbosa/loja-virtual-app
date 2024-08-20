@@ -12,7 +12,7 @@ class EditProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Editar Anúncio')),
       body: ListView(
-        children: [
+        children: <Widget>[
           ImageForm(product),
         ],
       ),

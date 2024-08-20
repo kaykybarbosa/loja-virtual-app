@@ -56,6 +56,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               options: CarouselOptions(
                 height: 300,
+                viewportFraction: 1,
                 slideIndicator: CircularSlideIndicator(
                   slideIndicatorOptions: SlideIndicatorOptions(
                     currentIndicatorColor: MyColors.primary,
