@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/image_source_sheet.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
@@ -16,8 +17,14 @@ class ImageForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormField<List<dynamic>>(
-      initialValue: product.images,
+      initialValue: List.from(product.images),
       builder: (state) {
+        void onImageSelected(File file) {
+          state.value?.add(file);
+          state.didChange(state.value);
+          context.pop();
+        }
+
         return FlutterCarousel(
           items: state.value?.map<Widget>((image) {
             return AspectRatio(
@@ -67,12 +74,12 @@ class ImageForm extends StatelessWidget {
                     if (Platform.isAndroid) {
                       showModalBottomSheet(
                         context: context,
-                        builder: (_) => const ImageSourceSheet(),
+                        builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
                       );
                     } else {
                       showCupertinoModalPopup(
                         context: context,
-                        builder: (_) => const ImageSourceSheet(),
+                        builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
                       );
                     }
                   },
