@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
@@ -16,7 +17,7 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Tooltip(
-        message: toolTip,
+        message: toolTip ?? '',
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(30),
@@ -24,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Icon(
               icon,
-              color: color,
+              color: onTap != null ? color : MyColors.base400,
             ),
           ),
         ),
