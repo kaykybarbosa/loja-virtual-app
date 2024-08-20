@@ -41,6 +41,9 @@ dependencies:
   transparent_image: ^2.0.1
   alphabet_list_scroll_view_fix: ^2.0.2
 
+  # Image picker
+  image_picker: ^1.1.2
+
   # Routes
   go_router: ^14.2.0
   faker: ^2.1.0
