@@ -15,13 +15,9 @@ class ImageSourceSheet extends StatelessWidget {
 
   final picker = ImagePicker();
 
-  void _callFunction(BuildContext context, {XFile? xFile}) {
-    if (xFile != null) {
-      _editImage(context, path: xFile.path);
-    }
-  }
+  Future<void> _editImage(BuildContext context, {String? path}) async {
+    if (path == null) return;
 
-  Future<void> _editImage(BuildContext context, {required String path}) async {
     final CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
@@ -63,7 +59,7 @@ class ImageSourceSheet extends StatelessWidget {
               onPressed: () async {
                 final result = await picker.pickImage(source: ImageSource.camera);
 
-                _callFunction(context, xFile: result);
+                _editImage(context, path: result?.path);
               },
               style: const ButtonStyle(
                 shape: WidgetStatePropertyAll(RoundedRectangleBorder()),
@@ -74,7 +70,7 @@ class ImageSourceSheet extends StatelessWidget {
               onPressed: () async {
                 final result = await picker.pickImage(source: ImageSource.gallery);
 
-                _callFunction(context, xFile: result);
+                _editImage(context, path: result?.path);
               },
               style: const ButtonStyle(
                 shape: WidgetStatePropertyAll(RoundedRectangleBorder()),
