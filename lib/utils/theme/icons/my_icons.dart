@@ -20,4 +20,6 @@ abstract class MyIcons {
   static const IconData edit = EvaIcons.editOutline;
   static const IconData trash = EvaIcons.trashOutline;
   static const IconData addPhoto = Icons.add_a_photo;
+  static const IconData chevronUp = EvaIcons.chevronUp;
+  static const IconData chevronDown = EvaIcons.chevronDown;
 }

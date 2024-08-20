@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/image_form.dart';
+import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/sizes_form.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 
 class EditProductScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class EditProductScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  /// Título
+                  /// -- Título
                   TextFormField(
                     initialValue: product.name,
                     decoration: const InputDecoration(
@@ -86,6 +87,9 @@ class EditProductScreen extends StatelessWidget {
                       return null;
                     },
                   ),
+
+                  /// -- Tamanhos
+                  SizesForm(product: product),
 
                   /// -- Salvar
                   SubmitFormButton(
