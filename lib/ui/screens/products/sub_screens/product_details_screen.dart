@@ -93,9 +93,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
 
                   /// -- Preço
-                  const Text(
-                    'R\$ 19.99',
-                    style: TextStyle(
+                  Text(
+                    'R\$ ${product.basePrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
                       fontSize: 22,
                       color: MyColors.primary,
                       fontWeight: FontWeight.bold,
