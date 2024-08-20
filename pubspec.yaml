@@ -44,6 +44,9 @@ dependencies:
   # Image picker
   image_picker: ^1.1.2
 
+  # Image cropper
+  image_cropper: ^8.0.2
+
   # Routes
   go_router: ^14.2.0
   faker: ^2.1.0
