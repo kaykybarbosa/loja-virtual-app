@@ -46,6 +46,18 @@ class ProductModel extends Equatable with ChangeNotifier {
     }
   }
 
+  num get basePrice {
+    num lowest = double.infinity;
+
+    for (final size in sizes) {
+      if (size.price < lowest && size.hasStock) {
+        lowest = size.price;
+      }
+    }
+
+    return lowest;
+  }
+
   // S E T T E R S
   set selectedSize(ItemSizeModel size) {
     _selectedSize = size;
