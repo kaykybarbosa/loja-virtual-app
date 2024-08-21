@@ -33,7 +33,7 @@ final routerConfig = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.editProduct,
-      builder: (context, state) => EditProductScreen(state.extra as ProductModel),
+      builder: (context, state) => EditProductScreen(state.extra as ProductModel?),
     ),
   ],
 );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/product_manager.dart';
+import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/products/widgets/product_list_tile.dart';
@@ -61,6 +62,19 @@ class ProductsScreen extends StatelessWidget {
               icon: Icon(productManager.getSearch.isEmpty ? MyIcons.search : MyIcons.close),
             ),
           ),
+
+          /// Adicionar
+          Consumer<UserManager>(
+            builder: (_, userManager, __) {
+              return userManager.adminEnabled
+                  ? IconButton(
+                      onPressed: () => context.push(AppRoutes.editProduct),
+                      tooltip: 'Adicionar',
+                      icon: const Icon(MyIcons.plus),
+                    )
+                  : Container();
+            },
+          )
         ],
       ),
       body: Consumer<ProductManager>(

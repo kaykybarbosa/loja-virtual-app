@@ -1,11 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/item_size_model.dart';
 
-// ignore: must_be_immutable
 class ProductModel extends Equatable with ChangeNotifier {
   ProductModel({
     this.id = '',
@@ -91,4 +91,20 @@ class ProductModel extends Equatable with ChangeNotifier {
   String toJson() => json.encode(toMap());
 
   factory ProductModel.fromJson(String source) => ProductModel.fromMap(json.decode(source));
+
+  ProductModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    List<String>? images,
+    List<ItemSizeModel>? sizes,
+  }) {
+    return ProductModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      images: images ?? this.images,
+      sizes: sizes ?? this.sizes,
+    );
+  }
 }

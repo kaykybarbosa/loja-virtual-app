@@ -6,16 +6,19 @@ import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/sizes_for
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 
 class EditProductScreen extends StatelessWidget {
-  EditProductScreen(this.product, {super.key});
+  EditProductScreen(ProductModel? product, {super.key})
+      : product = product ?? ProductModel(),
+        isEditing = product != null;
 
   final ProductModel product;
+  final bool isEditing;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Editar Anúncio')),
+      appBar: AppBar(title: Text(isEditing ? 'Editar Produto' : 'Adicionar Produto')),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Form(
         key: _formKey,
@@ -90,6 +93,8 @@ class EditProductScreen extends StatelessWidget {
 
                   /// -- Tamanhos
                   SizesForm(product: product),
+
+                  const SizedBox(height: 20),
 
                   /// -- Salvar
                   SubmitFormButton(
