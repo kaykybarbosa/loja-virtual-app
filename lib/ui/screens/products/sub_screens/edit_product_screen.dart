@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
@@ -7,10 +9,10 @@ import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 
 class EditProductScreen extends StatelessWidget {
   EditProductScreen(ProductModel? product, {super.key})
-      : product = product ?? ProductModel(),
+      : product = product?.copyWith() ?? ProductModel(),
         isEditing = product != null;
 
-  final ProductModel product;
+  ProductModel product;
   final bool isEditing;
 
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +34,7 @@ class EditProductScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  /// -- Título
+                  /// -- Nome
                   TextFormField(
                     initialValue: product.name,
                     decoration: const InputDecoration(
@@ -51,6 +53,7 @@ class EditProductScreen extends StatelessWidget {
                       }
                       return null;
                     },
+                    onSaved: (name) => product.name = name!,
                   ),
 
                   /// -- A partir
@@ -89,6 +92,7 @@ class EditProductScreen extends StatelessWidget {
                       }
                       return null;
                     },
+                    onSaved: (description) => product.description = description!,
                   ),
 
                   /// -- Tamanhos
@@ -99,7 +103,9 @@ class EditProductScreen extends StatelessWidget {
                   /// -- Salvar
                   SubmitFormButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                      }
                     },
                     text: 'Salvar',
                   ),

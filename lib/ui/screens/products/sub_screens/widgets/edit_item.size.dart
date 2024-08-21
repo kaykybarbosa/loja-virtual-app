@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/item_size_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
 
 class EditItemSize extends StatelessWidget {
-  const EditItemSize({
+  EditItemSize({
     super.key,
     required this.size,
     this.onRemove,
@@ -12,7 +14,7 @@ class EditItemSize extends StatelessWidget {
     this.onMoveDown,
   });
 
-  final ItemSizeModel size;
+  ItemSizeModel size;
   final VoidCallback? onRemove;
   final VoidCallback? onMoveUp;
   final VoidCallback? onMoveDown;
@@ -33,9 +35,9 @@ class EditItemSize extends StatelessWidget {
                 isDense: true,
                 labelText: 'Título',
               ),
-              onChanged: (title) => size.copyWith(name: title),
-              validator: (title) {
-                if (title == null || title.isEmpty) {
+              onChanged: (name) => size.name = name,
+              validator: (name) {
+                if (name == null || name.isEmpty) {
                   return 'Inválido';
                 }
                 return null;
@@ -55,7 +57,7 @@ class EditItemSize extends StatelessWidget {
                   isDense: true,
                   labelText: 'Estoque',
                 ),
-                onChanged: (stock) => size.copyWith(stock: int.tryParse(stock)),
+                onChanged: (stock) => size.stock = int.tryParse(stock) ?? 0,
                 validator: (stock) {
                   if (stock == null || int.tryParse(stock) == null) {
                     return 'Inválido';
@@ -77,7 +79,7 @@ class EditItemSize extends StatelessWidget {
                 prefixText: 'R\$',
                 labelText: 'Preço',
               ),
-              onChanged: (price) => size.copyWith(price: num.tryParse(price)),
+              onChanged: (price) => size.price = num.tryParse(price) ?? 0.0,
               validator: (price) {
                 if (price == null || num.tryParse(price) == null) {
                   return 'Inválido';

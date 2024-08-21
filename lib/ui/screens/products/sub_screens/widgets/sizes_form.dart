@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/item_size_model.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
@@ -7,14 +9,14 @@ import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/error_tex
 import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
 
 class SizesForm extends StatelessWidget {
-  const SizesForm({super.key, required this.product});
+  SizesForm({super.key, required this.product});
 
-  final ProductModel product;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     return FormField<List<ItemSizeModel>>(
-      initialValue: List.from(product.sizes),
+      initialValue: product.sizes,
       validator: (sizes) {
         if (sizes == null || sizes.isEmpty) {
           return 'Insira um tamanho';
@@ -39,7 +41,7 @@ class SizesForm extends StatelessWidget {
                 CustomIconButton(
                   icon: MyIcons.plus,
                   onTap: () {
-                    state.value?.add(const ItemSizeModel());
+                    state.value?.add(ItemSizeModel());
                     state.didChange(state.value);
                   },
                 ),
