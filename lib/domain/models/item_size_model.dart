@@ -1,18 +1,18 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
 class ItemSizeModel extends Equatable {
-  const ItemSizeModel({
+  ItemSizeModel({
     this.name = '',
     this.price = 0,
     this.stock = 0,
   });
 
-  final String name;
-  final num price;
-  final int stock;
+  String name;
+  num price;
+  int stock;
 
   bool get hasStock => stock > 0;
 

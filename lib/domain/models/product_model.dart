@@ -14,14 +14,16 @@ class ProductModel extends Equatable with ChangeNotifier {
     this.images = const [],
     this.sizes = const [],
     ItemSizeModel? selectedSize,
+    this.newImages = const [],
   }) : _selectedSize = selectedSize;
 
-  final String id;
-  final String name;
-  final String description;
-  final List<String> images;
-  final List<ItemSizeModel> sizes;
+  String id;
+  String name;
+  String description;
+  List<String> images;
+  List<ItemSizeModel> sizes;
   ItemSizeModel? _selectedSize;
+  List<dynamic> newImages;
 
   // G E T T E R S
   ItemSizeModel? get getSelectedSize => _selectedSize;
@@ -72,6 +74,7 @@ class ProductModel extends Equatable with ChangeNotifier {
         images,
         sizes,
         _selectedSize,
+        newImages,
       ];
 
   Map<String, dynamic> toMap() => {
@@ -104,7 +107,7 @@ class ProductModel extends Equatable with ChangeNotifier {
       name: name ?? this.name,
       description: description ?? this.description,
       images: images ?? this.images,
-      sizes: sizes ?? this.sizes,
+      sizes: sizes ?? this.sizes.map((size) => size.copyWith()).toList(),
     );
   }
 }
