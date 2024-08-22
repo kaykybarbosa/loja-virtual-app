@@ -1,10 +1,13 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, empty_catches
 
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/item_size_model.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductModel extends Equatable with ChangeNotifier {
   ProductModel({
@@ -24,6 +27,9 @@ class ProductModel extends Equatable with ChangeNotifier {
   List<ItemSizeModel> sizes;
   ItemSizeModel? _selectedSize;
   List<dynamic> newImages;
+
+  final _firestore = FirebaseFirestore.instance;
+  final _storage = FirebaseStorage.instance;
 
   // G E T T E R S
   ItemSizeModel? get getSelectedSize => _selectedSize;
@@ -60,6 +66,10 @@ class ProductModel extends Equatable with ChangeNotifier {
     return lowest;
   }
 
+  DocumentReference get firestoreRef => _firestore.doc('products/$id');
+
+  Reference get storageRef => _storage.ref().child('products').child(id);
+
   // S E T T E R S
   set selectedSize(ItemSizeModel size) {
     _selectedSize = size;
@@ -80,7 +90,8 @@ class ProductModel extends Equatable with ChangeNotifier {
   Map<String, dynamic> toMap() => {
         'name': name,
         'description': description,
-        'images': images,
+        // 'images': images,
+        'sizes': sizes.map((size) => size.toMap()).toList(),
       };
 
   factory ProductModel.fromMap(Map<String, dynamic> map, {String? documentId}) => ProductModel(
@@ -109,5 +120,53 @@ class ProductModel extends Equatable with ChangeNotifier {
       images: images ?? this.images,
       sizes: sizes ?? this.sizes.map((size) => size.copyWith()).toList(),
     );
+  }
+
+  Future<void> save() async {
+    final data = toMap();
+
+    if (id.isEmpty) {
+      final doc = await _firestore.collection('products').add(data);
+
+      id = doc.id;
+    } else {
+      await firestoreRef.update(data);
+    }
+
+    /// Verificando se possui novas imagens
+    List<String> updateImages = [];
+
+    for (final newImage in newImages) {
+      if (images.contains(newImage)) {
+        updateImages.add(newImage);
+      } else {
+        storageRef.child(const Uuid().v1()).putFile(newImage).snapshotEvents.listen(
+          (snapshot) async {
+            if (snapshot.state == TaskState.success) {
+              final String url = await snapshot.ref.getDownloadURL();
+
+              updateImages.add(url);
+
+              _updateImages(updateImages);
+            }
+          },
+        );
+      }
+    }
+
+    /// Removendo imagens
+    for (final image in images) {
+      if (!newImages.contains(image)) {
+        final ref = _storage.refFromURL(image);
+
+        await ref.delete();
+      }
+    }
+
+    if (updateImages.isNotEmpty) _updateImages(updateImages);
+  }
+
+  void _updateImages(List<String> images) {
+    firestoreRef.update({'images': images});
   }
 }

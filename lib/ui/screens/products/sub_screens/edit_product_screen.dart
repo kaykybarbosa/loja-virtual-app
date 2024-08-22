@@ -9,7 +9,7 @@ import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 
 class EditProductScreen extends StatelessWidget {
   EditProductScreen(ProductModel? product, {super.key})
-      : product = product?.copyWith() ?? ProductModel(),
+      : product = product?.copyWith() ?? ProductModel().copyWith(),
         isEditing = product != null;
 
   ProductModel product;
@@ -105,6 +105,8 @@ class EditProductScreen extends StatelessWidget {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
+
+                        product.save();
                       }
                     },
                     text: 'Salvar',
