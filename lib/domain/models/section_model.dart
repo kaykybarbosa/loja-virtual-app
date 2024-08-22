@@ -1,17 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:equatable/equatable.dart';
 import 'package:lojavirtualapp/domain/models/section_item_model.dart';
 
 class SectionModel extends Equatable {
-  const SectionModel({
+  SectionModel({
     this.name = '',
     this.type = '',
     this.items = const [],
   });
 
-  final String name;
-  final String type;
-  final List<SectionItemModel> items;
+  String name;
+  String type;
+  List<SectionItemModel> items;
 
   @override
   List<Object> get props => [

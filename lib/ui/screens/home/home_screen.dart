@@ -140,7 +140,7 @@ class AddSectionWidget extends StatelessWidget {
                 style: const ButtonStyle(
                   foregroundColor: WidgetStatePropertyAll(MyColors.base100),
                 ),
-                onPressed: () => homeManager.addSection(const SectionModel(type: 'List')),
+                onPressed: () => homeManager.addSection(SectionModel(type: 'List')),
                 child: const Text('Adicionar Lista'),
               ),
             ),
@@ -149,7 +149,7 @@ class AddSectionWidget extends StatelessWidget {
                 style: const ButtonStyle(
                   foregroundColor: WidgetStatePropertyAll(MyColors.base100),
                 ),
-                onPressed: () => homeManager.addSection(const SectionModel(type: 'Staggered')),
+                onPressed: () => homeManager.addSection(SectionModel(type: 'Staggered')),
                 child: const Text('Adicionar Grade'),
               ),
             ),
