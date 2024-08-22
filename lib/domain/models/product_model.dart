@@ -25,13 +25,30 @@ class ProductModel extends Equatable with ChangeNotifier {
   String description;
   List<String> images;
   List<ItemSizeModel> sizes;
-  ItemSizeModel? _selectedSize;
   List<dynamic> newImages;
+  ItemSizeModel? _selectedSize;
+  bool _loading = false;
 
+  // F I R E B A S E
   final _firestore = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
 
+  DocumentReference get _firestoreRef => _firestore.doc('products/$id');
+
+  Reference get _storageRef => _storage.ref().child('products').child(id);
+
   // G E T T E R S
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        images,
+        sizes,
+        _selectedSize,
+        newImages,
+      ];
+
   ItemSizeModel? get getSelectedSize => _selectedSize;
 
   int get totalStock {
@@ -66,9 +83,7 @@ class ProductModel extends Equatable with ChangeNotifier {
     return lowest;
   }
 
-  DocumentReference get firestoreRef => _firestore.doc('products/$id');
-
-  Reference get storageRef => _storage.ref().child('products').child(id);
+  bool get loading => _loading;
 
   // S E T T E R S
   set selectedSize(ItemSizeModel size) {
@@ -76,21 +91,15 @@ class ProductModel extends Equatable with ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        description,
-        images,
-        sizes,
-        _selectedSize,
-        newImages,
-      ];
+  set loading(bool value) => {
+        _loading = value,
+        notifyListeners(),
+      };
 
+  // M E T H O D S
   Map<String, dynamic> toMap() => {
         'name': name,
         'description': description,
-        // 'images': images,
         'sizes': sizes.map((size) => size.toMap()).toList(),
       };
 
@@ -123,6 +132,8 @@ class ProductModel extends Equatable with ChangeNotifier {
   }
 
   Future<void> save() async {
+    loading = true;
+
     final data = toMap();
 
     if (id.isEmpty) {
@@ -130,7 +141,7 @@ class ProductModel extends Equatable with ChangeNotifier {
 
       id = doc.id;
     } else {
-      await firestoreRef.update(data);
+      await _firestoreRef.update(data);
     }
 
     /// Verificando se possui novas imagens
@@ -140,7 +151,7 @@ class ProductModel extends Equatable with ChangeNotifier {
       if (images.contains(newImage)) {
         updateImages.add(newImage);
       } else {
-        storageRef.child(const Uuid().v1()).putFile(newImage).snapshotEvents.listen(
+        _storageRef.child(const Uuid().v1()).putFile(newImage).snapshotEvents.listen(
           (snapshot) async {
             if (snapshot.state == TaskState.success) {
               final String url = await snapshot.ref.getDownloadURL();
@@ -163,10 +174,16 @@ class ProductModel extends Equatable with ChangeNotifier {
       }
     }
 
-    if (updateImages.isNotEmpty) _updateImages(updateImages);
+    if (updateImages.isNotEmpty) {
+      _updateImages(updateImages);
+
+      images = updateImages;
+    }
+
+    loading = false;
   }
 
   void _updateImages(List<String> images) {
-    firestoreRef.update({'images': images});
+    _firestoreRef.update({'images': images});
   }
 }

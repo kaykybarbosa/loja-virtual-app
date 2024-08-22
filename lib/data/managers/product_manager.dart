@@ -46,6 +46,13 @@ class ProductManager extends ChangeNotifier {
     }
   }
 
+  void update(ProductModel product) {
+    allProducts.removeWhere((p) => p.id == product.id);
+    allProducts.add(product);
+
+    notifyListeners();
+  }
+
   // G E T T E R S
   List<ProductModel> get allProducts => _allProducts;
 
