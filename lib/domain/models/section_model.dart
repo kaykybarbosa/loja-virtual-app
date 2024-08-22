@@ -31,4 +31,16 @@ class SectionModel extends Equatable {
         type: map['type'],
         items: map['items'].map<SectionItemModel>((item) => SectionItemModel.fromMap(item)).toList(),
       );
+
+  SectionModel copyWith({
+    String? name,
+    String? type,
+    List<SectionItemModel>? items,
+  }) {
+    return SectionModel(
+      name: name ?? this.name,
+      type: type ?? this.type,
+      items: items ?? this.items.map((item) => item.copyWith()).toList(),
+    );
+  }
 }

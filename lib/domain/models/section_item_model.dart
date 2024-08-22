@@ -19,4 +19,14 @@ class SectionItemModel extends Equatable {
         image: map['image'],
         productId: map['productId'] ?? '',
       );
+
+  SectionItemModel copyWith({
+    String? image,
+    String? productId,
+  }) {
+    return SectionItemModel(
+      image: image ?? this.image,
+      productId: productId ?? this.productId,
+    );
+  }
 }
