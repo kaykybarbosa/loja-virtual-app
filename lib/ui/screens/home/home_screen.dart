@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/home_manager.dart';
+import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
+import 'package:lojavirtualapp/domain/models/section_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_list.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_staggered.dart';
@@ -47,10 +49,40 @@ class HomeScreen extends StatelessWidget {
                   actions: <Widget>[
                     IconButton(
                       onPressed: () => context.push(AppRoutes.cart),
-                      icon: const Icon(
-                        MyIcons.cart,
-                      ),
+                      icon: const Icon(MyIcons.cart),
                     ),
+                    Consumer2<UserManager, HomeManager>(
+                      builder: (_, user, home, __) {
+                        if (user.adminEnabled) {
+                          if (home.editing) {
+                            return PopupMenuButton(
+                              onSelected: (value) {
+                                if (value == 'Salvar') {
+                                  home.saveEditing();
+                                } else {
+                                  home.discardEditing();
+                                }
+                              },
+                              itemBuilder: (_) => ['Salvar', 'Descartar']
+                                  .map(
+                                    (option) => PopupMenuItem(
+                                      value: option,
+                                      child: Text(option),
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          } else {
+                            return IconButton(
+                              icon: const Icon(MyIcons.edit),
+                              onPressed: home.enterEditing,
+                            );
+                          }
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    )
                   ],
                 ),
 
@@ -81,10 +113,49 @@ class HomeScreen extends StatelessWidget {
                             childCount: homeManager.sections.length,
                           ),
                         ),
-                )
+                ),
+
+                const AddSectionWidget()
               ],
             ),
           ],
         ),
       );
+}
+
+class AddSectionWidget extends StatelessWidget {
+  const AddSectionWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final homeManager = context.watch<HomeManager>();
+
+    return SliverVisibility(
+      visible: homeManager.editing,
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextButton(
+                style: const ButtonStyle(
+                  foregroundColor: WidgetStatePropertyAll(MyColors.base100),
+                ),
+                onPressed: () => homeManager.addSection(const SectionModel(type: 'List')),
+                child: const Text('Adicionar Lista'),
+              ),
+            ),
+            Expanded(
+              child: TextButton(
+                style: const ButtonStyle(
+                  foregroundColor: WidgetStatePropertyAll(MyColors.base100),
+                ),
+                onPressed: () => homeManager.addSection(const SectionModel(type: 'Staggered')),
+                child: const Text('Adicionar Grade'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
