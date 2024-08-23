@@ -26,11 +26,13 @@ class ItemTile extends StatelessWidget {
           aspectRatio: 1,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: item.image,
-              fit: BoxFit.cover,
-            ),
+            child: item.image is String
+                ? FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: item.image,
+                    fit: BoxFit.cover,
+                  )
+                : Image.file(item.image),
           ),
         ),
       );
