@@ -1,13 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/section_item_model.dart';
 
-class SectionModel extends Equatable {
+class SectionModel extends Equatable with ChangeNotifier {
   SectionModel({
     this.name = '',
     this.type = '',
-    this.items = const [],
-  });
+    List<SectionItemModel>? items,
+  }) : items = items ?? List.from([]);
 
   String name;
   String type;
@@ -42,5 +43,11 @@ class SectionModel extends Equatable {
       type: type ?? this.type,
       items: items ?? this.items.map((item) => item.copyWith()).toList(),
     );
+  }
+
+  void addItem(SectionItemModel item) {
+    items.add(item);
+
+    notifyListeners();
   }
 }
