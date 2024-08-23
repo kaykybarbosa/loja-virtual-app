@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:lojavirtualapp/data/managers/home_manager.dart';
 import 'package:lojavirtualapp/domain/models/section_model.dart';
+import 'package:lojavirtualapp/ui/screens/home/widgets/add_title_widget.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/item_tile.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_header.dart';
+import 'package:provider/provider.dart';
 
 class SectionList extends StatelessWidget {
   const SectionList(this.section, {super.key});
@@ -10,26 +13,34 @@ class SectionList extends StatelessWidget {
   final SectionModel section;
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SectionHeader(section: section),
-            SizedBox(
-              height: 150,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, index) {
+  Widget build(BuildContext context) {
+    final homeManager = context.watch<HomeManager>();
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SectionHeader(section: section),
+          SizedBox(
+            height: 150,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_, index) {
+                if (index < section.items.length) {
                   final item = section.items[index];
 
                   return ItemTile(item: item);
-                },
-                separatorBuilder: (_, __) => const Gap(4),
-                itemCount: section.items.length,
-              ),
-            )
-          ],
-        ),
-      );
+                } else {
+                  return const AddTitleWidget();
+                }
+              },
+              separatorBuilder: (_, __) => const Gap(4),
+              itemCount: homeManager.editing ? section.items.length + 1 : section.items.length,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
