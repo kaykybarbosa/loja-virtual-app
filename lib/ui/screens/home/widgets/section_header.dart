@@ -7,9 +7,7 @@ import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
 import 'package:provider/provider.dart';
 
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.section});
-
-  final SectionModel section;
+  const SectionHeader({super.key});
 
   TextStyle get _style => const TextStyle(
         fontSize: 18,
@@ -20,6 +18,7 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
+    final section = context.watch<SectionModel>();
 
     if (homeManager.editing) {
       return Row(
