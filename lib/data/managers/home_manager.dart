@@ -41,7 +41,7 @@ class HomeManager extends ChangeNotifier {
   // S E T T E R S
   set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};
 
-  // M O T H O D S
+  // M E T H O D S
   void enterEditing() {
     editing = true;
 

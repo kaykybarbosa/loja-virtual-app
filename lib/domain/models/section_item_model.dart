@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class SectionItemModel extends Equatable {
   const SectionItemModel({this.image = '', this.productId = ''});
 
-  final String image;
+  final dynamic image;
   final String productId;
 
   @override
@@ -21,7 +21,7 @@ class SectionItemModel extends Equatable {
       );
 
   SectionItemModel copyWith({
-    String? image,
+    dynamic image,
     String? productId,
   }) {
     return SectionItemModel(
