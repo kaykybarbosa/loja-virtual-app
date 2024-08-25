@@ -16,8 +16,8 @@ class SectionStaggered extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
 
-    return ChangeNotifierProvider.value(
-      value: section,
+    return ChangeNotifierProvider(
+      create: (_) => section,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
