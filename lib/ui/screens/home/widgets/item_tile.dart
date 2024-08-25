@@ -32,7 +32,10 @@ class ItemTile extends StatelessWidget {
                     image: item.image,
                     fit: BoxFit.cover,
                   )
-                : Image.file(item.image),
+                : Image.file(
+                    item.image,
+                    fit: BoxFit.cover,
+                  ),
           ),
         ),
       );

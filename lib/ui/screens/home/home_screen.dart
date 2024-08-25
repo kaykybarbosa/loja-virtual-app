@@ -47,10 +47,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   actions: <Widget>[
+                    /// -- Carrinho
                     IconButton(
                       onPressed: () => context.push(AppRoutes.cart),
                       icon: const Icon(MyIcons.cart),
                     ),
+
+                    /// -- Editar
                     Consumer2<UserManager, HomeManager>(
                       builder: (_, user, home, __) {
                         if (user.adminEnabled) {
