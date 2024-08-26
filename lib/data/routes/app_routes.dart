@@ -5,4 +5,5 @@ abstract class AppRoutes {
   static String productDetails = '/product-details';
   static String cart = '/cart';
   static String editProduct = '/edit-product';
+  static String selectProduct = '/select-product';
 }
