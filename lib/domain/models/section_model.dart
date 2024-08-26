@@ -50,4 +50,10 @@ class SectionModel extends Equatable with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void removeItem(SectionItemModel item) {
+    items.remove(item);
+
+    notifyListeners();
+  }
 }

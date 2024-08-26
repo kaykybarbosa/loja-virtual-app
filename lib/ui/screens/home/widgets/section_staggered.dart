@@ -23,7 +23,10 @@ class SectionStaggered extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            /// Header
             const SectionHeader(),
+
+            /// Items
             Consumer<SectionModel>(
               builder: (_, sectionModel, __) {
                 return StaggeredGrid.count(

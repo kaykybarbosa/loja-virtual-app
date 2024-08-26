@@ -23,26 +23,27 @@ class SectionList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            /// Header
             const SectionHeader(),
+
+            /// Items
             SizedBox(
               height: 150,
               child: Consumer<SectionModel>(
-                builder: (_, sectionModel, __) {
-                  return ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, index) {
-                      if (index < sectionModel.items.length) {
-                        final item = sectionModel.items[index];
+                builder: (_, sectionModel, __) => ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (_, index) {
+                    if (index < sectionModel.items.length) {
+                      final item = sectionModel.items[index];
 
-                        return ItemTile(item: item);
-                      } else {
-                        return const AddTitleWidget();
-                      }
-                    },
-                    separatorBuilder: (_, __) => const Gap(4),
-                    itemCount: homeManager.editing ? sectionModel.items.length + 1 : sectionModel.items.length,
-                  );
-                },
+                      return ItemTile(item: item);
+                    } else {
+                      return const AddTitleWidget();
+                    }
+                  },
+                  separatorBuilder: (_, __) => const Gap(4),
+                  itemCount: homeManager.editing ? sectionModel.items.length + 1 : sectionModel.items.length,
+                ),
               ),
             )
           ],
