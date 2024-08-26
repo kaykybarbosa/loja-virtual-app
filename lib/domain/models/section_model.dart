@@ -39,7 +39,7 @@ class SectionModel extends Equatable with ChangeNotifier {
     List<SectionItemModel>? items,
   }) {
     return SectionModel(
-      name: name ?? this.name,
+      name: name ?? '${this.name} ',
       type: type ?? this.type,
       items: items ?? this.items.map((item) => item.copyWith()).toList(),
     );

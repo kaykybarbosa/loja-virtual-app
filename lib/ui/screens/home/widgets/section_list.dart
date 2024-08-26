@@ -39,8 +39,8 @@ class _SectionListState extends State<SectionList> {
 
     log(widget.section.toString(), name: 'FIX');
 
-    return ChangeNotifierProvider(
-      create: (_) => widget.section,
+    return ChangeNotifierProvider.value(
+      value: widget.section,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
