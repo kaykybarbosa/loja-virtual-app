@@ -23,7 +23,7 @@ class HomeManager extends ChangeNotifier {
         _sections.clear();
 
         for (final document in snapshot.docs) {
-          _sections.add(SectionModel.fromMap(document.data()));
+          _sections.add(SectionModel.fromMap(document.data(), id: document.id));
         }
 
         _setIsLoading = false;
@@ -50,13 +50,23 @@ class HomeManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveEditing() {
+  Future<void> saveEditing() async {
+    bool isValid = true;
+
     for (final section in _editingSections) {
-      section.valid();
+      if (!section.valid()) {
+        isValid = false;
+      }
     }
 
-    // editing = false;
-    // notifyListeners();
+    if (isValid) {
+      for (final section in _editingSections) {
+        await section.save();
+      }
+
+      editing = false;
+      notifyListeners();
+    }
   }
 
   void discardEditing() {
