@@ -21,26 +21,34 @@ class SectionHeader extends StatelessWidget {
     final section = context.watch<SectionModel>();
 
     if (homeManager.editing) {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              initialValue: section.name,
-              decoration: const InputDecoration(
-                isDense: true,
-                hintText: 'Título',
-                border: InputBorder.none,
+      return Column(
+        children: [
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: section.error != null ? 10 : 0),
+                  child: TextFormField(
+                    initialValue: section.name,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      hintText: 'Título',
+                      border: InputBorder.none,
+                      errorText: section.error,
+                    ),
+                    style: _style,
+                    onChanged: (value) => section.name = value,
+                  ),
+                ),
               ),
-              style: _style,
-              onChanged: (value) => section.name = value,
-            ),
+              CustomIconButton(
+                icon: MyIcons.remove,
+                color: MyColors.base100,
+                onTap: () => homeManager.removeSection(section),
+                toolTip: 'Remover',
+              )
+            ],
           ),
-          CustomIconButton(
-            icon: MyIcons.remove,
-            color: MyColors.base100,
-            onTap: () => homeManager.removeSection(section),
-            toolTip: 'Remover',
-          )
         ],
       );
     } else {

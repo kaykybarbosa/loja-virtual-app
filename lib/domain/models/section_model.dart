@@ -14,6 +14,10 @@ class SectionModel extends Equatable with ChangeNotifier {
   String type;
   List<SectionItemModel> items;
 
+  String? _error;
+  String? get error => _error;
+  set _setError(String? value) => {_error = value, notifyListeners()};
+
   @override
   List<Object> get props => [
         name,
@@ -55,5 +59,15 @@ class SectionModel extends Equatable with ChangeNotifier {
     items.remove(item);
 
     notifyListeners();
+  }
+
+  void valid() {
+    if (name.isEmpty) {
+      _setError = 'Título inválido';
+    } else if (items.isEmpty) {
+      _setError = 'Insira ao menos uma imagem';
+    } else {
+      _setError = null;
+    }
   }
 }
