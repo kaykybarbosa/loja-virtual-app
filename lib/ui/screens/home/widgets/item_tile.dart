@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/home_manager.dart';
 import 'package:lojavirtualapp/data/managers/product_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
+import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/domain/models/section_item_model.dart';
 import 'package:lojavirtualapp/domain/models/section_model.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
@@ -30,11 +31,30 @@ class ItemTile extends StatelessWidget {
       },
       onLongPress: homeManager.editing
           ? () {
+              final product = context.read<ProductManager>().findProductById(item.productId);
+
+              final hasProduct = product != null;
+
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
                   title: const Text('Editar Item'),
+                  content: hasProduct
+                      ? ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image.network(
+                              product.images.first,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          title: Text(product.name),
+                          subtitle: Text('R\$ ${product.basePrice.toStringAsFixed(2)}'),
+                        )
+                      : null,
                   actions: <Widget>[
+                    /// -- Excluir
                     TextButton(
                       onPressed: () {
                         context.read<SectionModel>().removeItem(item);
@@ -45,6 +65,22 @@ class ItemTile extends StatelessWidget {
                         overlayColor: WidgetStatePropertyAll(MyColors.warn.withAlpha(20)),
                       ),
                       child: const Text('Excluir'),
+                    ),
+
+                    /// -- Desvincular / Vincular
+                    TextButton(
+                      onPressed: () async {
+                        if (hasProduct) {
+                          item.productId = '';
+                        } else {
+                          final ProductModel? product = await context.push(AppRoutes.selectProduct) as ProductModel?;
+
+                          item.productId = product?.id ?? '';
+                        }
+
+                        context.pop();
+                      },
+                      child: Text(hasProduct ? 'Desvincular' : 'Vincular'),
                     ),
                   ],
                 ),

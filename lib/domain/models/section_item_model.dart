@@ -1,11 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:equatable/equatable.dart';
 
 class SectionItemModel extends Equatable {
-  const SectionItemModel({this.image = '', this.productId = ''});
+  SectionItemModel({this.image = '', this.productId = ''});
 
-  final dynamic image;
-  final String productId;
+  dynamic image;
+  String productId;
 
   @override
   List<Object> get props => [image, productId];
