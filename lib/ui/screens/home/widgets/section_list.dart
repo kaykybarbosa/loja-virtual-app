@@ -16,39 +16,41 @@ class SectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
 
-    return ChangeNotifierProvider.value(
-      value: section,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            /// Header
-            const SectionHeader(),
+    return section.items.isNotEmpty
+        ? ChangeNotifierProvider.value(
+            value: section,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  /// Header
+                  const SectionHeader(),
 
-            /// Items
-            SizedBox(
-              height: 150,
-              child: Consumer<SectionModel>(
-                builder: (_, sectionModel, __) => ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (_, index) {
-                    if (index < sectionModel.items.length) {
-                      final item = sectionModel.items[index];
+                  /// Items
+                  SizedBox(
+                    height: 150,
+                    child: Consumer<SectionModel>(
+                      builder: (_, sectionModel, __) => ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (_, index) {
+                          if (index < sectionModel.items.length) {
+                            final item = sectionModel.items[index];
 
-                      return ItemTile(item: item);
-                    } else {
-                      return const AddTitleWidget();
-                    }
-                  },
-                  separatorBuilder: (_, __) => const Gap(4),
-                  itemCount: homeManager.editing ? sectionModel.items.length + 1 : sectionModel.items.length,
-                ),
+                            return ItemTile(item: item);
+                          } else {
+                            return const AddTitleWidget();
+                          }
+                        },
+                        separatorBuilder: (_, __) => const Gap(4),
+                        itemCount: homeManager.editing ? sectionModel.items.length + 1 : sectionModel.items.length,
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          )
+        : const SizedBox();
   }
 }
