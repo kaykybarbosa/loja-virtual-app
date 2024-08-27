@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/section_model.dart';
@@ -15,10 +17,11 @@ class HomeManager extends ChangeNotifier {
   bool editing = false;
 
   bool _isLoading = false;
+  bool _savingSections = false;
 
   Future<void> _loadSections() async {
     _setIsLoading = true;
-    _store.collection('home').snapshots().listen(
+    _store.collection('home').orderBy('pos').snapshots().listen(
       (snapshot) {
         _sections.clear();
 
@@ -34,12 +37,16 @@ class HomeManager extends ChangeNotifier {
   // G E T T E R S
   bool get isLoading => _isLoading;
 
+  bool get savingSections => _savingSections;
+
   List<SectionModel> get sections {
     return editing ? _editingSections : _sections;
   }
 
   // S E T T E R S
   set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};
+
+  set _setSavingSection(bool value) => {_savingSections = value, notifyListeners()};
 
   // M E T H O D S
   void enterEditing() {
@@ -52,6 +59,7 @@ class HomeManager extends ChangeNotifier {
 
   Future<void> saveEditing() async {
     bool isValid = true;
+    _setSavingSection = true;
 
     for (final section in _editingSections) {
       if (!section.valid()) {
@@ -59,10 +67,24 @@ class HomeManager extends ChangeNotifier {
       }
     }
 
+    int pos = 0;
+
     if (isValid) {
       for (final section in _editingSections) {
-        await section.save();
+        await section.save(pos);
+
+        pos++;
       }
+
+      for (final section in List.from(_sections)) {
+        log('${section.name} - ${!sections.any((s) => s.id == section.id)} ${sections.length}', name: 'FIX');
+
+        if (!_editingSections.any((s) => s.id == section.id)) {
+          await section.delete();
+        }
+      }
+
+      _setSavingSection = false;
 
       editing = false;
       notifyListeners();
