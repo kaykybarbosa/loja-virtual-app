@@ -1,4 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, empty_catches
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,16 +14,18 @@ class SectionModel extends Equatable with ChangeNotifier {
     this.id = '',
     this.name = '',
     this.type = '',
+    this.pos = 0,
     List<SectionItemModel>? items,
-    List<SectionItemModel>? newItems,
   })  : items = items ?? List.from([]),
-        newItems = newItems ?? List.from([]);
+        oficialItems = items != null ? List.from(items) : List.from([]);
 
   String id;
   String name;
   String type;
+  int pos;
+
   List<SectionItemModel> items;
-  List<SectionItemModel> newItems;
+  List<SectionItemModel> oficialItems;
 
   String? _error;
   String? get error => _error;
@@ -31,19 +36,20 @@ class SectionModel extends Equatable with ChangeNotifier {
 
   DocumentReference get _firestoreRef => _firestore.doc('home/$id');
 
-  Reference get _storageRef => _storage.ref().child('sections').child(id);
+  Reference get _storageRef => _storage.ref().child('home').child(id);
 
   @override
   List<Object> get props => [
         name,
         type,
         items,
-        newItems,
+        oficialItems,
       ];
 
   Map<String, dynamic> toMap() => {
         'name': name,
         'type': type,
+        'pos': pos,
         // 'items': items.map((item) => item.toMap()).toList(),
       };
 
@@ -51,7 +57,8 @@ class SectionModel extends Equatable with ChangeNotifier {
         id: id,
         name: map['name'],
         type: map['type'],
-        items: map['items'].map<SectionItemModel>((item) => SectionItemModel.fromMap(item)).toList(),
+        pos: map['pos'],
+        items: map['items']?.map<SectionItemModel>((item) => SectionItemModel.fromMap(item)).toList(),
       );
 
   SectionModel copyWith({
@@ -61,7 +68,7 @@ class SectionModel extends Equatable with ChangeNotifier {
   }) {
     return SectionModel(
       id: id,
-      name: name ?? this.name,
+      name: name ?? '${this.name} ',
       type: type ?? this.type,
       items: items ?? this.items.map((item) => item.copyWith()).toList(),
     );
@@ -69,14 +76,12 @@ class SectionModel extends Equatable with ChangeNotifier {
 
   void addItem(SectionItemModel item) {
     items.add(item);
-    newItems.add(item);
 
     notifyListeners();
   }
 
   void removeItem(SectionItemModel item) {
     items.remove(item);
-    newItems.remove(item);
 
     notifyListeners();
   }
@@ -93,7 +98,8 @@ class SectionModel extends Equatable with ChangeNotifier {
     return error == null;
   }
 
-  Future<void> save() async {
+  Future<void> save(int pos) async {
+    pos = pos;
     final data = toMap();
 
     /// Adicionando / Atualizando
@@ -102,48 +108,67 @@ class SectionModel extends Equatable with ChangeNotifier {
 
       id = doc.id;
     } else {
-      _firestoreRef.update(data);
+      await _firestoreRef.update(data);
     }
 
     /// Adicionando imagens dos itens que não estão registrados
-    List<SectionItemModel> updateItems = [];
+    final List<SectionItemModel> updateItems = [];
 
-    for (final item in newItems) {
-      if (items.contains(item)) {
-        updateItems.add(item);
-      } else {
+    for (final item in items) {
+      if (item.image is File) {
         _storageRef.child(const Uuid().v1()).putFile(item.image).snapshotEvents.listen(
           (snapshot) async {
             if (snapshot.state == TaskState.success) {
               final String url = await snapshot.ref.getDownloadURL();
 
               item.image = url;
+
               updateItems.add(item);
 
               _updateItems(updateItems);
             }
           },
         );
+      } else {
+        updateItems.add(item);
       }
     }
 
     /// Removendo imagens dos items removidos
-    for (final item in items) {
-      if (newItems.isNotEmpty && !newItems.contains(item)) {
+    try {
+      for (final item in oficialItems) {
+        if (!items.contains(item)) {
+          final ref = _storage.refFromURL(item.image);
+
+          await ref.delete();
+        }
+      }
+    } catch (e) {
+      log('ERRO AO DELETAR IMAGE DO ITEM: ${e.toString()}');
+    }
+
+    _updateItems(updateItems);
+  }
+
+  Future<void> delete() async {
+    await _firestoreRef.delete();
+
+    try {
+      for (final item in items) {
         final ref = _storage.refFromURL(item.image);
 
         await ref.delete();
       }
-    }
-
-    if (updateItems.isNotEmpty) {
-      _updateItems(updateItems);
-
-      items = updateItems;
-    }
+    } catch (e) {}
   }
 
-  void _updateItems(List<SectionItemModel> items) {
-    _firestoreRef.update({'items': items});
+  Future<void> _updateItems(List<SectionItemModel> items) async {
+    if (items.isEmpty) return;
+
+    final itemsData = {
+      'items': items.map((item) => item.toMap()).toList(),
+    };
+
+    await _firestoreRef.update(itemsData);
   }
 }
