@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                     /// -- Editar
                     Consumer2<UserManager, HomeManager>(
                       builder: (_, user, home, __) {
-                        if (user.adminEnabled) {
+                        if (user.adminEnabled && !home.savingSections) {
                           if (home.editing) {
                             return PopupMenuButton(
                               onSelected: (value) {
@@ -91,14 +91,11 @@ class HomeScreen extends StatelessWidget {
 
                 /// Info
                 Consumer<HomeManager>(
-                  builder: (_, homeManager, __) => homeManager.isLoading
+                  builder: (_, homeManager, __) => homeManager.savingSections || homeManager.isLoading
                       ? const SliverToBoxAdapter(
-                          child: Center(
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(color: MyColors.base100),
-                            ),
+                          child: LinearProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(MyColors.base100),
+                            backgroundColor: Colors.transparent,
                           ),
                         )
                       : SliverList(
@@ -134,7 +131,7 @@ class AddSectionWidget extends StatelessWidget {
     final homeManager = context.watch<HomeManager>();
 
     return SliverVisibility(
-      visible: homeManager.editing,
+      visible: homeManager.editing && !homeManager.savingSections,
       sliver: SliverToBoxAdapter(
         child: Row(
           children: <Widget>[
