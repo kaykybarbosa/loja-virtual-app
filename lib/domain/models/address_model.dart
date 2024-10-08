@@ -43,8 +43,8 @@ class AddressModel extends Equatable {
         latitude: double.parse(map['latitude']),
         longitude: double.parse(map['longitude']),
         cep: map['cep'],
-        street: map['logradouro'],
-        neighborhood: map['bairro'],
+        street: map['logradouro'] ?? '',
+        neighborhood: map['bairro'] ?? '',
         city: CityModel.fromMap(map['cidade']),
         state: StateModel.fromMap(map['estado']),
       );
