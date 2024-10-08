@@ -12,6 +12,8 @@ class CartManager extends ChangeNotifier {
   num productsPrice = 0.0;
 
   bool get isCartValid {
+    if (items.isEmpty) return false;
+
     for (final item in items) {
       if (!item.hasStock) return false;
     }

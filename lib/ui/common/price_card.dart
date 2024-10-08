@@ -76,9 +76,6 @@ class PriceCard extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: onPressed,
-                style: ElevatedButton.styleFrom(
-                  disabledBackgroundColor: MyColors.primary.withAlpha(100),
-                ),
                 child: Text(buttonText),
               ),
             ),
