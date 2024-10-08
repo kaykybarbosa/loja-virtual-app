@@ -54,6 +54,9 @@ dependencies:
 
   # Http
   dio: ^5.7.0
+  
+  # Formatar campos
+  brasil_fields: ^1.15.0
 
 dev_dependencies:
   flutter_test:
