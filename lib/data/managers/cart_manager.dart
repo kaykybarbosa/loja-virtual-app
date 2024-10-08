@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
+import 'package:lojavirtualapp/data/services/cep_service.dart';
 import 'package:lojavirtualapp/domain/models/cart_product_model.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/domain/models/user_model.dart';
@@ -106,6 +107,18 @@ class CartManager extends ChangeNotifier {
       items.removeWhere((item) => item.cartProductId == cartProduct.cartProductId);
 
       notifyListeners();
+    }
+  }
+
+  Future<void> getAddress(String cep) async {
+    try {
+      final cepService = CepService();
+
+      final address = cepService.getAddressFromCep(cep);
+
+      log('ADDRESS:  $address');
+    } catch (e) {
+      log(e.toString());
     }
   }
 }
