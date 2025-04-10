@@ -97,7 +97,7 @@ class ImageForm extends StatelessWidget {
                     ),
                   ),
                 ),
-              options: CarouselOptions(
+              options: FlutterCarouselOptions(
                 height: 300,
                 viewportFraction: 1,
                 slideIndicator: CircularSlideIndicator(

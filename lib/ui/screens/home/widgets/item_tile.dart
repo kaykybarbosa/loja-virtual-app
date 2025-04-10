@@ -19,6 +19,8 @@ class ItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
 
+    void contextPop() => context.pop();
+
     return GestureDetector(
       onTap: () {
         if (item.productId.isNotEmpty) {
@@ -78,7 +80,7 @@ class ItemTile extends StatelessWidget {
                           item.productId = product?.id ?? '';
                         }
 
-                        context.pop();
+                        contextPop();
                       },
                       child: Text(hasProduct ? 'Desvincular' : 'Vincular'),
                     ),
@@ -96,6 +98,7 @@ class ItemTile extends StatelessWidget {
                   placeholder: kTransparentImage,
                   image: item.image,
                   fit: BoxFit.cover,
+                  imageErrorBuilder: (_, __, ___) => SizedBox(),
                 )
               : Image.file(
                   item.image,

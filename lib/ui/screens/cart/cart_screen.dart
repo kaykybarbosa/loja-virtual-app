@@ -24,11 +24,7 @@ class CartScreen extends StatelessWidget {
               /// Preços
               PriceCard(
                 buttonText: 'Continuar para Entrega',
-                onPressed: cart.isCartValid
-                    ? () {
-                        context.push(AppRoutes.address);
-                      }
-                    : null,
+                onPressed: cart.isCartValid ? () => context.push(AppRoutes.address) : null,
               ),
             ],
           ),

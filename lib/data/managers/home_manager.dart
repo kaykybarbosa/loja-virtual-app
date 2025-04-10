@@ -39,9 +39,7 @@ class HomeManager extends ChangeNotifier {
 
   bool get savingSections => _savingSections;
 
-  List<SectionModel> get sections {
-    return editing ? _editingSections : _sections;
-  }
+  List<SectionModel> get sections => editing ? _editingSections : _sections;
 
   // S E T T E R S
   set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};

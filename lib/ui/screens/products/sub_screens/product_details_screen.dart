@@ -54,7 +54,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              options: CarouselOptions(
+              options: FlutterCarouselOptions(
                 height: 300,
                 viewportFraction: 1,
                 slideIndicator: CircularSlideIndicator(

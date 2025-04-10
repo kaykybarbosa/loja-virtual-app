@@ -25,6 +25,7 @@ class _CepInputFieldState extends State<_CepInputField> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 15,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         TextFormField(
@@ -33,7 +34,8 @@ class _CepInputFieldState extends State<_CepInputField> {
           decoration: const InputDecoration(
             isDense: true,
             labelText: 'CEP',
-            hintText: '12.345-678',
+            hintText: '12345-678',
+            hintStyle: TextStyle(color: MyColors.base500),
           ),
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
@@ -48,7 +50,6 @@ class _CepInputFieldState extends State<_CepInputField> {
             return null;
           },
         ),
-        const SizedBox(height: 5),
         ElevatedButton(
           onPressed: () async {
             if (Form.of(context).validate()) {
