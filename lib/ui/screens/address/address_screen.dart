@@ -2,6 +2,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
+import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 import 'package:provider/provider.dart';
 
 part 'widgets/_address_card.dart';
@@ -16,12 +17,16 @@ class AddressScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Entrega'),
       ),
-      body: Form(
-        child: ListView(
-          children: const [
-            _AddressCard(),
-          ],
-        ),
+      body: Consumer<CartManager>(
+        builder: (_, cart, __) {
+          return Form(
+            child: ListView(
+              children: const [
+                _AddressCard(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

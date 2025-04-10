@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/data/services/cep_service.dart';
+import 'package:lojavirtualapp/domain/models/address_model.dart';
 import 'package:lojavirtualapp/domain/models/cart_product_model.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/domain/models/user_model.dart';
@@ -10,6 +11,7 @@ import 'package:lojavirtualapp/domain/models/user_model.dart';
 class CartManager extends ChangeNotifier {
   List<CartProductModel> items = [];
   UserModel? currentUser;
+  AddressModel? address;
   num productsPrice = 0.0;
 
   bool get isCartValid {
@@ -113,10 +115,13 @@ class CartManager extends ChangeNotifier {
   Future<void> getAddress(String cep) async {
     try {
       final cepService = CepService();
+      final cepAbertoAddress = await cepService.getAddressFromCep(cep);
 
-      final address = cepService.getAddressFromCep(cep);
+      if (cepAbertoAddress != null) {
+        address = AddressModel.fromCepAbertoAddress(cepAbertoAddress);
 
-      log('ADDRESS:  $address');
+        notifyListeners();
+      }
     } catch (e) {
       log(e.toString());
     }

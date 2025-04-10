@@ -2,13 +2,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:lojavirtualapp/domain/models/address_model.dart';
+import 'package:lojavirtualapp/domain/models/cep_aberto_address_model.dart';
 
 class CepService {
   static String get _token => 'f2c0b2eabaf4b62467a9511595ae7bb0';
   static String get _baseUrl => 'https://www.cepaberto.com/api/v3';
 
-  Future<AddressModel?> getAddressFromCep(String cep) async {
+  Future<CepAbertoAddressModel?> getAddressFromCep(String cep) async {
     final String cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
     final String endpoint = '$_baseUrl/cep?cep=$cleanCep';
 
@@ -23,7 +23,7 @@ class CepService {
         return Future.error('CEP inválido');
       }
 
-      return AddressModel.fromMap(result.data!);
+      return CepAbertoAddressModel.fromMap(result.data!);
     } catch (e) {
       log(e.toString());
 
