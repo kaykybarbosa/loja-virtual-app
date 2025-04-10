@@ -10,8 +10,10 @@ import 'package:lojavirtualapp/domain/models/user_model.dart';
 
 class CartManager extends ChangeNotifier {
   List<CartProductModel> items = [];
+
   UserModel? currentUser;
   AddressModel? address;
+
   num productsPrice = 0.0;
 
   bool get isCartValid {
@@ -59,7 +61,7 @@ class CartManager extends ChangeNotifier {
 
       try {
         final cartProducts = result.docs
-            .map((doc) => CartProductModel.fromDocument(
+            .map((doc) async => CartProductModel.fromDocument(
                   doc.data() as Map<String, dynamic>,
                   cartProductId: doc.id,
                 ))
@@ -68,9 +70,11 @@ class CartManager extends ChangeNotifier {
         for (final cartProduct in cartProducts) {
           final item = await cartProduct;
 
-          items.add(item..addListener(_onItemUpdated));
+          if (!items.contains(item)) {
+            items.add(item..addListener(_onItemUpdated));
 
-          item.notifyListerners();
+            item.notifyListerners();
+          }
         }
       } catch (e) {
         log('ERRO AO CARREGAR O CARRINHO');
