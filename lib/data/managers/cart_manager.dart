@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/data/services/cep_service.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
@@ -15,6 +17,9 @@ class CartManager extends ChangeNotifier {
   AddressModel? address;
 
   num productsPrice = 0.0;
+  num? deliveryPrice;
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   bool get isCartValid {
     if (items.isEmpty) return false;
@@ -129,5 +134,45 @@ class CartManager extends ChangeNotifier {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  Future<void> setAddress(AddressModel address) async {
+    this.address = address;
+
+    final addressValid = await calculateDelivery(lat: address.lat, long: address.long);
+
+    if (addressValid) {
+    } else {
+      return Future.error('Endereço fora da área de entrega!');
+    }
+  }
+
+  void removeAddress() {
+    address = null;
+    notifyListeners();
+  }
+
+  Future<bool> calculateDelivery({required double lat, required double long}) async {
+    final doc = await firestore.doc('aux/delivery').get();
+
+    if (doc.exists) {
+      final double latStore = doc.data()!['lat'];
+      final double longStore = doc.data()!['long'];
+      final num maxKmStore = doc.data()!['maxKm'];
+
+      final num basePrice = doc.data()!['base_price'];
+      final num priceKm = doc.data()!['price_km'];
+
+      final double distance = Geolocator.distanceBetween(lat, long, latStore, longStore);
+      final double distanceInKm = distance / 1000;
+
+      if (distanceInKm > maxKmStore) return false;
+
+      deliveryPrice = basePrice + (distanceInKm * priceKm);
+
+      return true;
+    }
+
+    return false;
   }
 }
