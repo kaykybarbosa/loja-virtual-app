@@ -58,6 +58,9 @@ dependencies:
   # Formatar campos
   brasil_fields: ^1.15.0
 
+  # Geolocator
+  geolocator: ^13.0.4
+
 dependency_overrides:
   vibration: ^3.1.3
 
