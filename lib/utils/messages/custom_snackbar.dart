@@ -6,7 +6,7 @@ export 'package:animated_snack_bar/animated_snack_bar.dart';
 void customSnackbar(
   BuildContext context, {
   String message = '',
-  type = AnimatedSnackBarType.success,
+  AnimatedSnackBarType type = AnimatedSnackBarType.success,
 }) {
   AnimatedSnackBar.material(
     message,

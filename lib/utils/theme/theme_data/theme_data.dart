@@ -29,5 +29,8 @@ abstract class TThemeData {
           backgroundColor: MyColors.base100,
           foregroundColor: MyColors.primary,
         ),
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: TextStyle(color: MyColors.base500),
+        ),
       );
 }
