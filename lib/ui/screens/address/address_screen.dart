@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
+import 'package:lojavirtualapp/ui/common/price_card.dart';
 import 'package:lojavirtualapp/utils/extensions/string_extension.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
@@ -23,16 +24,21 @@ class AddressScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Entrega'),
       ),
-      body: Consumer<CartManager>(
-        builder: (_, cart, __) {
-          return Form(
-            child: ListView(
-              children: [
-                _AddressCard(address: cart.address),
-              ],
-            ),
-          );
-        },
+      body: Form(
+        child: ListView(
+          children: <Widget>[
+            /// Endereço
+            _AddressCard(),
+
+            /// Preço
+            Consumer<CartManager>(
+              builder: (_, cart, __) => PriceCard(
+                buttonText: 'Continuar para pagamento',
+                onPressed: cart.isAddressValid ? () {} : null,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

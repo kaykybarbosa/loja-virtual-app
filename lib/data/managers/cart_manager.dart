@@ -31,6 +31,10 @@ class CartManager extends ChangeNotifier {
     return true;
   }
 
+  num get totalPrice => productsPrice + (deliveryPrice ?? 0.0);
+
+  bool get isAddressValid => address != null && deliveryPrice != null;
+
   void addToCart(ProductModel product) {
     if (currentUser != null) {
       try {
@@ -142,6 +146,7 @@ class CartManager extends ChangeNotifier {
     final addressValid = await calculateDelivery(lat: address.lat, long: address.long);
 
     if (addressValid) {
+      notifyListeners();
     } else {
       return Future.error('Endereço fora da área de entrega!');
     }
@@ -149,6 +154,7 @@ class CartManager extends ChangeNotifier {
 
   void removeAddress() {
     address = null;
+    deliveryPrice = null;
     notifyListeners();
   }
 
