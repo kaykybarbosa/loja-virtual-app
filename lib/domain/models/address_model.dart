@@ -47,4 +47,30 @@ class AddressModel extends Equatable {
       long: cep.longitude ?? 0.0,
     );
   }
+
+  Map<String, dynamic> toMap() => {
+        'street': street,
+        'number': number,
+        'complement': complement,
+        'district': district,
+        'zipCode': zipCode,
+        'city': city,
+        'state': state,
+        'lat': lat,
+        'long': long,
+      };
+
+  factory AddressModel.fromMap(Map<String, dynamic> map) {
+    return AddressModel(
+      street: map['street'],
+      number: map['number'],
+      complement: map['complement'],
+      district: map['district'],
+      zipCode: map['zipCode'],
+      city: map['city'],
+      state: map['state'],
+      lat: map['lat'],
+      long: map['long'],
+    );
+  }
 }

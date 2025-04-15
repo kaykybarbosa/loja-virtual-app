@@ -1,17 +1,19 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:lojavirtualapp/domain/models/address_model.dart';
 
 class UserModel extends Equatable {
-  const UserModel({
+  UserModel({
     this.id = '',
     this.fullName = '',
     this.email = '',
     this.password = '',
     this.confirmPassword = '',
     this.isAdmin = false,
+    this.address,
   });
 
   final String id;
@@ -20,6 +22,7 @@ class UserModel extends Equatable {
   final String password;
   final String confirmPassword;
   final bool isAdmin;
+  AddressModel? address;
 
   @override
   List<Object?> get props => [
@@ -36,6 +39,11 @@ class UserModel extends Equatable {
 
   CollectionReference get cartRef => firebaseRef.collection('cart');
 
+  void setAddress(AddressModel address) {
+    this.address = address;
+    saveData();
+  }
+
   Future<void> saveData() async => await firebaseRef.set(toMapDB());
 
   UserModel copyWith({
@@ -45,6 +53,7 @@ class UserModel extends Equatable {
     String? password,
     String? confirmPassword,
     bool? isAdmin,
+    AddressModel? address,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -53,6 +62,7 @@ class UserModel extends Equatable {
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isAdmin: isAdmin ?? this.isAdmin,
+      address: address ?? this.address,
     );
   }
 
@@ -62,6 +72,7 @@ class UserModel extends Equatable {
         'email': email,
         'password': password,
         'confirmPassword': confirmPassword,
+        'address': address?.toMap(),
       };
 
   factory UserModel.fromMap(Map<String, dynamic> map) => UserModel(
@@ -70,6 +81,7 @@ class UserModel extends Equatable {
         email: map['email'],
         password: map['password'],
         confirmPassword: map['confirmPassword'],
+        address: map['address'] != null ? AddressModel.fromMap(map['address']) : null,
       );
 
   String toJson() => json.encode(toMap());
@@ -79,11 +91,13 @@ class UserModel extends Equatable {
   Map<String, dynamic> toMapDB() => {
         'fullName': fullName,
         'email': email,
+        if (address != null) 'address': address!.toMap(),
       };
 
   factory UserModel.fromMapDB(String documentId, Map<String, dynamic> document) => UserModel(
         id: documentId,
         fullName: document['fullName'] ?? '',
         email: document['email'] ?? '',
+        address: document['address'] != null ? AddressModel.fromMap(document['address']) : null,
       );
 }

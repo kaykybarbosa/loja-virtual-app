@@ -63,11 +63,16 @@ class CartManager extends ChangeNotifier {
   }
 
   Future<void> updateUser(UserManager userManager) async {
-    currentUser = userManager.getCurrentUser;
     items.clear();
+    removeAddress();
+    productsPrice = 0.0;
+    currentUser = userManager.getCurrentUser;
 
     if (currentUser != null) {
-      await _loadCartItens();
+      Future.wait([
+        _loadCartItens(),
+        _loadUserAddress(),
+      ]);
     }
   }
 
@@ -95,6 +100,18 @@ class CartManager extends ChangeNotifier {
       } catch (e) {
         log('ERRO AO CARREGAR O CARRINHO');
       }
+    }
+  }
+
+  Future<void> _loadUserAddress() async {
+    if (currentUser?.address != null &&
+        await calculateDelivery(
+          lat: currentUser!.address!.lat,
+          long: currentUser!.address!.long,
+        )) {
+      address = currentUser!.address;
+
+      notifyListeners();
     }
   }
 
@@ -156,6 +173,8 @@ class CartManager extends ChangeNotifier {
     final addressValid = await calculateDelivery(lat: address.lat, long: address.long);
 
     if (addressValid) {
+      currentUser?.setAddress(address);
+
       loading = false;
     } else {
       loading = false;

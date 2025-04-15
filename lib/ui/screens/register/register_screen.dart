@@ -20,7 +20,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  UserModel _user = const UserModel();
+  UserModel _user = UserModel();
 
   set user(UserModel user) => _user = user;
 
