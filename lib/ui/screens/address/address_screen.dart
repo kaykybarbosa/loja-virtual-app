@@ -5,6 +5,7 @@ import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/ui/common/price_card.dart';
+import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/utils/extensions/string_extension.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
@@ -33,7 +34,7 @@ class AddressScreen extends StatelessWidget {
             /// Preço
             Consumer<CartManager>(
               builder: (_, cart, __) => PriceCard(
-                buttonText: 'Continuar para pagamento',
+                buttonText: 'Continuar para Pagamento',
                 onPressed: cart.isAddressValid ? () {} : null,
               ),
             )

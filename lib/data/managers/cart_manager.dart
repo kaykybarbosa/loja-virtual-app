@@ -21,6 +21,13 @@ class CartManager extends ChangeNotifier {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
+
   bool get isCartValid {
     if (items.isEmpty) return false;
 
@@ -127,27 +134,31 @@ class CartManager extends ChangeNotifier {
 
   Future<void> getAddress(String cep) async {
     try {
+      loading = true;
+
       final cepService = CepService();
       final cepAbertoAddress = await cepService.getAddressFromCep(cep);
 
       if (cepAbertoAddress != null) {
         address = AddressModel.fromCepAbertoAddress(cepAbertoAddress);
-
-        notifyListeners();
       }
     } catch (e) {
-      log(e.toString());
+      return Future.error('CEP Inválido.');
+    } finally {
+      loading = false;
     }
   }
 
   Future<void> setAddress(AddressModel address) async {
+    loading = true;
     this.address = address;
 
     final addressValid = await calculateDelivery(lat: address.lat, long: address.long);
 
     if (addressValid) {
-      notifyListeners();
+      loading = false;
     } else {
+      loading = false;
       return Future.error('Endereço fora da área de entrega!');
     }
   }

@@ -10,6 +10,7 @@ class SubmitFormButton extends StatelessWidget {
     this.height = 44,
     this.disablebackgroundColor,
     this.onPressed,
+    this.textStyle,
   });
 
   final String text;
@@ -18,6 +19,7 @@ class SubmitFormButton extends StatelessWidget {
   final double? height;
   final Color? disablebackgroundColor;
   final Function()? onPressed;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -36,7 +38,7 @@ class SubmitFormButton extends StatelessWidget {
                 )
               : Text(
                   text,
-                  style: const TextStyle(fontSize: 18),
+                  style: textStyle ?? const TextStyle(fontSize: 18),
                 ),
         ),
       );

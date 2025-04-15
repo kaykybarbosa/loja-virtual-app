@@ -26,16 +26,20 @@ class _CepInputFieldState extends State<_CepInputField> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLoading = context.watch<CartManager>().loading;
+
     if (widget.adrress == null) {
       return Column(
         spacing: 15,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          /// Textfield
           TextFormField(
             controller: _controller,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               isDense: true,
+              enabled: !isLoading,
               labelText: 'CEP',
               hintText: '12345-678',
               hintStyle: TextStyle(color: MyColors.base500),
@@ -53,14 +57,26 @@ class _CepInputFieldState extends State<_CepInputField> {
               return null;
             },
           ),
-          ElevatedButton(
+
+          /// Buscar CEP Btn
+          SubmitFormButton(
+            text: 'Buscar CEP',
+            isLoading: isLoading,
+            textStyle: TextStyle(),
             onPressed: () async {
               if (Form.of(context).validate()) {
-                context.read<CartManager>().getAddress(_controller.text);
+                try {
+                  await context.read<CartManager>().getAddress(_controller.text);
+                } catch (e) {
+                  customSnackbar(
+                    context,
+                    message: e.toString(),
+                    type: AnimatedSnackBarType.error,
+                  );
+                }
               }
             },
-            child: const Text('Buscar CEP'),
-          )
+          ),
         ],
       );
     } else {
@@ -70,9 +86,9 @@ class _CepInputFieldState extends State<_CepInputField> {
           Text(
             'CEP: ${widget.adrress?.zipCode.formatCep}',
             style: TextStyle(
+              fontSize: 16,
               color: MyColors.primary,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
             ),
           ),
           CustomIconButton(

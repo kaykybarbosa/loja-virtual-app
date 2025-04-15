@@ -13,11 +13,14 @@ class _AddressInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = context.watch<CartManager>().loading;
+
     return Column(
       spacing: 15,
       children: <Widget>[
         /// Rua
         TextFormField(
+          enabled: !isLoading,
           initialValue: address.street,
           decoration: InputDecoration(
             isDense: true,
@@ -34,6 +37,7 @@ class _AddressInputField extends StatelessWidget {
             /// -- Número
             Expanded(
               child: TextFormField(
+                enabled: !isLoading,
                 initialValue: address.number,
                 decoration: InputDecoration(
                   isDense: true,
@@ -52,6 +56,7 @@ class _AddressInputField extends StatelessWidget {
             /// -- Complemento
             Expanded(
               child: TextFormField(
+                enabled: !isLoading,
                 initialValue: address.complement,
                 decoration: InputDecoration(
                   isDense: true,
@@ -66,6 +71,7 @@ class _AddressInputField extends StatelessWidget {
 
         /// Bairro
         TextFormField(
+          enabled: !isLoading,
           initialValue: address.district,
           decoration: InputDecoration(
             isDense: true,
@@ -84,6 +90,7 @@ class _AddressInputField extends StatelessWidget {
             Expanded(
               flex: 3,
               child: TextFormField(
+                enabled: !isLoading,
                 initialValue: address.city,
                 decoration: InputDecoration(
                   isDense: true,
@@ -100,6 +107,7 @@ class _AddressInputField extends StatelessWidget {
               child: TextFormField(
                 maxLength: 2,
                 autocorrect: false,
+                enabled: !isLoading,
                 initialValue: address.state,
                 textCapitalization: TextCapitalization.characters,
                 decoration: InputDecoration(

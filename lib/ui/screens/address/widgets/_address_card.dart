@@ -9,6 +9,7 @@ class _AddressCard extends StatelessWidget {
     final AddressModel? address = cartManager.address;
     final String complement = address?.complement ?? '';
     final num? deliveryPrice = cartManager.deliveryPrice;
+    final bool isLoading = cartManager.loading;
 
     Future<void> setAddress(AddressModel address) async {
       try {
@@ -39,14 +40,16 @@ class _AddressCard extends StatelessWidget {
             SizedBox(height: 20),
 
             /// Botão Calcular Frete
-            ElevatedButton(
+            SubmitFormButton(
+              text: 'Calcular frete',
+              isLoading: isLoading,
+              textStyle: TextStyle(),
               onPressed: () async {
                 if (Form.of(context).validate()) {
                   Form.of(context).save();
                   setAddress(address);
                 }
               },
-              child: const Text('Calcular frete'),
             ),
           ],
         );
