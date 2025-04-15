@@ -38,13 +38,13 @@ class AddressModel extends Equatable {
 
   factory AddressModel.fromCepAbertoAddress(CepAbertoAddressModel cep) {
     return AddressModel(
-      street: cep.street,
-      district: cep.neighborhood,
+      street: cep.street ?? '',
+      district: cep.neighborhood ?? '',
       zipCode: cep.cep,
-      city: cep.city.name,
-      state: cep.state.acronym,
-      lat: cep.latitude,
-      long: cep.longitude,
+      city: cep.city.name ?? '',
+      state: cep.state.acronym ?? '',
+      lat: cep.latitude ?? 0.0,
+      long: cep.longitude ?? 0.0,
     );
   }
 }

@@ -2,26 +2,26 @@ import 'package:equatable/equatable.dart';
 
 class CepAbertoAddressModel extends Equatable {
   const CepAbertoAddressModel({
-    required this.altitude,
-    required this.latitude,
-    required this.longitude,
+    this.altitude,
+    this.latitude,
+    this.longitude,
     required this.cep,
-    required this.street,
-    required this.neighborhood,
+    this.street,
+    this.neighborhood,
     required this.city,
     required this.state,
   });
 
-  final double altitude;
-  final double latitude;
-  final double longitude;
+  final double? altitude;
+  final double? latitude;
+  final double? longitude;
   final String cep;
 
   /// Logradouro
-  final String street;
+  final String? street;
 
   /// Bairro
-  final String neighborhood;
+  final String? neighborhood;
 
   final CityModel city;
   final StateModel state;
@@ -52,12 +52,12 @@ class CepAbertoAddressModel extends Equatable {
 
 class CityModel extends Equatable {
   const CityModel({
-    required this.ddd,
-    required this.name,
+    this.ddd,
+    this.name,
   });
 
-  final int ddd;
-  final String name;
+  final int? ddd;
+  final String? name;
 
   factory CityModel.fromMap(Map<String, dynamic> map) => CityModel(
         ddd: map['ddd'],
@@ -69,9 +69,9 @@ class CityModel extends Equatable {
 }
 
 class StateModel extends Equatable {
-  const StateModel({required this.acronym});
+  const StateModel({this.acronym});
 
-  final String acronym;
+  final String? acronym;
 
   factory StateModel.fromMap(Map<String, dynamic> map) => StateModel(acronym: map['sigla']);
 
