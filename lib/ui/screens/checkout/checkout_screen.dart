@@ -4,7 +4,10 @@ import 'package:lojavirtualapp/data/managers/checkout_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/price_card.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
+import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 import 'package:provider/provider.dart';
+
+part 'widgets/_order_loading.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -18,28 +21,35 @@ class CheckoutScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text('Pagamento')),
         body: Consumer<CheckoutManager>(
-          builder: (_, checkout, __) => ListView(
-            children: <Widget>[
-              PriceCard(
-                onPressed: () {
-                  checkout.checkout(
-                    onStockFail: (error) {
-                      Navigator.of(context).popUntil(
-                        (route) => route.settings.name == AppRoutes.cart,
-                      );
+          builder: (_, checkout, __) => checkout.loading
+              ? _OrderLoading()
+              : ListView(
+                  children: <Widget>[
+                    PriceCard(
+                      onPressed: () {
+                        checkout.checkout(
+                          onSuccess: () {
+                            Navigator.of(context).popUntil(
+                              (route) => route.settings.name == AppRoutes.base,
+                            );
+                          },
+                          onStockFail: (error) {
+                            Navigator.of(context).popUntil(
+                              (route) => route.settings.name == AppRoutes.cart,
+                            );
 
-                      customSnackbar(
-                        context,
-                        message: error,
-                        type: AnimatedSnackBarType.error,
-                      );
-                    },
-                  );
-                },
-                buttonText: 'Finalizar Pedido',
-              )
-            ],
-          ),
+                            customSnackbar(
+                              context,
+                              message: error,
+                              type: AnimatedSnackBarType.error,
+                            );
+                          },
+                        );
+                      },
+                      buttonText: 'Finalizar Pedido',
+                    )
+                  ],
+                ),
         ),
       ),
     );
