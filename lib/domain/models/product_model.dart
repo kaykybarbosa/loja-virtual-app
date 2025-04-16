@@ -103,6 +103,8 @@ class ProductModel extends Equatable with ChangeNotifier {
         'sizes': sizes.map((size) => size.toMap()).toList(),
       };
 
+  List<Map<String, dynamic>> exportSizeList() => sizes.map((size) => size.toMap()).toList();
+
   factory ProductModel.fromMap(Map<String, dynamic> map, {String? documentId}) => ProductModel(
         id: documentId ?? '',
         name: map['name'],

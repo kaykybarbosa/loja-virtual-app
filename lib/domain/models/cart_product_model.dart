@@ -21,11 +21,11 @@ class CartProductModel extends Equatable with ChangeNotifier {
         size = product.getSelectedSize?.name ?? '';
 
   String? cartProductId;
-  final ProductModel product;
+  ProductModel product;
   final String productId;
   final String size;
   int quantity;
-  
+
   static final _store = FirebaseFirestore.instance;
 
   // G E T T E R S
@@ -46,6 +46,12 @@ class CartProductModel extends Equatable with ChangeNotifier {
 
   @override
   List<Object?> get props => [cartProductId, product, productId, size, quantity];
+
+  // S E T T E R S
+  void setProduct(ProductModel product) {
+    this.product = product;
+    notifyListeners();
+  }
 
   // F U N C T I O N S
 
