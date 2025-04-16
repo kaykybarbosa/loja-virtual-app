@@ -10,16 +10,29 @@ class CheckoutManager extends ChangeNotifier {
 
   late CartManager cartManager;
 
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
+
   void updateCart(CartManager cart) {
     cartManager = cart;
   }
 
-  Future<void> checkout({Function(String e)? onStockFail}) async {
+  Future<void> checkout({
+    Function(String e)? onStockFail,
+    Function? onSuccess,
+  }) async {
+    loading = true;
+
     try {
       await _decrementStock();
     } catch (e) {
       if (onStockFail != null) onStockFail(e.toString());
 
+      loading = false;
       return;
     }
 
@@ -28,7 +41,14 @@ class CheckoutManager extends ChangeNotifier {
     final OrderModel order = OrderModel.fromCartManager(cartManager);
     order.orderId = orderId.toString();
 
-    order.save();
+    await Future.wait([
+      order.save(),
+      cartManager.clear(),
+    ]);
+
+    if (onSuccess != null) onSuccess();
+
+    loading = false;
   }
 
   // U T I L S //

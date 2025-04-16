@@ -211,4 +211,16 @@ class CartManager extends ChangeNotifier {
 
     return false;
   }
+
+  Future<void> clear() async {
+    // Limpa os produtos no firebase
+    for (final cartProduct in items) {
+      await currentUser!.cartRef.doc(cartProduct.cartProductId).delete();
+    }
+
+    // Limpa os produtos local
+    items.clear();
+
+    notifyListeners();
+  }
 }
