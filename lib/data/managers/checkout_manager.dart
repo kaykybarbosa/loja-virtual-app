@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/domain/models/item_size_model.dart';
+import 'package:lojavirtualapp/domain/models/order_model.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 
 class CheckoutManager extends ChangeNotifier {
@@ -18,9 +19,16 @@ class CheckoutManager extends ChangeNotifier {
       await _decrementStock();
     } catch (e) {
       if (onStockFail != null) onStockFail(e.toString());
+
+      return;
     }
 
-    _getOrderId();
+    final int orderId = await _getOrderId();
+
+    final OrderModel order = OrderModel.fromCartManager(cartManager);
+    order.orderId = orderId.toString();
+
+    order.save();
   }
 
   // U T I L S //

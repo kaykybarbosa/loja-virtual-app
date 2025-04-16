@@ -76,6 +76,12 @@ class CartProductModel extends Equatable with ChangeNotifier {
         'quantity': quantity,
       };
 
+  Map<String, dynamic> toOrderItemMap() => {
+        'productId': productId,
+        'size': size,
+        'quantity': quantity,
+      };
+
   bool isStackable(ProductModel product) {
     return product.id == productId && (product.getSelectedSize?.name ?? '') == size;
   }
