@@ -4,6 +4,7 @@ import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/screens/address/address_screen.dart';
 import 'package:lojavirtualapp/ui/screens/base/base_screen.dart';
 import 'package:lojavirtualapp/ui/screens/cart/cart_screen.dart';
+import 'package:lojavirtualapp/ui/screens/checkout/checkout_screen.dart';
 import 'package:lojavirtualapp/ui/screens/home/sub_screens/select_product_screen.dart';
 import 'package:lojavirtualapp/ui/screens/login/login_screen.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/edit_product_screen.dart';
@@ -44,6 +45,10 @@ final routerConfig = GoRouter(
     GoRoute(
       path: AppRoutes.address,
       builder: (context, state) => const AddressScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.checkout,
+      builder: (context, state) => const CheckoutScreen(),
     ),
   ],
 );

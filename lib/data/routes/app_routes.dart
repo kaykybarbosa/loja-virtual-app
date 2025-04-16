@@ -7,4 +7,5 @@ abstract class AppRoutes {
   static String editProduct = '/edit-product';
   static String selectProduct = '/select-product';
   static String address = '/address';
+  static String checkout = '/checkout';
 }

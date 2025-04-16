@@ -1,7 +1,9 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/ui/common/price_card.dart';
@@ -35,7 +37,11 @@ class AddressScreen extends StatelessWidget {
             Consumer<CartManager>(
               builder: (_, cart, __) => PriceCard(
                 buttonText: 'Continuar para Pagamento',
-                onPressed: cart.isAddressValid ? () {} : null,
+                onPressed: cart.isAddressValid
+                    ? () {
+                        context.push(AppRoutes.checkout);
+                      }
+                    : null,
               ),
             )
           ],
