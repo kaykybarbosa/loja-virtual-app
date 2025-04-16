@@ -80,6 +80,7 @@ class CartProductModel extends Equatable with ChangeNotifier {
         'productId': productId,
         'size': size,
         'quantity': quantity,
+        'price': product.findSize(size)?.price ?? 0.0,
       };
 
   bool isStackable(ProductModel product) {
