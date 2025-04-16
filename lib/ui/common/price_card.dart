@@ -71,7 +71,8 @@ class PriceCard extends StatelessWidget {
                 const Text(
                   'Total',
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(

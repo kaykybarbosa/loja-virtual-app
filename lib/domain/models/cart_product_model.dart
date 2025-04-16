@@ -25,6 +25,7 @@ class CartProductModel extends Equatable with ChangeNotifier {
   final String productId;
   final String size;
   int quantity;
+  
   static final _store = FirebaseFirestore.instance;
 
   // G E T T E R S
