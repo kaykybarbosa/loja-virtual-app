@@ -12,10 +12,12 @@ class CartProductModel extends Equatable with ChangeNotifier {
     required this.productId,
     required this.size,
     required this.quantity,
+    this.fixedPrice,
   });
 
   CartProductModel.fromProduct(this.product)
       : cartProductId = null,
+        fixedPrice = null,
         productId = product.id,
         quantity = 1,
         size = product.getSelectedSize?.name ?? '';
@@ -25,6 +27,7 @@ class CartProductModel extends Equatable with ChangeNotifier {
   final String productId;
   final String size;
   int quantity;
+  final num? fixedPrice;
 
   static final _store = FirebaseFirestore.instance;
 
@@ -45,7 +48,7 @@ class CartProductModel extends Equatable with ChangeNotifier {
   num get totalPrice => unitPrice * quantity;
 
   @override
-  List<Object?> get props => [cartProductId, product, productId, size, quantity];
+  List<Object?> get props => [cartProductId, product, productId, size, quantity, fixedPrice];
 
   // S E T T E R S
   void setProduct(ProductModel product) {
@@ -80,7 +83,7 @@ class CartProductModel extends Equatable with ChangeNotifier {
         'productId': productId,
         'size': size,
         'quantity': quantity,
-        'price': product.findSize(size)?.price ?? 0.0,
+        'fixedPrice': fixedPrice ?? unitPrice,
       };
 
   bool isStackable(ProductModel product) {
@@ -106,4 +109,4 @@ class CartProductModel extends Equatable with ChangeNotifier {
   void decrement() => {quantity--, notifyListeners()};
 
   void notifyListerners() => notifyListeners();
-}
+} 
