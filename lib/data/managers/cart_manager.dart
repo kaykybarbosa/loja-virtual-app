@@ -66,7 +66,7 @@ class CartManager extends ChangeNotifier {
     items.clear();
     removeAddress();
     productsPrice = 0.0;
-    currentUser = userManager.getCurrentUser;
+    currentUser = userManager.currentUser;
 
     if (currentUser != null) {
       Future.wait([

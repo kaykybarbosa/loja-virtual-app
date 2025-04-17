@@ -91,7 +91,7 @@ class UserManager extends ChangeNotifier {
   // G E T T E R S
   bool get isLoading => _isLoading;
 
-  UserModel? get getCurrentUser => _currentUser;
+  UserModel? get currentUser => _currentUser;
 
   bool get currentUserIsAuth => _currentUser != null;
 
@@ -100,5 +100,5 @@ class UserManager extends ChangeNotifier {
   // S E T T E R S
   set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};
 
-  set currentUser(UserModel user) => {_currentUser = user, notifyListeners()};
+  set currentUser(UserModel? user) => {_currentUser = user, notifyListeners()};
 }
