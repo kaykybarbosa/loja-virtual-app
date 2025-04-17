@@ -29,9 +29,9 @@ class CartProductModel extends Equatable with ChangeNotifier {
   int quantity;
   final num? fixedPrice;
 
-  static final _store = FirebaseFirestore.instance;
-
   // G E T T E R S
+
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   ItemSizeModel? get itemSize => product.findSize(size);
 
@@ -58,10 +58,14 @@ class CartProductModel extends Equatable with ChangeNotifier {
 
   // F U N C T I O N S
 
+  static Future<DocumentSnapshot<Map<String, dynamic>>> _getProductById(String productId) async {
+    return await _firestore.collection('products').doc(productId).get();
+  }
+
   static Future<CartProductModel> fromDocument(Map<String, dynamic> map, {String? cartProductId}) async {
     final productId = map['productId'];
 
-    final result = await _store.collection('products').doc(productId).get();
+    final result = await _getProductById(productId);
     ProductModel product = ProductModel.fromMap(result.data() as Map<String, dynamic>);
 
     return CartProductModel(
@@ -70,6 +74,21 @@ class CartProductModel extends Equatable with ChangeNotifier {
       productId: productId,
       size: map['size'],
       quantity: map['quantity'],
+    );
+  }
+
+  static Future<CartProductModel> fromOrderItem(Map<String, dynamic> map) async {
+    final String productId = map['productId'];
+
+    final result = await _getProductById(productId);
+    ProductModel product = ProductModel.fromMap(result.data() as Map<String, dynamic>);
+
+    return CartProductModel(
+      product: product,
+      productId: productId,
+      size: map['size'],
+      quantity: map['quantity'],
+      fixedPrice: map['fixedPrice'],
     );
   }
 
@@ -109,4 +128,4 @@ class CartProductModel extends Equatable with ChangeNotifier {
   void decrement() => {quantity--, notifyListeners()};
 
   void notifyListerners() => notifyListeners();
-} 
+}

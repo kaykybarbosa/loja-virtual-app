@@ -45,4 +45,32 @@ class OrderModel extends Equatable {
       'date': FieldValue.serverTimestamp(),
     });
   }
+
+  static Future<OrderModel> fromDocument(
+    Map<String, dynamic> doc, {
+    required String orderId,
+  }) async {
+    final List<CartProductModel> items = [];
+
+    final futureItems = doc['items']
+        .map(
+          (item) async => await CartProductModel.fromOrderItem(item),
+        )
+        .toList();
+
+    for (final futureItem in futureItems) {
+      final item = await futureItem;
+
+      items.add(item);
+    }
+
+    return OrderModel(
+      userId: doc['userId'],
+      orderId: orderId,
+      price: doc['price'],
+      items: items,
+      address: AddressModel.fromMap(doc['address']),
+      date: doc['date'],
+    );
+  }
 }
