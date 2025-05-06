@@ -17,12 +17,12 @@ class OrderModel extends Equatable {
   });
 
   OrderModel.fromCartManager(CartManager cart)
-      : orderId = '',
-        userId = cart.currentUser!.id,
-        price = cart.totalPrice,
-        items = List.from(cart.items),
-        address = cart.address!,
-        date = null;
+    : orderId = '',
+      userId = cart.currentUser!.id,
+      price = cart.totalPrice,
+      items = List.from(cart.items),
+      address = cart.address!,
+      date = null;
 
   String userId;
   String orderId;
@@ -32,6 +32,8 @@ class OrderModel extends Equatable {
   Timestamp? date;
 
   FirebaseFirestore get _firestore => FirebaseFirestore.instance;
+
+  String get orderIdFormatter => '#${orderId.padLeft(6, '0')}';
 
   @override
   List<Object?> get props => [userId, orderId, price, items, address, date];
@@ -52,11 +54,10 @@ class OrderModel extends Equatable {
   }) async {
     final List<CartProductModel> items = [];
 
-    final futureItems = doc['items']
-        .map(
-          (item) async => await CartProductModel.fromOrderItem(item),
-        )
-        .toList();
+    final futureItems =
+        doc['items']
+            .map((item) async => await CartProductModel.fromOrderItem(item))
+            .toList();
 
     for (final futureItem in futureItems) {
       final item = await futureItem;

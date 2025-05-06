@@ -1,7 +1,9 @@
-part of '../cart_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
 
-class _LoginCard extends StatelessWidget {
-  const _LoginCard();
+class LoginCard extends StatelessWidget {
+  const LoginCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,11 @@ class _LoginCard extends StatelessWidget {
 
               // Botão
               ElevatedButton(
-                  onPressed: () {
-                    context.push(AppRoutes.login);
-                  },
-                  child: Text('Login'))
+                onPressed: () {
+                  context.push(AppRoutes.login);
+                },
+                child: Text('Login'),
+              ),
             ],
           ),
         ),

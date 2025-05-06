@@ -27,8 +27,8 @@ abstract class AppProviders {
       create: (_) => HomeManager(),
     ),
     ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
-      create: (context) => AdminUsersManager(),
       lazy: false,
+      create: (context) => AdminUsersManager(),
       update: (_, userManager, adminUsersManager) => adminUsersManager!..updateUser(userManager),
     ),
     ChangeNotifierProxyProvider<UserManager, OrdersManager>(
