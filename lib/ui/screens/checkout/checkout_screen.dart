@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/data/managers/checkout_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
@@ -17,39 +18,44 @@ class CheckoutScreen extends StatelessWidget {
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       lazy: false,
       create: (_) => CheckoutManager(),
-      update: (_, cartManager, checkoutManager) => checkoutManager!..updateCart(cartManager),
+      update:
+          (_, cartManager, checkoutManager) => checkoutManager!..updateCart(cartManager),
       child: Scaffold(
         appBar: AppBar(title: const Text('Pagamento')),
         body: Consumer<CheckoutManager>(
-          builder: (_, checkout, __) => checkout.loading
-              ? _OrderLoading()
-              : ListView(
-                  children: <Widget>[
-                    PriceCard(
-                      onPressed: () {
-                        checkout.checkout(
-                          onSuccess: () {
-                            Navigator.of(context).popUntil(
-                              (route) => route.settings.name == AppRoutes.base,
-                            );
-                          },
-                          onStockFail: (error) {
-                            Navigator.of(context).popUntil(
-                              (route) => route.settings.name == AppRoutes.cart,
-                            );
+          builder:
+              (_, checkout, __) =>
+                  checkout.loading
+                      ? _OrderLoading()
+                      : ListView(
+                        children: <Widget>[
+                          PriceCard(
+                            onPressed: () {
+                              checkout.checkout(
+                                onSuccess: (order) {
+                                  Navigator.of(context).popUntil(
+                                    (route) => route.settings.name == AppRoutes.base,
+                                  );
 
-                            customSnackbar(
-                              context,
-                              message: error,
-                              type: AnimatedSnackBarType.error,
-                            );
-                          },
-                        );
-                      },
-                      buttonText: 'Finalizar Pedido',
-                    )
-                  ],
-                ),
+                                  context.push(AppRoutes.confirmation, extra: order);
+                                },
+                                onStockFail: (error) {
+                                  Navigator.of(context).popUntil(
+                                    (route) => route.settings.name == AppRoutes.cart,
+                                  );
+
+                                  customSnackbar(
+                                    context,
+                                    message: error,
+                                    type: AnimatedSnackBarType.error,
+                                  );
+                                },
+                              );
+                            },
+                            buttonText: 'Finalizar Pedido',
+                          ),
+                        ],
+                      ),
         ),
       ),
     );

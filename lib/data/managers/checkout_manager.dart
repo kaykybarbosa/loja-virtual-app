@@ -21,10 +21,7 @@ class CheckoutManager extends ChangeNotifier {
     cartManager = cart;
   }
 
-  Future<void> checkout({
-    Function(String e)? onStockFail,
-    Function? onSuccess,
-  }) async {
+  Future<void> checkout({Function(String e)? onStockFail, Function? onSuccess}) async {
     loading = true;
 
     try {
@@ -41,12 +38,9 @@ class CheckoutManager extends ChangeNotifier {
     final OrderModel order = OrderModel.fromCartManager(cartManager);
     order.orderId = orderId.toString();
 
-    await Future.wait([
-      order.save(),
-      cartManager.clear(),
-    ]);
+    await Future.wait([order.save(), cartManager.clear()]);
 
-    if (onSuccess != null) onSuccess();
+    if (onSuccess != null) onSuccess(order);
 
     loading = false;
   }

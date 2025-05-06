@@ -8,4 +8,5 @@ abstract class AppRoutes {
   static String selectProduct = '/select-product';
   static String address = '/address';
   static String checkout = '/checkout';
+  static String confirmation = '/confirmation';
 }
