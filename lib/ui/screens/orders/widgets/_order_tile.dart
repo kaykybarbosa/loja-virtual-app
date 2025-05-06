@@ -44,12 +44,10 @@ class _OrderTile extends StatelessWidget {
         children: <Widget>[
           Column(
             children:
-                order.items.map((item) => _OrderItemTile(cartProduct: item)).toList(),
+                order.items.map((item) => OrderItemTile(cartProduct: item)).toList(),
           ),
         ],
       ),
     );
   }
 }
-
-

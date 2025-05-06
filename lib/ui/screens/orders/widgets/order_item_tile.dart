@@ -1,7 +1,11 @@
-part of '../orders_screen.dart';
 
-class _OrderItemTile extends StatelessWidget {
-  const _OrderItemTile({required this.cartProduct});
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
+import 'package:lojavirtualapp/domain/models/cart_product_model.dart';
+
+class OrderItemTile extends StatelessWidget {
+  const OrderItemTile({super.key, required this.cartProduct});
 
   final CartProductModel cartProduct;
 
