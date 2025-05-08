@@ -1,9 +1,10 @@
 part of '../orders_screen.dart';
 
 class OrderTile extends StatelessWidget {
-  const OrderTile({super.key, required this.order});
+  const OrderTile({super.key, required this.order, this.showControls = false});
 
   final OrderModel order;
+  final bool showControls;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +48,47 @@ class OrderTile extends StatelessWidget {
           ],
         ),
         children: <Widget>[
+          /// Items
           Column(
             children:
                 order.items.map((item) => OrderItemTile(cartProduct: item)).toList(),
           ),
+
+          /// Ações
+          if (showControls)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                TextButton(
+                  onPressed: order.status.isCanceled ? null : () {},
+                  child: Text(
+                    'Cancelar',
+                    style:
+                        order.status.isCanceled ? null : TextStyle(color: MyColors.warn),
+                  ),
+                ),
+                TextButton(
+                  onPressed: order.status.isCanceled ? null : order.back,
+                  child: Text(
+                    'Recuar',
+                    style: TextStyle(color: order.back != null ? Colors.black : null),
+                  ),
+                ),
+                TextButton(
+                  onPressed: order.status.isCanceled ? null : order.advance,
+                  child: Text(
+                    'Avançar',
+                    style:
+                        order.status.isCanceled
+                            ? null
+                            : TextStyle(
+                              color: order.advance != null ? Colors.black : null,
+                            ),
+                  ),
+                ),
+                TextButton(onPressed: () {}, child: Text('Endereço', style: TextStyle())),
+              ],
+            ),
         ],
       ),
     );

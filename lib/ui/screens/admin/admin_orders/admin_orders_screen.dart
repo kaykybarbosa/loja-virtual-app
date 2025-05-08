@@ -13,7 +13,7 @@ class AdminOrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const CustomDrawer(),
-      appBar: AppBar(title: const Text('Meus Pedidos')),
+      appBar: AppBar(title: const Text('Todos os Pedidos')),
       body: Consumer<AdminOrdersManager>(
         builder: (_, ordersManager, _) {
           if (ordersManager.orders.isEmpty) {
@@ -28,7 +28,7 @@ class AdminOrdersScreen extends StatelessWidget {
             itemBuilder: (_, i) {
               final OrderModel order = ordersManager.orders.reversed.toList()[i];
 
-              return OrderTile(order: order);
+              return OrderTile(order: order, showControls: true);
             },
           );
         },

@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/domain/enums/order_status.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
@@ -37,20 +38,22 @@ class OrderModel extends Equatable {
 
   FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
+  DocumentReference get _orderRef => _firestore.collection('orders').doc(orderId);
+
   String get orderIdFormatter => '#${orderId.padLeft(6, '0')}';
 
   @override
   List<Object?> get props => [userId, orderId, price, items, address, date];
 
   Future<void> save() async {
-    _firestore.collection('orders').doc(orderId).set({
+    _orderRef.set({
       'userId': userId,
       'price': price,
       'items': items.map((item) => item.toOrderItemMap()).toList(),
       'address': address.toMap(),
       'date': FieldValue.serverTimestamp(),
       'status': status.index,
-    }); 
+    });
   }
 
   static Future<OrderModel> fromDocument(
@@ -80,4 +83,15 @@ class OrderModel extends Equatable {
       status: OrderStatus.values[doc['status'] ?? OrderStatus.preparing.index],
     );
   }
+
+  VoidCallback? get back =>
+      status.index >= OrderStatus.transporting.index
+          ? () => _updateStatus(OrderStatus.values[status.index - 1].index)
+          : null;
+  VoidCallback? get advance =>
+      status.index <= OrderStatus.transporting.index
+          ? () => _updateStatus(OrderStatus.values[status.index + 1].index)
+          : null;
+
+  void _updateStatus(int index) => _orderRef.update({'status': index});
 }
