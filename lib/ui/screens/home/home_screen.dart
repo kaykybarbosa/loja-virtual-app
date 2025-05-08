@@ -16,111 +16,106 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        drawer: const CustomDrawer(),
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    MyColors.gradientHome1,
-                    MyColors.gradientHome2,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
+    drawer: const CustomDrawer(),
+    body: Stack(
+      children: <Widget>[
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: <Color>[MyColors.gradientHome1, MyColors.gradientHome2],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            CustomScrollView(
-              slivers: <Widget>[
-                /// AppBar
-                SliverAppBar(
-                  snap: true,
-                  floating: true,
-                  scrolledUnderElevation: 0,
-                  backgroundColor: Colors.transparent,
-                  flexibleSpace: const FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(
-                      'Loja do Kbuloso',
-                      style: TextStyle(color: MyColors.base100),
-                    ),
-                  ),
-                  actions: <Widget>[
-                    /// -- Carrinho
-                    IconButton(
-                      onPressed: () => context.push(AppRoutes.cart),
-                      icon: const Icon(MyIcons.cart),
-                    ),
-
-                    /// -- Editar
-                    Consumer2<UserManager, HomeManager>(
-                      builder: (_, user, home, __) {
-                        if (user.adminEnabled && !home.savingSections) {
-                          if (home.editing) {
-                            return PopupMenuButton(
-                              onSelected: (value) {
-                                if (value == 'Salvar') {
-                                  home.saveEditing();
-                                } else {
-                                  home.discardEditing();
-                                }
-                              },
-                              itemBuilder: (_) => ['Salvar', 'Descartar']
-                                  .map(
-                                    (option) => PopupMenuItem(
-                                      value: option,
-                                      child: Text(option),
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          } else {
-                            return IconButton(
-                              icon: const Icon(MyIcons.edit),
-                              onPressed: home.enterEditing,
-                            );
-                          }
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    )
-                  ],
+          ),
+        ),
+        CustomScrollView(
+          slivers: <Widget>[
+            /// AppBar
+            SliverAppBar(
+              snap: true,
+              floating: true,
+              scrolledUnderElevation: 0,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: const FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text('Loja do Kbuloso', style: TextStyle(color: MyColors.base100)),
+              ),
+              actions: <Widget>[
+                /// -- Carrinho
+                IconButton(
+                  onPressed: () => context.push(AppRoutes.cart),
+                  icon: const Icon(MyIcons.cart),
                 ),
 
-                /// Info
-                Consumer<HomeManager>(
-                  builder: (_, homeManager, __) => homeManager.savingSections || homeManager.isLoading
-                      ? const SliverToBoxAdapter(
-                          child: LinearProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(MyColors.base100),
-                            backgroundColor: Colors.transparent,
-                          ),
-                        )
-                      : SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (_, index) {
-                              final section = homeManager.sections[index];
-                              final type = section.type;
+                /// -- Editar
+                Consumer2<UserManager, HomeManager>(
+                  builder: (_, user, home, __) {
+                    if (user.adminEnabled && !home.savingSections) {
+                      if (home.editing) {
+                        return PopupMenuButton(
+                          onSelected: (value) {
+                            if (value == 'Salvar') {
+                              home.saveEditing();
+                            } else {
+                              home.discardEditing();
+                            }
+                          },
+                          itemBuilder:
+                              (_) =>
+                                  ['Salvar', 'Descartar']
+                                      .map(
+                                        (option) => PopupMenuItem(
+                                          value: option,
+                                          child: Text(option),
+                                        ),
+                                      )
+                                      .toList(),
+                        );
+                      } else {
+                        return IconButton(
+                          icon: const Icon(MyIcons.edit),
+                          onPressed: home.enterEditing,
+                        );
+                      }
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ],
+            ),
+
+            /// Info
+            Consumer<HomeManager>(
+              builder:
+                  (_, homeManager, __) =>
+                      homeManager.savingSections || homeManager.isLoading
+                          ? const SliverToBoxAdapter(
+                            child: LinearProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(MyColors.base100),
+                              backgroundColor: Colors.transparent,
+                            ),
+                          )
+                          : SliverList(
+                            delegate: SliverChildBuilderDelegate((_, index) {
+                              final SectionModel section = homeManager.sections[index];
+                              final String type = section.type;
 
                               return switch (type) {
                                 'List' => SectionList(section),
                                 'Staggered' => SectionStaggered(section),
                                 _ => Container(),
                               };
-                            },
-                            childCount: homeManager.sections.length,
+                            }, childCount: homeManager.sections.length),
                           ),
-                        ),
-                ),
-
-                const AddSectionWidget()
-              ],
             ),
+
+            const AddSectionWidget(),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class AddSectionWidget extends StatelessWidget {

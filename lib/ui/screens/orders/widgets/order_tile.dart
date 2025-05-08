@@ -38,7 +38,12 @@ class OrderTile extends StatelessWidget {
             ),
 
             /// -- Status
-            Text('Entregue', style: TextStyle(color: primaryColor)),
+            Text(
+              order.status.label,
+              style: TextStyle(
+                color: order.status.isCanceled ? MyColors.warn : primaryColor,
+              ),
+            ),
           ],
         ),
         children: <Widget>[

@@ -5,6 +5,7 @@ import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/common/empty_card.dart';
 import 'package:lojavirtualapp/ui/common/login_card.dart';
 import 'package:lojavirtualapp/ui/screens/orders/widgets/order_item_tile.dart';
+import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
 import 'package:provider/provider.dart';
 
 part 'widgets/order_tile.dart';

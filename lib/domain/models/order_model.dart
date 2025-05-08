@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
+import 'package:lojavirtualapp/domain/enums/order_status.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
 import 'package:lojavirtualapp/domain/models/cart_product_model.dart';
 
@@ -14,6 +15,7 @@ class OrderModel extends Equatable {
     required this.items,
     required this.address,
     this.date,
+    required this.status,
   });
 
   OrderModel.fromCartManager(CartManager cart)
@@ -22,7 +24,8 @@ class OrderModel extends Equatable {
       price = cart.totalPrice,
       items = List.from(cart.items),
       address = cart.address!,
-      date = null;
+      date = null,
+      status = OrderStatus.preparing;
 
   String userId;
   String orderId;
@@ -30,6 +33,7 @@ class OrderModel extends Equatable {
   List<CartProductModel> items;
   AddressModel address;
   Timestamp? date;
+  OrderStatus status;
 
   FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
@@ -45,7 +49,8 @@ class OrderModel extends Equatable {
       'items': items.map((item) => item.toOrderItemMap()).toList(),
       'address': address.toMap(),
       'date': FieldValue.serverTimestamp(),
-    });
+      'status': status.index,
+    }); 
   }
 
   static Future<OrderModel> fromDocument(
@@ -72,6 +77,7 @@ class OrderModel extends Equatable {
       items: items,
       address: AddressModel.fromMap(doc['address']),
       date: doc['date'],
+      status: OrderStatus.values[doc['status'] ?? OrderStatus.preparing.index],
     );
   }
 }

@@ -21,17 +21,15 @@ class HomeManager extends ChangeNotifier {
 
   Future<void> _loadSections() async {
     _setIsLoading = true;
-    _store.collection('home').orderBy('pos').snapshots().listen(
-      (snapshot) {
-        _sections.clear();
+    _store.collection('home').snapshots().listen((snapshot) {
+      _sections.clear();
 
-        for (final document in snapshot.docs) {
-          _sections.add(SectionModel.fromMap(document.data(), id: document.id));
-        }
+      for (final document in snapshot.docs) {
+        _sections.add(SectionModel.fromMap(document.data(), id: document.id));
+      }
 
-        _setIsLoading = false;
-      },
-    );
+      _setIsLoading = false;
+    });
   }
 
   // G E T T E R S
@@ -75,7 +73,10 @@ class HomeManager extends ChangeNotifier {
       }
 
       for (final section in List.from(_sections)) {
-        log('${section.name} - ${!sections.any((s) => s.id == section.id)} ${sections.length}', name: 'FIX');
+        log(
+          '${section.name} - ${!sections.any((s) => s.id == section.id)} ${sections.length}',
+          name: 'FIX',
+        );
 
         if (!_editingSections.any((s) => s.id == section.id)) {
           await section.delete();
