@@ -84,14 +84,21 @@ class OrderModel extends Equatable {
     );
   }
 
+  void updateStatus(Map<String, dynamic> doc) {
+    status = OrderStatus.values[doc['status'] ?? OrderStatus.preparing.index];
+  }
+
   VoidCallback? get back =>
       status.index >= OrderStatus.transporting.index
           ? () => _updateStatus(OrderStatus.values[status.index - 1].index)
           : null;
+
   VoidCallback? get advance =>
       status.index <= OrderStatus.transporting.index
           ? () => _updateStatus(OrderStatus.values[status.index + 1].index)
           : null;
+
+  VoidCallback? get cancel => () => _updateStatus(OrderStatus.canceled.index);
 
   void _updateStatus(int index) => _orderRef.update({'status': index});
 }
