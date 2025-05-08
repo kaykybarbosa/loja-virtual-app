@@ -37,11 +37,24 @@ class OrdersManager extends ChangeNotifier {
         .where('userId', isEqualTo: _currentUser!.id)
         .snapshots()
         .listen((snapshot) async {
-          _orders.clear();
-          for (final doc in snapshot.docs) {
-            final order = await OrderModel.fromDocument(doc.data(), orderId: doc.id);
+          for (final change in snapshot.docChanges) {
+            switch (change.type) {
+              case DocumentChangeType.added:
+                final order = await OrderModel.fromDocument(
+                  change.doc.data()!,
+                  orderId: change.doc.id,
+                );
 
-            _orders.add(order);
+                orders.add(order);
+                break;
+              case DocumentChangeType.modified:
+                final modOrder = orders.firstWhere((o) => o.orderId == change.doc.id);
+
+                modOrder.updateStatus(change.doc.data()!);
+
+                break;
+              default:
+            }
           }
 
           notifyListeners();
