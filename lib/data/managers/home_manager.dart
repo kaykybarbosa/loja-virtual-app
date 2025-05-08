@@ -21,7 +21,7 @@ class HomeManager extends ChangeNotifier {
 
   Future<void> _loadSections() async {
     _setIsLoading = true;
-    _store.collection('home').snapshots().listen((snapshot) {
+    _store.collection('home').orderBy('pos').snapshots().listen((snapshot) {
       _sections.clear();
 
       for (final document in snapshot.docs) {
