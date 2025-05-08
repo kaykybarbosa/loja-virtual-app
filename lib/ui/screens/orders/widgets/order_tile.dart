@@ -1,7 +1,7 @@
 part of '../orders_screen.dart';
 
-class _OrderTile extends StatelessWidget {
-  const _OrderTile({required this.order});
+class OrderTile extends StatelessWidget {
+  const OrderTile({super.key, required this.order});
 
   final OrderModel order;
 

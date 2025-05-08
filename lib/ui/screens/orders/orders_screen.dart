@@ -7,7 +7,7 @@ import 'package:lojavirtualapp/ui/common/login_card.dart';
 import 'package:lojavirtualapp/ui/screens/orders/widgets/order_item_tile.dart';
 import 'package:provider/provider.dart';
 
-part './widgets/_order_tile.dart';
+part 'widgets/order_tile.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -33,7 +33,7 @@ class OrdersScreen extends StatelessWidget {
             itemBuilder: (_, i) {
               final OrderModel order = ordersManager.orders.reversed.toList()[i];
 
-              return _OrderTile(order: order);
+              return OrderTile(order: order);
             },
           );
         },
