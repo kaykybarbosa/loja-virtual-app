@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:lojavirtualapp/data/managers/admin_orders_manager.dart';
+import 'package:lojavirtualapp/domain/models/order_model.dart';
+import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
+import 'package:lojavirtualapp/ui/common/empty_card.dart';
+import 'package:lojavirtualapp/ui/screens/orders/orders_screen.dart';
+import 'package:provider/provider.dart';
+
+class AdminOrdersScreen extends StatelessWidget {
+  const AdminOrdersScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const CustomDrawer(),
+      appBar: AppBar(title: const Text('Meus Pedidos')),
+      body: Consumer<AdminOrdersManager>(
+        builder: (_, ordersManager, _) {
+          if (ordersManager.orders.isEmpty) {
+            return EmptyCard(
+              icon: Icons.border_clear_outlined,
+              title: 'Nenhum pedido realizado.',
+            );
+          }
+
+          return ListView.builder(
+            itemCount: ordersManager.orders.length,
+            itemBuilder: (_, i) {
+              final OrderModel order = ordersManager.orders.reversed.toList()[i];
+
+              return OrderTile(order: order);
+            },
+          );
+        },
+      ),
+    );
+  }
+}

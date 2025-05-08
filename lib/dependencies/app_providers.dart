@@ -1,3 +1,4 @@
+import 'package:lojavirtualapp/data/managers/admin_orders_manager.dart';
 import 'package:lojavirtualapp/data/managers/admin_users_manager.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/data/managers/home_manager.dart';
@@ -9,32 +10,35 @@ import 'package:provider/single_child_widget.dart';
 
 abstract class AppProviders {
   static List<SingleChildWidget> providers = [
-    ChangeNotifierProvider(
-      lazy: false,
-      create: (_) => UserManager(),
-    ),
-    ChangeNotifierProvider(
-      lazy: false,
-      create: (_) => ProductManager(),
-    ),
+    ChangeNotifierProvider(lazy: false, create: (_) => UserManager()),
+    ChangeNotifierProvider(lazy: false, create: (_) => ProductManager()),
     ChangeNotifierProxyProvider<UserManager, CartManager>(
       lazy: false,
       create: (_) => CartManager(),
       update: (_, userManager, cartManager) => cartManager!..updateUser(userManager),
     ),
-    ChangeNotifierProvider(
-      lazy: false,
-      create: (_) => HomeManager(),
-    ),
+    ChangeNotifierProvider(lazy: false, create: (_) => HomeManager()),
     ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
       lazy: false,
       create: (context) => AdminUsersManager(),
-      update: (_, userManager, adminUsersManager) => adminUsersManager!..updateUser(userManager),
+      update:
+          (_, userManager, adminUsersManager) =>
+              adminUsersManager!..updateUser(userManager),
     ),
     ChangeNotifierProxyProvider<UserManager, OrdersManager>(
       lazy: false,
       create: (_) => OrdersManager(),
-      update: (_, userManager, ordersManager) => ordersManager!..updateUser(userManager.currentUser),
+      update:
+          (_, userManager, ordersManager) =>
+              ordersManager!..updateUser(userManager.currentUser),
+    ),
+    ChangeNotifierProxyProvider<UserManager, AdminOrdersManager>(
+      lazy: false,
+      create: (_) => AdminOrdersManager(),
+      update:
+          (_, userManager, adminOrdersManager) =>
+              adminOrdersManager!
+                ..updateAdmin(adminEnabled: userManager.currentUser?.isAdmin ?? false),
     ),
   ];
 }
