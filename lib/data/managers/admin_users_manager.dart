@@ -27,5 +27,26 @@ class AdminUsersManager extends ChangeNotifier {
     });
   }
 
-  List<String> get strUsers => users.map((user) => user.fullName).toList();
+  List<String> get strUsers =>
+      users.map((user) => user.fullName.capitalizeFirst).toList();
+}
+
+extension StringExtension on String {
+  String get capitalizeFirst =>
+      isEmpty ? this : '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+
+  String get capitalizeAll {
+    final values = split(' ');
+
+    if (values.isEmpty) return this;
+
+    final buffer = StringBuffer();
+    for (final value in values) {
+      final bool isLast = value == values.last;
+
+      buffer.write('${value.capitalizeFirst}${(isLast ? '' : ' ')}');
+    }
+
+    return buffer.toString();
+  }
 }
