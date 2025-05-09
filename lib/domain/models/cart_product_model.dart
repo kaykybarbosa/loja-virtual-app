@@ -16,11 +16,11 @@ class CartProductModel extends Equatable with ChangeNotifier {
   });
 
   CartProductModel.fromProduct(this.product)
-      : cartProductId = null,
-        fixedPrice = null,
-        productId = product.id,
-        quantity = 1,
-        size = product.getSelectedSize?.name ?? '';
+    : cartProductId = null,
+      fixedPrice = null,
+      productId = product.id,
+      quantity = 1,
+      size = product.getSelectedSize?.name ?? '';
 
   String? cartProductId;
   ProductModel product;
@@ -48,7 +48,14 @@ class CartProductModel extends Equatable with ChangeNotifier {
   num get totalPrice => unitPrice * quantity;
 
   @override
-  List<Object?> get props => [cartProductId, product, productId, size, quantity, fixedPrice];
+  List<Object?> get props => [
+    cartProductId,
+    product,
+    productId,
+    size,
+    quantity,
+    fixedPrice,
+  ];
 
   // S E T T E R S
   void setProduct(ProductModel product) {
@@ -58,18 +65,20 @@ class CartProductModel extends Equatable with ChangeNotifier {
 
   // F U N C T I O N S
 
-  static Future<DocumentSnapshot<Map<String, dynamic>>> _getProductById(String productId) async {
+  static Future<DocumentSnapshot<Map<String, dynamic>>> _getProductById(
+    String productId,
+  ) async {
     return await _firestore.collection('products').doc(productId).get();
   }
 
-  static Future<CartProductModel> fromDocument(Map<String, dynamic> map, {String? cartProductId}) async {
+  static Future<CartProductModel> fromDocument(Map<String, dynamic> map) async {
     final productId = map['productId'];
 
     final result = await _getProductById(productId);
     ProductModel product = ProductModel.fromMap(result.data() as Map<String, dynamic>);
 
     return CartProductModel(
-      cartProductId: cartProductId,
+      cartProductId: map['cartProductId'],
       product: product,
       productId: productId,
       size: map['size'],
@@ -93,17 +102,17 @@ class CartProductModel extends Equatable with ChangeNotifier {
   }
 
   Map<String, dynamic> toMap() => {
-        'productId': productId,
-        'size': size,
-        'quantity': quantity,
-      };
+    'productId': productId,
+    'size': size,
+    'quantity': quantity,
+  };
 
   Map<String, dynamic> toOrderItemMap() => {
-        'productId': productId,
-        'size': size,
-        'quantity': quantity,
-        'fixedPrice': fixedPrice ?? unitPrice,
-      };
+    'productId': productId,
+    'size': size,
+    'quantity': quantity,
+    'fixedPrice': fixedPrice ?? unitPrice,
+  };
 
   bool isStackable(ProductModel product) {
     return product.id == productId && (product.getSelectedSize?.name ?? '') == size;

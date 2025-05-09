@@ -40,10 +40,10 @@ class OrdersManager extends ChangeNotifier {
           for (final change in snapshot.docChanges) {
             switch (change.type) {
               case DocumentChangeType.added:
-                final order = await OrderModel.fromDocument(
-                  change.doc.data()!,
-                  orderId: change.doc.id,
-                );
+                final order = await OrderModel.fromDocument({
+                  'orderId': change.doc.id,
+                  ...change.doc.data()!,
+                });
 
                 orders.add(order);
                 break;

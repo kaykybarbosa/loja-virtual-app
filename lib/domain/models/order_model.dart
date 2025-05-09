@@ -56,10 +56,7 @@ class OrderModel extends Equatable {
     });
   }
 
-  static Future<OrderModel> fromDocument(
-    Map<String, dynamic> doc, {
-    required String orderId,
-  }) async {
+  static Future<OrderModel> fromDocument(Map<String, dynamic> doc) async {
     final List<CartProductModel> items = [];
 
     final futureItems =
@@ -75,7 +72,7 @@ class OrderModel extends Equatable {
 
     return OrderModel(
       userId: doc['userId'],
-      orderId: orderId,
+      orderId: doc['orderId'],
       price: doc['price'],
       items: items,
       address: AddressModel.fromMap(doc['address']),

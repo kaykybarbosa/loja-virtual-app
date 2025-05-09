@@ -55,7 +55,9 @@ class CartManager extends ChangeNotifier {
 
         items.add(cartProduct);
 
-        currentUser!.cartRef.add(cartProduct.toMap()).then((doc) => cartProduct.cartProductId = doc.id);
+        currentUser!.cartRef
+            .add(cartProduct.toMap())
+            .then((doc) => cartProduct.cartProductId = doc.id);
 
         _onItemUpdated();
       }
@@ -69,10 +71,7 @@ class CartManager extends ChangeNotifier {
     currentUser = userManager.currentUser;
 
     if (currentUser != null) {
-      Future.wait([
-        _loadCartItens(),
-        _loadUserAddress(),
-      ]);
+      Future.wait([_loadCartItens(), _loadUserAddress()]);
     }
   }
 
@@ -81,12 +80,15 @@ class CartManager extends ChangeNotifier {
       final result = await currentUser!.cartRef.get();
 
       try {
-        final cartProducts = result.docs
-            .map((doc) async => CartProductModel.fromDocument(
-                  doc.data() as Map<String, dynamic>,
-                  cartProductId: doc.id,
-                ))
-            .toList();
+        final cartProducts =
+            result.docs
+                .map(
+                  (doc) async => CartProductModel.fromDocument({
+                    'cartProductId': doc.id,
+                    ...doc.data() as Map<String, dynamic>,
+                  }),
+                )
+                .toList();
 
         for (final cartProduct in cartProducts) {
           final item = await cartProduct;

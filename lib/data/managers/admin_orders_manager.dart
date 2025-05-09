@@ -27,7 +27,7 @@ class AdminOrdersManager extends ChangeNotifier {
     _subscription = _firebase.collection('orders').snapshots().listen((snapshot) async {
       _orders.clear();
       for (final doc in snapshot.docs) {
-        final order = await OrderModel.fromDocument(doc.data(), orderId: doc.id);
+        final order = await OrderModel.fromDocument({'orderId': doc.id, ...doc.data()});
 
         _orders.add(order);
       }
