@@ -8,6 +8,9 @@ class AdminUsersManager extends ChangeNotifier {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  List<String> get strUsers =>
+      users.map((user) => user.fullName.capitalizeFirst).toList();
+
   void updateUser(UserManager user) {
     if (user.adminEnabled) {
       _listenToUsers();
@@ -26,9 +29,6 @@ class AdminUsersManager extends ChangeNotifier {
       notifyListeners();
     });
   }
-
-  List<String> get strUsers =>
-      users.map((user) => user.fullName.capitalizeFirst).toList();
 }
 
 extension StringExtension on String {
