@@ -1,6 +1,8 @@
 import 'package:alphabet_list_scroll_view_fix/alphabet_list_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:lojavirtualapp/data/managers/admin_orders_manager.dart';
 import 'package:lojavirtualapp/data/managers/admin_users_manager.dart';
+import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/domain/models/user_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
@@ -37,6 +39,10 @@ class AdminUsersScreen extends StatelessWidget {
                   user.email,
                   style: const TextStyle(color: MyColors.base100),
                 ),
+                onTap: () {
+                  context.read<AdminOrdersManager>().userFilter = user;
+                  context.read<PageManager>().setPage(5);
+                },
               );
             },
           );
