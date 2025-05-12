@@ -60,7 +60,15 @@ class OrderTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 TextButton(
-                  onPressed: order.status.isCanceled ? null : order.cancel,
+                  onPressed:
+                      order.status.isCanceled
+                          ? null
+                          : () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => CancelOrderDialog(order: order),
+                            );
+                          },
                   child: Text(
                     'Cancelar',
                     style:

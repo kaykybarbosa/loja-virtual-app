@@ -95,7 +95,7 @@ class OrderModel extends Equatable {
           ? () => _updateStatus(OrderStatus.values[status.index + 1].index)
           : null;
 
-  VoidCallback? get cancel => () => _updateStatus(OrderStatus.canceled.index);
+  void cancel() => _updateStatus(OrderStatus.canceled.index);
 
   void _updateStatus(int index) => _orderRef.update({'status': index});
 }
