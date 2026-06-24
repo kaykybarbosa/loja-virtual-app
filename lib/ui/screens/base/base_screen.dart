@@ -36,7 +36,7 @@ class _BaseScreenState extends State<BaseScreen> {
     return Provider(
       create: (_) => PageManager(_controller),
       child: Consumer<UserManager>(
-        builder: (_, userManager, __) {
+        builder: (_, userManager, _) {
           return PageView(
             controller: _controller,
             physics: const NeverScrollableScrollPhysics(),

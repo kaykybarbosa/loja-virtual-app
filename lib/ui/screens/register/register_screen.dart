@@ -100,7 +100,7 @@ class _FullName extends StatelessWidget {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
     return Consumer<UserManager>(
-      builder: (_, userManager, __) => CustomFormField(
+      builder: (_, userManager, _) => CustomFormField(
         hintText: 'Nome completo',
         enabled: !userManager.isLoading,
         validator: (name) {
@@ -125,7 +125,7 @@ class _Email extends StatelessWidget {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
     return Consumer<UserManager>(
-      builder: (_, userManager, __) => CustomFormField(
+      builder: (_, userManager, _) => CustomFormField(
         hintText: 'E-mail',
         enabled: !userManager.isLoading,
         keyboardType: TextInputType.emailAddress,
@@ -160,7 +160,7 @@ class _PasswordState extends State<_Password> {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
     return Consumer<UserManager>(
-      builder: (_, userManager, __) => CustomFormField(
+      builder: (_, userManager, _) => CustomFormField(
         hintText: 'Senha',
         enabled: !userManager.isLoading,
         obscureText: _obscureText,
@@ -188,7 +188,7 @@ class _ConfirmPassword extends StatelessWidget {
     final ancestorState = context.findAncestorStateOfType<_RegisterScreenState>();
 
     return Consumer<UserManager>(
-      builder: (_, userManager, __) => CustomFormField(
+      builder: (_, userManager, _) => CustomFormField(
         obscureText: true,
         enabled: !userManager.isLoading,
         hintText: 'Confirme a senha',
@@ -211,7 +211,7 @@ class _SubmitForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, __) => SubmitFormButton(
+        builder: (_, userManager, _) => SubmitFormButton(
           text: 'Criar conta',
           isLoading: userManager.isLoading,
           onPressed: userManager.isLoading ? null : onPressed,

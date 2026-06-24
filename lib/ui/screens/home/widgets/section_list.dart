@@ -31,7 +31,7 @@ class SectionList extends StatelessWidget {
                   SizedBox(
                     height: 150,
                     child: Consumer<SectionModel>(
-                      builder: (_, sectionModel, __) => ListView.separated(
+                      builder: (_, sectionModel, _) => ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (_, index) {
                           if (index < sectionModel.items.length) {
@@ -42,7 +42,7 @@ class SectionList extends StatelessWidget {
                             return const AddTitleWidget();
                           }
                         },
-                        separatorBuilder: (_, __) => const Gap(4),
+                        separatorBuilder: (_, _) => const Gap(4),
                         itemCount: homeManager.editing ? sectionModel.items.length + 1 : sectionModel.items.length,
                       ),
                     ),

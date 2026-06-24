@@ -11,66 +11,43 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Drawer(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(colors: <Color>[
-                  MyColors.gradient,
-                  MyColors.base100,
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-              ),
+    child: Stack(
+      children: <Widget>[
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: <Color>[MyColors.gradient, MyColors.base100],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            ListView(
-              children: <Widget>[
-                const CustomDrawerHeader(),
-                Divider(color: MyColors.base100.withAlpha(100)),
-                const DrawerTile(
-                  page: 0,
-                  title: 'Início',
-                  icon: MyIcons.home,
-                ),
-                const DrawerTile(
-                  page: 1,
-                  title: 'Produtos',
-                  icon: Icons.list,
-                ),
-                const DrawerTile(
-                  page: 2,
-                  title: 'Meus pedidos',
-                  icon: MyIcons.listCheck,
-                ),
-                const DrawerTile(
-                  page: 3,
-                  title: 'Lojas',
-                  icon: MyIcons.location,
-                ),
-                Consumer<UserManager>(
-                  builder: (_, userManager, __) {
-                    if (userManager.adminEnabled) {
-                      return Column(
-                        children: <Widget>[
-                          Divider(color: MyColors.base100.withAlpha(100)),
-                          const DrawerTile(
-                            page: 4,
-                            title: 'Usuários',
-                            icon: MyIcons.users,
-                          ),
-                          const DrawerTile(
-                            page: 5,
-                            title: 'Pedidos',
-                            icon: MyIcons.settings,
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                )
-              ],
+          ),
+        ),
+        ListView(
+          children: <Widget>[
+            const CustomDrawerHeader(),
+            Divider(color: MyColors.base100.withAlpha(100)),
+            const DrawerTile(page: 0, title: 'Início', icon: MyIcons.home),
+            const DrawerTile(page: 1, title: 'Produtos', icon: Icons.list),
+            const DrawerTile(page: 2, title: 'Meus pedidos', icon: MyIcons.listCheck),
+            const DrawerTile(page: 3, title: 'Lojas', icon: MyIcons.location),
+            Consumer<UserManager>(
+              builder: (_, userManager, _) {
+                if (userManager.adminEnabled) {
+                  return Column(
+                    children: <Widget>[
+                      Divider(color: MyColors.base100.withAlpha(100)),
+                      const DrawerTile(page: 4, title: 'Usuários', icon: MyIcons.users),
+                      const DrawerTile(page: 5, title: 'Pedidos', icon: MyIcons.settings),
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }

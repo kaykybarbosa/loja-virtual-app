@@ -17,7 +17,7 @@ class AdminUsersScreen extends StatelessWidget {
       drawer: const CustomDrawer(),
       appBar: AppBar(centerTitle: true, title: const Text('Usuários')),
       body: Consumer<AdminUsersManager>(
-        builder: (_, userManager, __) {
+        builder: (_, userManager, _) {
           return AlphabetListScrollView(
             showPreview: true,
             keyboardUsage: true,

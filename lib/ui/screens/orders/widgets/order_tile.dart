@@ -94,7 +94,8 @@ class OrderTile extends StatelessWidget {
                             ),
                   ),
                 ),
-                TextButton(onPressed: () {}, child: Text('Endereço', style: TextStyle())),
+                
+                TextButton(onPressed: () {}, child: Text('Endereço')),
               ],
             ),
         ],

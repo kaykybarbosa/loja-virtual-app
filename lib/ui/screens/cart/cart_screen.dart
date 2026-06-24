@@ -15,7 +15,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Carrinho')),
     body: Consumer<CartManager>(
-      builder: (_, cart, __) {
+      builder: (_, cart, _) {
         if (cart.currentUser == null) {
           return LoginCard();
         }

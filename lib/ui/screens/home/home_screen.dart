@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
 
                 /// -- Editar
                 Consumer2<UserManager, HomeManager>(
-                  builder: (_, user, home, __) {
+                  builder: (_, user, home, _) {
                     if (user.adminEnabled && !home.savingSections) {
                       if (home.editing) {
                         return PopupMenuButton(
@@ -88,7 +88,7 @@ class HomeScreen extends StatelessWidget {
             /// Info
             Consumer<HomeManager>(
               builder:
-                  (_, homeManager, __) =>
+                  (_, homeManager, _) =>
                       homeManager.savingSections || homeManager.isLoading
                           ? const SliverToBoxAdapter(
                             child: LinearProgressIndicator(

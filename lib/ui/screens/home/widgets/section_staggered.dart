@@ -28,7 +28,7 @@ class SectionStaggered extends StatelessWidget {
 
             /// Items
             Consumer<SectionModel>(
-              builder: (_, sectionModel, __) {
+              builder: (_, sectionModel, _) {
                 return StaggeredGrid.count(
                   crossAxisCount: 4,
                   mainAxisSpacing: 4,

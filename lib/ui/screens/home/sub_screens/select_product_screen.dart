@@ -13,7 +13,7 @@ class SelectProductScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Vincular Produto')),
       backgroundColor: MyColors.base100,
       body: Consumer<ProductManager>(
-        builder: (_, productManager, __) {
+        builder: (_, productManager, _) {
           return ListView.builder(
             itemBuilder: (_, index) {
               final product = productManager.allProducts[index];

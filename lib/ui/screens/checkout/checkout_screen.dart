@@ -24,7 +24,7 @@ class CheckoutScreen extends StatelessWidget {
         appBar: AppBar(title: const Text('Pagamento')),
         body: Consumer<CheckoutManager>(
           builder:
-              (_, checkout, __) =>
+              (_, checkout, _) =>
                   checkout.loading
                       ? _OrderLoading()
                       : ListView(

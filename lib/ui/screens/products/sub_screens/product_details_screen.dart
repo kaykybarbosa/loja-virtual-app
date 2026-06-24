@@ -27,7 +27,7 @@ class ProductDetailsScreen extends StatelessWidget {
           title: Text(product.name),
           actions: <Widget>[
             Consumer<UserManager>(
-              builder: (_, userManager, __) {
+              builder: (_, userManager, _) {
                 return userManager.adminEnabled
                     ? IconButton(
                         onPressed: () => context.push(
@@ -47,7 +47,7 @@ class ProductDetailsScreen extends StatelessWidget {
             /// Imagens
             FlutterCarousel.builder(
               itemCount: product.images.length,
-              itemBuilder: (_, index, __) => AspectRatio(
+              itemBuilder: (_, index, _) => AspectRatio(
                 aspectRatio: 1,
                 child: Image.network(
                   product.images[index],
@@ -121,7 +121,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
                   /// -- Botão
                   if (product.hasStock)
-                    Consumer2<UserManager, ProductModel>(builder: (_, user, productManager, __) {
+                    Consumer2<UserManager, ProductModel>(builder: (_, user, productManager, _) {
                       return SubmitFormButton(
                         width: double.infinity,
                         onPressed: productManager.getSelectedSize != null

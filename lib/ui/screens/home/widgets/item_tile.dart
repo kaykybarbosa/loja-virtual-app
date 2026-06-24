@@ -113,7 +113,7 @@ class ItemTile extends StatelessWidget {
                     image: item.image,
                     fit: BoxFit.cover,
                     imageErrorBuilder:
-                        (_, __, s) => SizedBox(child: Text('Image Error!')),
+                        (_, _, s) => SizedBox(child: Text('Image Error!')),
                   )
                   : Image.file(item.image, fit: BoxFit.cover),
         ),

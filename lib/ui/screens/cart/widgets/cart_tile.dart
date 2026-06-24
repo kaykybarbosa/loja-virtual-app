@@ -55,7 +55,7 @@ class CartTile extends StatelessWidget {
 
                       /// -- Preço
                       Consumer<CartProductModel>(
-                        builder: (_, cartProduct, __) => cartProduct.hasStock
+                        builder: (_, cartProduct, _) => cartProduct.hasStock
                             ? Text(
                                 'R\$ ${cartProduct.unitPrice.toStringAsFixed(2)}',
                                 style: TextStyle(
@@ -79,7 +79,7 @@ class CartTile extends StatelessWidget {
 
               /// Botões
               Consumer<CartProductModel>(
-                builder: (_, cartProduct, __) => Column(
+                builder: (_, cartProduct, _) => Column(
                   children: <Widget>[
                     /// -- Aumentar
                     CustomIconButton(

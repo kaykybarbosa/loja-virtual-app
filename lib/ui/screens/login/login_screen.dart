@@ -114,7 +114,7 @@ class _Email extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, __) => CustomFormField(
+        builder: (_, userManager, _) => CustomFormField(
           hintText: 'E-mail',
           enabled: !userManager.isLoading,
           controller: context.findAncestorStateOfType<_LoginScreenState>()?._emailController,
@@ -143,7 +143,7 @@ class _PasswordState extends State<_Password> {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, __) => CustomFormField(
+        builder: (_, userManager, _) => CustomFormField(
           hintText: 'Senha',
           obscureText: _obscureText,
           enabled: !userManager.isLoading,
@@ -180,7 +180,7 @@ class _SubmitBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, __) => SubmitFormButton(
+        builder: (_, userManager, _) => SubmitFormButton(
           text: 'Entrar',
           isLoading: userManager.isLoading,
           onPressed: userManager.isLoading ? null : onPressed,

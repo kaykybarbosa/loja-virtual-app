@@ -16,9 +16,9 @@ class ProductModel extends Equatable with ChangeNotifier {
     this.description = '',
     this.images = const [],
     this.sizes = const [],
-    ItemSizeModel? selectedSize,
+    this._selectedSize,
     this.newImages = const [],
-  }) : _selectedSize = selectedSize;
+  }) ;
 
   String id;
   String name;
