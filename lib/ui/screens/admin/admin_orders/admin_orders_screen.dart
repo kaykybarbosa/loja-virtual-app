@@ -14,13 +14,18 @@ import 'package:provider/provider.dart';
 
 part './widgets/_user_filter.dart';
 
-class AdminOrdersScreen extends StatelessWidget {
+class AdminOrdersScreen extends StatefulWidget {
   const AdminOrdersScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    SlidingUpPanelController panelController = SlidingUpPanelController();
+  State<AdminOrdersScreen> createState() => _AdminOrdersScreenState();
+}
 
+class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
+  SlidingUpPanelController panelController = SlidingUpPanelController();
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -32,10 +37,9 @@ class AdminOrdersScreen extends StatelessWidget {
               final List<OrderModel> filteredOrders = ordersManager.filteredOrders;
 
               return Column(
-                mainAxisAlignment:
-                    filteredOrders.isEmpty
-                        ? MainAxisAlignment.center
-                        : MainAxisAlignment.start,
+                mainAxisAlignment: filteredOrders.isEmpty
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
                 children: <Widget>[
                   if (userFilter != null)
                     /// Usuário filtrado

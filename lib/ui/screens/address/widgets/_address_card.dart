@@ -11,19 +11,20 @@ class _AddressCard extends StatelessWidget {
     final num? deliveryPrice = cartManager.deliveryPrice;
     final bool isLoading = cartManager.loading;
 
+    void snackSucess(String message) {
+      customSnackbar(context, message: message);
+    }
+
+    void snackError(String message) {
+      customSnackbar(context, message: message, type: AnimatedSnackBarType.error);
+    }
+
     Future<void> setAddress(AddressModel address) async {
       try {
         await context.read<CartManager>().setAddress(address);
-        customSnackbar(
-          context,
-          message: 'Endereço de entrega atualizado com sucesso!',
-        );
+        snackSucess('Endereço de entrega atualizado com sucesso!');
       } catch (e) {
-        customSnackbar(
-          context,
-          message: e.toString(),
-          type: AnimatedSnackBarType.error,
-        );
+        snackError(e.toString());
       }
     }
 
@@ -59,9 +60,7 @@ class _AddressCard extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 16),
         child: Text(
           '${address.street}, ${address.number}${complement.isNotEmpty ? ',' : ''} $complement\n${address.district}\n${address.city} - ${address.state} ',
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: const TextStyle(fontSize: 16),
         ),
       );
     }
@@ -76,10 +75,7 @@ class _AddressCard extends StatelessWidget {
           children: <Widget>[
             Text(
               'Endereço de Entrega',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
 
             /// Form

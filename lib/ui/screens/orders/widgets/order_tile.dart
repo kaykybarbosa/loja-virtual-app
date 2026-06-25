@@ -50,8 +50,9 @@ class OrderTile extends StatelessWidget {
         children: <Widget>[
           /// Items
           Column(
-            children:
-                order.items.map((item) => OrderItemTile(cartProduct: item)).toList(),
+            children: order.items
+                .map((item) => OrderItemTile(cartProduct: item))
+                .toList(),
           ),
 
           /// Ações
@@ -60,19 +61,19 @@ class OrderTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 TextButton(
-                  onPressed:
-                      order.status.isCanceled
-                          ? null
-                          : () {
-                            showDialog(
-                              context: context,
-                              builder: (_) => CancelOrderDialog(order: order),
-                            );
-                          },
+                  onPressed: order.status.isCanceled
+                      ? null
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => CancelOrderDialog(order: order),
+                          );
+                        },
                   child: Text(
                     'Cancelar',
-                    style:
-                        order.status.isCanceled ? null : TextStyle(color: MyColors.warn),
+                    style: order.status.isCanceled
+                        ? null
+                        : TextStyle(color: MyColors.warn),
                   ),
                 ),
                 TextButton(
@@ -86,16 +87,21 @@ class OrderTile extends StatelessWidget {
                   onPressed: order.status.isCanceled ? null : order.advance,
                   child: Text(
                     'Avançar',
-                    style:
-                        order.status.isCanceled
-                            ? null
-                            : TextStyle(
-                              color: order.advance != null ? Colors.black : null,
-                            ),
+                    style: order.status.isCanceled
+                        ? null
+                        : TextStyle(color: order.advance != null ? Colors.black : null),
                   ),
                 ),
-                
-                TextButton(onPressed: () {}, child: Text('Endereço')),
+
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => ExportAddressDialog(address: order.address),
+                    );
+                  },
+                  child: Text('Endereço'),
+                ),
               ],
             ),
         ],
