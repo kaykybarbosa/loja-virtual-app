@@ -9,7 +9,7 @@ import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/ui/common/empty_card.dart';
 import 'package:lojavirtualapp/ui/screens/orders/orders_screen.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 part './widgets/_user_filter.dart';

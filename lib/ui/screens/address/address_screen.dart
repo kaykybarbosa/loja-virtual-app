@@ -11,7 +11,7 @@ import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/utils/extensions/string_extension.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 part 'widgets/_address_card.dart';

@@ -3,7 +3,7 @@ import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer_header.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/drawer_tile.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {

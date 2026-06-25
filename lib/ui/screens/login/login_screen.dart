@@ -7,7 +7,7 @@ import 'package:lojavirtualapp/ui/common/custom_form_field/custom_form_field.dar
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:lojavirtualapp/utils/validators.dart';
 import 'package:provider/provider.dart';
 

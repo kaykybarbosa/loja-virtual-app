@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/item_size_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 
 class EditItemSize extends StatelessWidget {
   EditItemSize({

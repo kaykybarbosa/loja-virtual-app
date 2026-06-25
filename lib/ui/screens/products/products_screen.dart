@@ -6,7 +6,7 @@ import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/products/widgets/product_list_tile.dart';
 import 'package:lojavirtualapp/ui/screens/products/widgets/search_dialog.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProductsScreen extends StatelessWidget {

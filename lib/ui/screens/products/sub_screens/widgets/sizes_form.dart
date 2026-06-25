@@ -6,7 +6,7 @@ import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/edit_item.size.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/error_text.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 
 class SizesForm extends StatelessWidget {
   SizesForm({super.key, required this.product});

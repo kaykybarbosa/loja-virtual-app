@@ -7,7 +7,7 @@ import 'package:lojavirtualapp/domain/models/section_item_model.dart';
 import 'package:lojavirtualapp/domain/models/section_model.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/image_source_sheet.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 class AddTitleWidget extends StatelessWidget {

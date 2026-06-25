@@ -8,7 +8,7 @@ import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_list.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_staggered.dart';
 import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
-import 'package:lojavirtualapp/utils/theme/icons/my_icons.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,6 +28,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        
         CustomScrollView(
           slivers: <Widget>[
             /// AppBar
