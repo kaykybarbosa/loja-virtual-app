@@ -5,7 +5,7 @@ import 'package:lojavirtualapp/data/managers/checkout_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/price_card.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:provider/provider.dart';
 
 part 'widgets/_order_loading.dart';

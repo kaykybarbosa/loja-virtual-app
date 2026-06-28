@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/cart_product_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -39,18 +39,13 @@ class CartTile extends StatelessWidget {
                       /// -- Nome
                       Text(
                         cartProduct.product.name,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                       ),
 
                       /// -- Tamanho
                       Text(
                         'Tamanho: ${cartProduct.size}',
-                        style: const TextStyle(
-                          color: MyColors.base500,
-                        ),
+                        style: const TextStyle(color: AppColors.base500),
                       ),
 
                       /// -- Preço
@@ -66,12 +61,9 @@ class CartTile extends StatelessWidget {
                               )
                             : const Text(
                                 'Sem estoque suficiente!',
-                                style: TextStyle(
-                                  color: MyColors.warn,
-                                  fontSize: 12,
-                                ),
+                                style: TextStyle(color: AppColors.warn, fontSize: 12),
                               ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -83,25 +75,22 @@ class CartTile extends StatelessWidget {
                   children: <Widget>[
                     /// -- Aumentar
                     CustomIconButton(
-                      icon: MyIcons.plus,
+                      icon: AppIcons.plus,
                       toolTip: 'Adicionar',
                       color: Theme.of(context).primaryColor,
                       onTap: cartProduct.increment,
                     ),
 
                     /// -- Quantidade
-                    Text(
-                      '${cartProduct.quantity}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
+                    Text('${cartProduct.quantity}', style: const TextStyle(fontSize: 20)),
 
                     /// -- Diminuir
                     CustomIconButton(
-                      icon: MyIcons.remove,
+                      icon: AppIcons.remove,
                       toolTip: 'Remover',
-                      color: cartProduct.quantity > 1 ? Theme.of(context).primaryColor : MyColors.warn,
+                      color: cartProduct.quantity > 1
+                          ? Theme.of(context).primaryColor
+                          : AppColors.warn,
                       onTap: cartProduct.decrement,
                     ),
                   ],

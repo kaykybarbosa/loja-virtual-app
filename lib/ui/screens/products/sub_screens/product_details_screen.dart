@@ -8,7 +8,7 @@ import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/size_widget.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class ProductDetailsScreen extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: product,
       child: Scaffold(
-        backgroundColor: MyColors.base100,
+        backgroundColor: AppColors.base100,
         appBar: AppBar(
           title: Text(product.name),
           actions: <Widget>[
@@ -30,16 +30,14 @@ class ProductDetailsScreen extends StatelessWidget {
               builder: (_, userManager, _) {
                 return userManager.adminEnabled
                     ? IconButton(
-                        onPressed: () => context.push(
-                          AppRoutes.editProduct,
-                          extra: product,
-                        ),
+                        onPressed: () =>
+                            context.push(AppRoutes.editProduct, extra: product),
                         tooltip: 'Editar',
-                        icon: const Icon(MyIcons.edit),
+                        icon: const Icon(AppIcons.edit),
                       )
                     : Container();
               },
-            )
+            ),
           ],
         ),
         body: ListView(
@@ -49,18 +47,15 @@ class ProductDetailsScreen extends StatelessWidget {
               itemCount: product.images.length,
               itemBuilder: (_, index, _) => AspectRatio(
                 aspectRatio: 1,
-                child: Image.network(
-                  product.images[index],
-                  fit: BoxFit.cover,
-                ),
+                child: Image.network(product.images[index], fit: BoxFit.cover),
               ),
               options: FlutterCarouselOptions(
                 height: 300,
                 viewportFraction: 1,
                 slideIndicator: CircularSlideIndicator(
                   slideIndicatorOptions: SlideIndicatorOptions(
-                    currentIndicatorColor: MyColors.primary,
-                    indicatorBackgroundColor: MyColors.base400,
+                    currentIndicatorColor: AppColors.primary,
+                    indicatorBackgroundColor: AppColors.base400,
                     indicatorRadius: 4,
                     itemSpacing: 15,
                   ),
@@ -77,19 +72,13 @@ class ProductDetailsScreen extends StatelessWidget {
                   /// -- Nome
                   Text(
                     product.name,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                   ),
 
                   /// -- A partir
                   const Text(
                     'A partir de',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: MyColors.base500,
-                    ),
+                    style: TextStyle(fontSize: 14, color: AppColors.base500),
                   ),
 
                   /// -- Preço
@@ -97,17 +86,14 @@ class ProductDetailsScreen extends StatelessWidget {
                     'R\$ ${product.basePrice.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 22,
-                      color: MyColors.primary,
+                      color: AppColors.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
                   /// -- Descrição
                   const _SubTitle('Descrição'),
-                  Text(
-                    product.description,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+                  Text(product.description, style: const TextStyle(fontSize: 16)),
 
                   /// -- Tamanhos
                   const _SubTitle('Tamanhos'),
@@ -121,22 +107,26 @@ class ProductDetailsScreen extends StatelessWidget {
 
                   /// -- Botão
                   if (product.hasStock)
-                    Consumer2<UserManager, ProductModel>(builder: (_, user, productManager, _) {
-                      return SubmitFormButton(
-                        width: double.infinity,
-                        onPressed: productManager.getSelectedSize != null
-                            ? () {
-                                if (user.currentUserIsAuth) {
-                                  context.read<CartManager>().addToCart(productManager);
-                                  context.push(AppRoutes.cart);
-                                } else {
-                                  context.push(AppRoutes.login);
+                    Consumer2<UserManager, ProductModel>(
+                      builder: (_, user, productManager, _) {
+                        return SubmitFormButton(
+                          width: double.infinity,
+                          onPressed: productManager.getSelectedSize != null
+                              ? () {
+                                  if (user.currentUserIsAuth) {
+                                    context.read<CartManager>().addToCart(productManager);
+                                    context.push(AppRoutes.cart);
+                                  } else {
+                                    context.push(AppRoutes.login);
+                                  }
                                 }
-                              }
-                            : null,
-                        text: user.currentUserIsAuth ? 'Adicionar ao carrinho' : 'Entre para comprar',
-                      );
-                    })
+                              : null,
+                          text: user.currentUserIsAuth
+                              ? 'Adicionar ao carrinho'
+                              : 'Entre para comprar',
+                        );
+                      },
+                    ),
                 ],
               ),
             ),
@@ -154,13 +144,7 @@ class _SubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 8),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(top: 16, bottom: 8),
+    child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+  );
 }

@@ -12,11 +12,11 @@ class MyBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        tooltip: 'Voltar',
-        onPressed: onPressed ?? () => context.pop(),
-        icon: Icon(
-          Platform.isAndroid ? MyIcons.arrowBack : MyIcons.arrowBackIOS,
-          color: color,
-        ),
-      );
+    tooltip: 'Voltar',
+    onPressed: onPressed ?? () => context.pop(),
+    icon: Icon(
+      Platform.isAndroid ? AppIcons.arrowBack : AppIcons.arrowBackIOS,
+      color: color,
+    ),
+  );
 }

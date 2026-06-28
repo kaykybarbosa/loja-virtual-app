@@ -31,10 +31,7 @@ class EditItemSize extends StatelessWidget {
             flex: 30,
             child: TextFormField(
               initialValue: size.name,
-              decoration: const InputDecoration(
-                isDense: true,
-                labelText: 'Título',
-              ),
+              decoration: const InputDecoration(isDense: true, labelText: 'Título'),
               onChanged: (name) => size.name = name,
               validator: (name) {
                 if (name == null || name.isEmpty) {
@@ -53,10 +50,7 @@ class EditItemSize extends StatelessWidget {
               child: TextFormField(
                 initialValue: size.stock.toString(),
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  labelText: 'Estoque',
-                ),
+                decoration: const InputDecoration(isDense: true, labelText: 'Estoque'),
                 onChanged: (stock) => size.stock = int.tryParse(stock) ?? 0,
                 validator: (stock) {
                   if (stock == null || int.tryParse(stock) == null) {
@@ -91,18 +85,12 @@ class EditItemSize extends StatelessWidget {
 
           /// Ícones
           CustomIconButton(
-            icon: MyIcons.remove,
+            icon: AppIcons.remove,
             color: Theme.of(context).colorScheme.error,
             onTap: onRemove,
           ),
-          CustomIconButton(
-            icon: MyIcons.chevronUp,
-            onTap: onMoveUp,
-          ),
-          CustomIconButton(
-            icon: MyIcons.chevronDown,
-            onTap: onMoveDown,
-          ),
+          CustomIconButton(icon: AppIcons.chevronUp, onTap: onMoveUp),
+          CustomIconButton(icon: AppIcons.chevronDown, onTap: onMoveDown),
         ],
       ),
     );

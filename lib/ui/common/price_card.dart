@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lojavirtualapp/data/managers/cart_manager.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class PriceCard extends StatelessWidget {
-  const PriceCard({
-    super.key,
-    this.buttonText = '',
-    this.onPressed,
-  });
+  const PriceCard({super.key, this.buttonText = '', this.onPressed});
 
   final String buttonText;
   final VoidCallback? onPressed;
@@ -32,10 +28,7 @@ class PriceCard extends StatelessWidget {
             const Text(
               'Resumo do pedido',
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const Gap(12),
 
@@ -48,7 +41,7 @@ class PriceCard extends StatelessWidget {
               ],
             ),
 
-            Divider(color: MyColors.base300),
+            Divider(color: AppColors.base300),
 
             /// Frete
             if (deliveryPrice != null) ...[
@@ -59,7 +52,7 @@ class PriceCard extends StatelessWidget {
                   Text('R\$ ${deliveryPrice.toStringAsFixed(2)}'),
                 ],
               ),
-              Divider(color: MyColors.base300),
+              Divider(color: AppColors.base300),
             ],
 
             const Gap(12),
@@ -70,17 +63,11 @@ class PriceCard extends StatelessWidget {
               children: <Widget>[
                 const Text(
                   'Total',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'R\$ ${totalPrice.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: MyColors.primary,
-                  ),
+                  style: const TextStyle(fontSize: 16, color: AppColors.primary),
                 ),
               ],
             ),
@@ -90,10 +77,7 @@ class PriceCard extends StatelessWidget {
             /// Botão
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: onPressed,
-                child: Text(buttonText),
-              ),
+              child: ElevatedButton(onPressed: onPressed, child: Text(buttonText)),
             ),
           ],
         ),

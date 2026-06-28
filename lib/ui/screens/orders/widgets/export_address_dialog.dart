@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ExportAddressDialog extends StatelessWidget {
@@ -27,7 +27,7 @@ class ExportAddressDialog extends StatelessWidget {
       content: Screenshot(
         controller: screenshotController,
         child: Container(
-          color: MyColors.base100,
+          color: AppColors.base100,
           padding: EdgeInsets.all(8),
           child: Text(
             '${address.street}, ${address.number}, ${address.complement}\n'
@@ -40,7 +40,7 @@ class ExportAddressDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => {context.pop(), capture()},
-          child: Text('Exportar', style: TextStyle(color: MyColors.primary)),
+          child: Text('Exportar', style: TextStyle(color: AppColors.primary)),
         ),
       ],
       contentPadding: EdgeInsets.fromLTRB(16, 16, 8, 0),

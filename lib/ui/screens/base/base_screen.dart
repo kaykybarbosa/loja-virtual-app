@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
@@ -23,6 +24,8 @@ class _BaseScreenState extends State<BaseScreen> {
   void initState() {
     super.initState();
     _controller = PageController();
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override

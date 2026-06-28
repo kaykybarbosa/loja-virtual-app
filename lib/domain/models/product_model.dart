@@ -169,7 +169,7 @@ class ProductModel extends Equatable with ChangeNotifier {
 
     /// Removendo imagens
     for (final image in images) {
-      if (!newImages.contains(image)) {
+      if (!newImages.contains(image) && image.contains('firebase')) {
         final ref = _storage.refFromURL(image);
 
         await ref.delete();

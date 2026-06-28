@@ -7,7 +7,7 @@ import 'package:lojavirtualapp/ui/common/login_card.dart';
 import 'package:lojavirtualapp/ui/screens/orders/widgets/cancel_order_dialog.dart';
 import 'package:lojavirtualapp/ui/screens/orders/widgets/export_address_dialog.dart';
 import 'package:lojavirtualapp/ui/screens/orders/widgets/order_item_tile.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:provider/provider.dart';
 
 part 'widgets/order_tile.dart';

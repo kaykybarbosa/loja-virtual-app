@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/error_text.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/image_source_sheet.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 
 class ImageForm extends StatelessWidget {
@@ -36,74 +36,67 @@ class ImageForm extends StatelessWidget {
         return Column(
           children: <Widget>[
             FlutterCarousel(
-              items: state.value?.map<Widget>((image) {
-                return AspectRatio(
-                  aspectRatio: 1,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      if (image is String)
-                        Image.network(
-                          image,
-                          fit: BoxFit.cover,
-                        )
-                      else
-                        Image.file(
-                          image,
-                          fit: BoxFit.cover,
-                        ),
+              items:
+                  state.value?.map<Widget>((image) {
+                    return AspectRatio(
+                      aspectRatio: 1,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          if (image is String)
+                            Image.network(image, fit: BoxFit.cover)
+                          else
+                            Image.file(image, fit: BoxFit.cover),
 
-                      /// Remover imagem
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          tooltip: 'Remover',
-                          onPressed: () => {
-                            state.value?.remove(image),
-                            state.didChange(state.value),
-                          },
-                          icon: const Icon(
-                            MyIcons.remove,
-                            color: MyColors.warn,
+                          /// Remover imagem
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              tooltip: 'Remover',
+                              onPressed: () => {
+                                state.value?.remove(image),
+                                state.didChange(state.value),
+                              },
+                              icon: const Icon(AppIcons.remove, color: AppColors.warn),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              }).toList()
-                ?..add(
-                  Container(
-                    width: double.infinity,
-                    color: MyColors.gray100,
-                    child: IconButton(
-                      icon: const Icon(MyIcons.addPhoto),
-                      color: Theme.of(context).primaryColor,
-                      iconSize: 50,
-                      onPressed: () {
-                        if (Platform.isAndroid) {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
-                          );
-                        } else {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (_) => ImageSourceSheet(onImageSelected: onImageSelected),
-                          );
-                        }
-                      },
-                      highlightColor: Colors.transparent,
+                    );
+                  }).toList()?..add(
+                    Container(
+                      width: double.infinity,
+                      color: AppColors.gray100,
+                      child: IconButton(
+                        icon: const Icon(AppIcons.addPhoto),
+                        color: Theme.of(context).primaryColor,
+                        iconSize: 50,
+                        onPressed: () {
+                          if (Platform.isAndroid) {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (_) =>
+                                  ImageSourceSheet(onImageSelected: onImageSelected),
+                            );
+                          } else {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (_) =>
+                                  ImageSourceSheet(onImageSelected: onImageSelected),
+                            );
+                          }
+                        },
+                        highlightColor: Colors.transparent,
+                      ),
                     ),
                   ),
-                ),
               options: FlutterCarouselOptions(
                 height: 300,
                 viewportFraction: 1,
                 slideIndicator: CircularSlideIndicator(
                   slideIndicatorOptions: SlideIndicatorOptions(
-                    currentIndicatorColor: MyColors.primary,
-                    indicatorBackgroundColor: MyColors.base400,
+                    currentIndicatorColor: AppColors.primary,
+                    indicatorBackgroundColor: AppColors.base400,
                     indicatorRadius: 4,
                     itemSpacing: 15,
                   ),
@@ -112,7 +105,7 @@ class ImageForm extends StatelessWidget {
             ),
 
             /// Mensagem do erro
-            if (state.hasError) ErrorText('${state.errorText}')
+            if (state.hasError) ErrorText('${state.errorText}'),
           ],
         );
       },

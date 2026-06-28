@@ -18,15 +18,15 @@ class _UserFilter extends StatelessWidget {
             'Pedidos de ${userFilter.fullName}',
             style: TextStyle(
               fontSize: 16,
-              color: MyColors.base100,
+              color: AppColors.base100,
               fontWeight: FontWeight.w500,
             ),
           ),
 
           /// Btn limpar filtro
           CustomIconButton(
-            icon: MyIcons.close,
-            color: MyColors.base100,
+            icon: AppIcons.close,
+            color: AppColors.base100,
             onTap: () => context.read<AdminOrdersManager>().userFilter = null,
           ),
         ],

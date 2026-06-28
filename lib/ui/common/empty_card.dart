@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 
 class EmptyCard extends StatelessWidget {
   const EmptyCard({super.key, required this.icon, required this.title});
@@ -18,11 +18,7 @@ class EmptyCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             /// Ícone
-            Icon(
-              icon,
-              size: 80.0,
-              color: MyColors.base100,
-            ),
+            Icon(icon, size: 80.0, color: AppColors.base100),
 
             /// Título
             Text(
@@ -30,7 +26,7 @@ class EmptyCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
-                color: MyColors.base100,
+                color: AppColors.base100,
                 fontWeight: FontWeight.bold,
               ),
             ),

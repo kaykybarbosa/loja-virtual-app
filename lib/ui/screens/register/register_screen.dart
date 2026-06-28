@@ -26,14 +26,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _createUser() {
     context.read<UserManager>().signUp(
-          user: _user,
-          onFail: (error) => customSnackbar(
-            context,
-            message: error,
-            type: AnimatedSnackBarType.error,
-          ),
-          onSuccess: () => context.pushReplacement(AppRoutes.base),
-        );
+      user: _user,
+      onFail: (error) =>
+          customSnackbar(context, message: error, type: AnimatedSnackBarType.error),
+      onSuccess: () => context.pushReplacement(AppRoutes.base),
+    );
   }
 
   void _formSubmitted() {
@@ -54,42 +51,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Criar conta'),
-          centerTitle: true,
-        ),
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Card(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListView(
-                padding: const EdgeInsets.all(16),
-                shrinkWrap: true,
-                children: <Widget>[
-                  const _FullName(),
-                  const Gap(16),
+    appBar: AppBar(title: const Text('Criar conta'), centerTitle: true),
+    body: Form(
+      key: _formKey,
+      child: Center(
+        child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            shrinkWrap: true,
+            children: <Widget>[
+              const _FullName(),
+              const Gap(16),
 
-                  /// E-mail
-                  const _Email(),
-                  const Gap(16),
+              /// E-mail
+              const _Email(),
+              const Gap(16),
 
-                  /// Senha
-                  const _Password(),
-                  const Gap(16),
+              /// Senha
+              const _Password(),
+              const Gap(16),
 
-                  /// Confirmar senha
-                  const _ConfirmPassword(),
-                  const Gap(16),
+              /// Confirmar senha
+              const _ConfirmPassword(),
+              const Gap(16),
 
-                  /// Submit form
-                  _SubmitForm(_formSubmitted),
-                ],
-              ),
-            ),
+              /// Submit form
+              _SubmitForm(_formSubmitted),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _FullName extends StatelessWidget {
@@ -111,7 +105,8 @@ class _FullName extends StatelessWidget {
           }
           return null;
         },
-        onSaved: (name) => ancestorState?.user = ancestorState._user.copyWith(fullName: name),
+        onSaved: (name) =>
+            ancestorState?.user = ancestorState._user.copyWith(fullName: name),
       ),
     );
   }
@@ -137,7 +132,8 @@ class _Email extends StatelessWidget {
           }
           return null;
         },
-        onSaved: (email) => ancestorState?.user = ancestorState._user.copyWith(email: email),
+        onSaved: (email) =>
+            ancestorState?.user = ancestorState._user.copyWith(email: email),
       ),
     );
   }
@@ -164,7 +160,7 @@ class _PasswordState extends State<_Password> {
         hintText: 'Senha',
         enabled: !userManager.isLoading,
         obscureText: _obscureText,
-        suffixIcon: _obscureText ? MyIcons.eyeOff : MyIcons.eyeOn,
+        suffixIcon: _obscureText ? AppIcons.eyeOff : AppIcons.eyeOn,
         suffixOnTap: () => obscureText = !_obscureText,
         validator: (password) {
           if (password == null || password.isEmpty) {
@@ -174,7 +170,8 @@ class _PasswordState extends State<_Password> {
           }
           return null;
         },
-        onSaved: (password) => ancestorState?.user = ancestorState._user.copyWith(password: password),
+        onSaved: (password) =>
+            ancestorState?.user = ancestorState._user.copyWith(password: password),
       ),
     );
   }
@@ -198,7 +195,8 @@ class _ConfirmPassword extends StatelessWidget {
           }
           return null;
         },
-        onSaved: (password) => ancestorState?.user = ancestorState._user.copyWith(confirmPassword: password),
+        onSaved: (password) =>
+            ancestorState?.user = ancestorState._user.copyWith(confirmPassword: password),
       ),
     );
   }
@@ -211,10 +209,10 @@ class _SubmitForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, _) => SubmitFormButton(
-          text: 'Criar conta',
-          isLoading: userManager.isLoading,
-          onPressed: userManager.isLoading ? null : onPressed,
-        ),
-      );
+    builder: (_, userManager, _) => SubmitFormButton(
+      text: 'Criar conta',
+      isLoading: userManager.isLoading,
+      onPressed: userManager.isLoading ? null : onPressed,
+    ),
+  );
 }

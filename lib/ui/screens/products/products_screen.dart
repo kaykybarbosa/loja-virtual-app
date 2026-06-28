@@ -43,10 +43,7 @@ class ProductsScreen extends StatelessWidget {
                     onTap: searchProducts,
                     child: SizedBox(
                       width: contraints.maxWidth,
-                      child: Text(
-                        productManager.getSearch,
-                        textAlign: TextAlign.center,
-                      ),
+                      child: Text(productManager.getSearch, textAlign: TextAlign.center),
                     ),
                   );
                 },
@@ -59,7 +56,9 @@ class ProductsScreen extends StatelessWidget {
           Consumer<ProductManager>(
             builder: (_, productManager, _) => IconButton(
               onPressed: productManager.getSearch.isEmpty ? searchProducts : cleanSearch,
-              icon: Icon(productManager.getSearch.isEmpty ? MyIcons.search : MyIcons.close),
+              icon: Icon(
+                productManager.getSearch.isEmpty ? AppIcons.search : AppIcons.close,
+              ),
             ),
           ),
 
@@ -70,11 +69,11 @@ class ProductsScreen extends StatelessWidget {
                   ? IconButton(
                       onPressed: () => context.push(AppRoutes.editProduct),
                       tooltip: 'Adicionar',
-                      icon: const Icon(MyIcons.plus),
+                      icon: const Icon(AppIcons.plus),
                     )
                   : Container();
             },
-          )
+          ),
         ],
       ),
       body: Consumer<ProductManager>(
@@ -94,7 +93,7 @@ class ProductsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push(AppRoutes.cart),
-        child: const Icon(MyIcons.cart),
+        child: const Icon(AppIcons.cart),
       ),
     );
   }

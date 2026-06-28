@@ -42,7 +42,7 @@ class OrderTile extends StatelessWidget {
             Text(
               order.status.label,
               style: TextStyle(
-                color: order.status.isCanceled ? MyColors.warn : primaryColor,
+                color: order.status.isCanceled ? AppColors.warn : primaryColor,
               ),
             ),
           ],
@@ -73,7 +73,7 @@ class OrderTile extends StatelessWidget {
                     'Cancelar',
                     style: order.status.isCanceled
                         ? null
-                        : TextStyle(color: MyColors.warn),
+                        : TextStyle(color: AppColors.warn),
                   ),
                 ),
                 TextButton(

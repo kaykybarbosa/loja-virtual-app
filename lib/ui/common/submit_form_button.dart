@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 
 class SubmitFormButton extends StatelessWidget {
   const SubmitFormButton({
@@ -23,23 +23,20 @@ class SubmitFormButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: width,
-        height: height,
-        child: ElevatedButton(
-          onPressed: isLoading ? null : onPressed,
-          style: ElevatedButton.styleFrom(disabledBackgroundColor: disablebackgroundColor),
-          child: isLoading
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator.adaptive(
-                    valueColor: AlwaysStoppedAnimation(MyColors.base100),
-                  ),
-                )
-              : Text(
-                  text,
-                  style: textStyle ?? const TextStyle(fontSize: 18),
-                ),
-        ),
-      );
+    width: width,
+    height: height,
+    child: ElevatedButton(
+      onPressed: isLoading ? null : onPressed,
+      style: ElevatedButton.styleFrom(disabledBackgroundColor: disablebackgroundColor),
+      child: isLoading
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator.adaptive(
+                valueColor: AlwaysStoppedAnimation(AppColors.base100),
+              ),
+            )
+          : Text(text, style: textStyle ?? const TextStyle(fontSize: 18)),
+    ),
+  );
 }

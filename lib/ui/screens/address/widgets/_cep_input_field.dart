@@ -42,7 +42,7 @@ class _CepInputFieldState extends State<_CepInputField> {
               enabled: !isLoading,
               labelText: 'CEP',
               hintText: '12345-678',
-              hintStyle: TextStyle(color: MyColors.base500),
+              hintStyle: TextStyle(color: AppColors.base500),
             ),
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
@@ -87,14 +87,14 @@ class _CepInputFieldState extends State<_CepInputField> {
             'CEP: ${widget.adrress?.zipCode.formatCep}',
             style: TextStyle(
               fontSize: 16,
-              color: MyColors.primary,
+              color: AppColors.primary,
               fontWeight: FontWeight.bold,
             ),
           ),
           CustomIconButton(
             onTap: context.read<CartManager>().removeAddress,
-            icon: MyIcons.edit,
-            color: MyColors.primary,
+            icon: AppIcons.edit,
+            color: AppColors.primary,
           ),
         ],
       );

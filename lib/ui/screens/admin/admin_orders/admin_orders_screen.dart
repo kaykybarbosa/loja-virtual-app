@@ -8,7 +8,7 @@ import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/ui/common/empty_card.dart';
 import 'package:lojavirtualapp/ui/screens/orders/orders_screen.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -76,7 +76,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
           panelController: panelController,
           child: Container(
             decoration: BoxDecoration(
-              color: MyColors.base100,
+              color: AppColors.base100,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10.0),
                 topRight: Radius.circular(10.0),

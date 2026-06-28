@@ -32,14 +32,11 @@ class SizesForm extends StatelessWidget {
                 const Expanded(
                   child: Text(
                     'Tamanhos',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
                 CustomIconButton(
-                  icon: MyIcons.plus,
+                  icon: AppIcons.plus,
                   onTap: () {
                     state.value?.add(ItemSizeModel());
                     state.didChange(state.value);
@@ -52,42 +49,39 @@ class SizesForm extends StatelessWidget {
             Column(
               children: state.value != null
                   ? state.value!
-                      .map(
-                        (size) => EditItemSize(
-                          key: ValueKey(size),
-                          size: size,
-                          onRemove: () {
-                            state.value?.remove(size);
-                            state.didChange(state.value);
-                          },
-                          onMoveUp: state.value?.first != size
-                              ? () {
-                                  final index = state.value!.indexOf(size);
+                        .map(
+                          (size) => EditItemSize(
+                            key: ValueKey(size),
+                            size: size,
+                            onRemove: () {
+                              state.value?.remove(size);
+                              state.didChange(state.value);
+                            },
+                            onMoveUp: state.value?.first != size
+                                ? () {
+                                    final index = state.value!.indexOf(size);
 
-                                  state.value?.removeAt(index);
-                                  state.value?.insert(index - 1, size);
-                                  state.didChange(state.value);
-                                }
-                              : null,
-                          onMoveDown: state.value!.last != size
-                              ? () {
-                                  final index = state.value!.indexOf(size);
+                                    state.value?.removeAt(index);
+                                    state.value?.insert(index - 1, size);
+                                    state.didChange(state.value);
+                                  }
+                                : null,
+                            onMoveDown: state.value!.last != size
+                                ? () {
+                                    final index = state.value!.indexOf(size);
 
-                                  state.value?.removeAt(index);
-                                  state.value?.insert(index + 1, size);
-                                  state.didChange(state.value);
-                                }
-                              : null,
-                        ),
-                      )
-                      .toList()
+                                    state.value?.removeAt(index);
+                                    state.value?.insert(index + 1, size);
+                                    state.didChange(state.value);
+                                  }
+                                : null,
+                          ),
+                        )
+                        .toList()
                   : [],
             ),
             if (state.hasError)
-              ErrorText(
-                '${state.errorText}',
-                margin: const EdgeInsets.only(top: 16),
-              )
+              ErrorText('${state.errorText}', margin: const EdgeInsets.only(top: 16)),
           ],
         );
       },

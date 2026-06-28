@@ -5,7 +5,7 @@ import 'package:lojavirtualapp/data/managers/admin_users_manager.dart';
 import 'package:lojavirtualapp/data/managers/page_manager.dart';
 import 'package:lojavirtualapp/domain/models/user_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class AdminUsersScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class AdminUsersScreen extends StatelessWidget {
             keyboardUsage: true,
             indexedHeight: (_) => 80,
             strList: userManager.strUsers,
-            highlightTextStyle: const TextStyle(fontSize: 20, color: MyColors.base100),
+            highlightTextStyle: const TextStyle(fontSize: 20, color: AppColors.base100),
             itemBuilder: (_, index) {
               final UserModel user = userManager.users[index];
 
@@ -32,12 +32,12 @@ class AdminUsersScreen extends StatelessWidget {
                   user.fullName.capitalizeAll,
                   style: const TextStyle(
                     fontWeight: FontWeight.w800,
-                    color: MyColors.base100,
+                    color: AppColors.base100,
                   ),
                 ),
                 subtitle: Text(
                   user.email,
-                  style: const TextStyle(color: MyColors.base100),
+                  style: const TextStyle(color: AppColors.base100),
                 ),
                 onTap: () {
                   context.read<AdminOrdersManager>().userFilter = user;

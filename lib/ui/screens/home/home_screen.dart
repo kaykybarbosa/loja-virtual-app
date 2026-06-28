@@ -7,7 +7,7 @@ import 'package:lojavirtualapp/domain/models/section_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_drawer/custom_drawer.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_list.dart';
 import 'package:lojavirtualapp/ui/screens/home/widgets/section_staggered.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -22,13 +22,13 @@ class HomeScreen extends StatelessWidget {
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: <Color>[MyColors.gradientHome1, MyColors.gradientHome2],
+              colors: <Color>[AppColors.gradientHome1, AppColors.gradientHome2],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
           ),
         ),
-        
+
         CustomScrollView(
           slivers: <Widget>[
             /// AppBar
@@ -39,13 +39,16 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               flexibleSpace: const FlexibleSpaceBar(
                 centerTitle: true,
-                title: Text('Loja do Kbuloso', style: TextStyle(color: MyColors.base100)),
+                title: Text(
+                  'Loja do Kbuloso',
+                  style: TextStyle(color: AppColors.base100),
+                ),
               ),
               actions: <Widget>[
                 /// -- Carrinho
                 IconButton(
                   onPressed: () => context.push(AppRoutes.cart),
-                  icon: const Icon(MyIcons.cart),
+                  icon: const Icon(AppIcons.cart),
                 ),
 
                 /// -- Editar
@@ -61,20 +64,16 @@ class HomeScreen extends StatelessWidget {
                               home.discardEditing();
                             }
                           },
-                          itemBuilder:
-                              (_) =>
-                                  ['Salvar', 'Descartar']
-                                      .map(
-                                        (option) => PopupMenuItem(
-                                          value: option,
-                                          child: Text(option),
-                                        ),
-                                      )
-                                      .toList(),
+                          itemBuilder: (_) => ['Salvar', 'Descartar']
+                              .map(
+                                (option) =>
+                                    PopupMenuItem(value: option, child: Text(option)),
+                              )
+                              .toList(),
                         );
                       } else {
                         return IconButton(
-                          icon: const Icon(MyIcons.edit),
+                          icon: const Icon(AppIcons.edit),
                           onPressed: home.enterEditing,
                         );
                       }
@@ -88,27 +87,26 @@ class HomeScreen extends StatelessWidget {
 
             /// Info
             Consumer<HomeManager>(
-              builder:
-                  (_, homeManager, _) =>
-                      homeManager.savingSections || homeManager.isLoading
-                          ? const SliverToBoxAdapter(
-                            child: LinearProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(MyColors.base100),
-                              backgroundColor: Colors.transparent,
-                            ),
-                          )
-                          : SliverList(
-                            delegate: SliverChildBuilderDelegate((_, index) {
-                              final SectionModel section = homeManager.sections[index];
-                              final String type = section.type;
+              builder: (_, homeManager, _) =>
+                  homeManager.savingSections || homeManager.isLoading
+                  ? const SliverToBoxAdapter(
+                      child: LinearProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(AppColors.base100),
+                        backgroundColor: Colors.transparent,
+                      ),
+                    )
+                  : SliverList(
+                      delegate: SliverChildBuilderDelegate((_, index) {
+                        final SectionModel section = homeManager.sections[index];
+                        final String type = section.type;
 
-                              return switch (type) {
-                                'List' => SectionList(section),
-                                'Staggered' => SectionStaggered(section),
-                                _ => Container(),
-                              };
-                            }, childCount: homeManager.sections.length),
-                          ),
+                        return switch (type) {
+                          'List' => SectionList(section),
+                          'Staggered' => SectionStaggered(section),
+                          _ => Container(),
+                        };
+                      }, childCount: homeManager.sections.length),
+                    ),
             ),
 
             const AddSectionWidget(),
@@ -134,7 +132,7 @@ class AddSectionWidget extends StatelessWidget {
             Expanded(
               child: TextButton(
                 style: const ButtonStyle(
-                  foregroundColor: WidgetStatePropertyAll(MyColors.base100),
+                  foregroundColor: WidgetStatePropertyAll(AppColors.base100),
                 ),
                 onPressed: () => homeManager.addSection(SectionModel(type: 'List')),
                 child: const Text('Adicionar Lista'),
@@ -143,7 +141,7 @@ class AddSectionWidget extends StatelessWidget {
             Expanded(
               child: TextButton(
                 style: const ButtonStyle(
-                  foregroundColor: WidgetStatePropertyAll(MyColors.base100),
+                  foregroundColor: WidgetStatePropertyAll(AppColors.base100),
                 ),
                 onPressed: () => homeManager.addSection(SectionModel(type: 'Staggered')),
                 child: const Text('Adicionar Grade'),

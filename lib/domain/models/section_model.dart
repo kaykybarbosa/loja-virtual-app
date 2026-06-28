@@ -16,8 +16,8 @@ class SectionModel extends Equatable with ChangeNotifier {
     this.type = '',
     this.pos = 0,
     List<SectionItemModel>? items,
-  })  : items = items ?? List.from([]),
-        oficialItems = items != null ? List.from(items) : List.from([]);
+  }) : items = items ?? List.from([]),
+       oficialItems = items != null ? List.from(items) : List.from([]);
 
   String id;
   String name;
@@ -39,33 +39,27 @@ class SectionModel extends Equatable with ChangeNotifier {
   Reference get _storageRef => _storage.ref().child('home').child(id);
 
   @override
-  List<Object> get props => [
-        name,
-        type,
-        items,
-        oficialItems,
-      ];
+  List<Object> get props => [name, type, items, oficialItems];
 
   Map<String, dynamic> toMap() => {
-        'name': name,
-        'type': type,
-        'pos': pos,
-        // 'items': items.map((item) => item.toMap()).toList(),
-      };
+    'name': name,
+    'type': type,
+    'pos': pos,
+    // 'items': items.map((item) => item.toMap()).toList(),
+  };
 
-  factory SectionModel.fromMap(Map<String, dynamic> map, {required String id}) => SectionModel(
+  factory SectionModel.fromMap(Map<String, dynamic> map, {required String id}) =>
+      SectionModel(
         id: id,
         name: map['name'],
         type: map['type'],
         pos: map['pos'],
-        items: map['items']?.map<SectionItemModel>((item) => SectionItemModel.fromMap(item)).toList(),
+        items: map['items']
+            ?.map<SectionItemModel>((item) => SectionItemModel.fromMap(item))
+            .toList(),
       );
 
-  SectionModel copyWith({
-    String? name,
-    String? type,
-    List<SectionItemModel>? items,
-  }) {
+  SectionModel copyWith({String? name, String? type, List<SectionItemModel>? items}) {
     return SectionModel(
       id: id,
       name: name ?? '${this.name} ',
@@ -116,19 +110,19 @@ class SectionModel extends Equatable with ChangeNotifier {
 
     for (final item in items) {
       if (item.image is File) {
-        _storageRef.child(const Uuid().v1()).putFile(item.image).snapshotEvents.listen(
-          (snapshot) async {
-            if (snapshot.state == TaskState.success) {
-              final String url = await snapshot.ref.getDownloadURL();
+        _storageRef.child(const Uuid().v1()).putFile(item.image).snapshotEvents.listen((
+          snapshot,
+        ) async {
+          if (snapshot.state == TaskState.success) {
+            final String url = await snapshot.ref.getDownloadURL();
 
-              item.image = url;
+            item.image = url;
 
-              updateItems.add(item);
+            updateItems.add(item);
 
-              _updateItems(updateItems);
-            }
-          },
-        );
+            _updateItems(updateItems);
+          }
+        });
       } else {
         updateItems.add(item);
       }
@@ -137,7 +131,7 @@ class SectionModel extends Equatable with ChangeNotifier {
     /// Removendo imagens dos items removidos
     try {
       for (final item in oficialItems) {
-        if (!items.contains(item)) {
+        if (!items.contains(item) && (item.image as String).contains('firebase')) {
           final ref = _storage.refFromURL(item.image);
 
           await ref.delete();
@@ -155,9 +149,11 @@ class SectionModel extends Equatable with ChangeNotifier {
 
     try {
       for (final item in items) {
-        final ref = _storage.refFromURL(item.image);
+        if ((item.image as String).contains('firebase')) {
+          final ref = _storage.refFromURL(item.image);
 
-        await ref.delete();
+          await ref.delete();
+        }
       }
     } catch (e) {}
   }
@@ -165,9 +161,7 @@ class SectionModel extends Equatable with ChangeNotifier {
   Future<void> _updateItems(List<SectionItemModel> items) async {
     if (items.isEmpty) return;
 
-    final itemsData = {
-      'items': items.map((item) => item.toMap()).toList(),
-    };
+    final itemsData = {'items': items.map((item) => item.toMap()).toList()};
 
     await _firestoreRef.update(itemsData);
   }

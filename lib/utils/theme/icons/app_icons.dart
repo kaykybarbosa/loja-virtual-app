@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class MyIcons {
+abstract class AppIcons {
   static const IconData home = Icons.home;
   static const IconData list = Icons.list;
   static const IconData listCheck = Icons.playlist_add_check;

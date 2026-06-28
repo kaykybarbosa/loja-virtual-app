@@ -13,7 +13,7 @@ class _OrderLoading extends StatelessWidget {
         children: <Widget>[
           // CircularProgressIndicator
           CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(MyColors.base100),
+            valueColor: AlwaysStoppedAnimation(AppColors.base100),
           ),
 
           // Text
@@ -22,7 +22,7 @@ class _OrderLoading extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
-              color: MyColors.base100,
+              color: AppColors.base100,
               fontWeight: FontWeight.bold,
             ),
           ),

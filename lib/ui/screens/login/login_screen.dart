@@ -6,7 +6,7 @@ import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/custom_form_field/custom_form_field.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:lojavirtualapp/utils/validators.dart';
 import 'package:provider/provider.dart';
@@ -28,17 +28,13 @@ class _LoginScreenState extends State<LoginScreen> {
   void _formSubmitted() {
     if (_formKey.currentState!.validate()) {
       context.read<UserManager>().signIn(
-            email: _emailController.text,
-            password: _passwordController.text,
-            onFail: (error) {
-              customSnackbar(
-                context,
-                message: error,
-                type: AnimatedSnackBarType.error,
-              );
-            },
-            onSuccess: () => context.pop(),
-          );
+        email: _emailController.text,
+        password: _passwordController.text,
+        onFail: (error) {
+          customSnackbar(context, message: error, type: AnimatedSnackBarType.error);
+        },
+        onSuccess: () => context.pop(),
+      );
     }
   }
 
@@ -60,53 +56,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Entrar'),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => context.push(AppRoutes.register),
-              icon: const Text(
-                'Criar conta',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: MyColors.base100,
-                ),
-              ),
-            )
-          ],
-        ),
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Card(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListView(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(16),
-                children: <Widget>[
-                  /// E-mail
-                  const _Email(),
-
-                  const Gap(16),
-
-                  /// Senha
-                  const _Password(),
-
-                  /// Esquece a senha
-                  const _FogortPasswordBtn(),
-
-                  const Gap(16),
-
-                  /// Submit
-                  _SubmitBtn(_formSubmitted),
-                ],
-              ),
-            ),
+    key: _scaffoldKey,
+    appBar: AppBar(
+      centerTitle: true,
+      title: const Text('Entrar'),
+      actions: <Widget>[
+        IconButton(
+          onPressed: () => context.push(AppRoutes.register),
+          icon: const Text(
+            'Criar conta',
+            style: TextStyle(fontSize: 16, color: AppColors.base100),
           ),
         ),
-      );
+      ],
+    ),
+    body: Form(
+      key: _formKey,
+      child: Center(
+        child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(16),
+            children: <Widget>[
+              /// E-mail
+              const _Email(),
+
+              const Gap(16),
+
+              /// Senha
+              const _Password(),
+
+              /// Esquece a senha
+              const _FogortPasswordBtn(),
+
+              const Gap(16),
+
+              /// Submit
+              _SubmitBtn(_formSubmitted),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class _Email extends StatelessWidget {
@@ -114,19 +107,19 @@ class _Email extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, _) => CustomFormField(
-          hintText: 'E-mail',
-          enabled: !userManager.isLoading,
-          controller: context.findAncestorStateOfType<_LoginScreenState>()?._emailController,
-          keyboardType: TextInputType.emailAddress,
-          validator: (email) {
-            if (email == null || !emailValid(email)) {
-              return 'E-mail inválido';
-            }
-            return null;
-          },
-        ),
-      );
+    builder: (_, userManager, _) => CustomFormField(
+      hintText: 'E-mail',
+      enabled: !userManager.isLoading,
+      controller: context.findAncestorStateOfType<_LoginScreenState>()?._emailController,
+      keyboardType: TextInputType.emailAddress,
+      validator: (email) {
+        if (email == null || !emailValid(email)) {
+          return 'E-mail inválido';
+        }
+        return null;
+      },
+    ),
+  );
 }
 
 class _Password extends StatefulWidget {
@@ -143,21 +136,23 @@ class _PasswordState extends State<_Password> {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, _) => CustomFormField(
-          hintText: 'Senha',
-          obscureText: _obscureText,
-          enabled: !userManager.isLoading,
-          controller: context.findAncestorStateOfType<_LoginScreenState>()?._passwordController,
-          suffixIcon: _obscureText ? MyIcons.eyeOff : MyIcons.eyeOn,
-          suffixOnTap: () => obscureText = !_obscureText,
-          validator: (password) {
-            if (password == null || password.isEmpty || password.length < 6) {
-              return 'Senha inválida';
-            }
-            return null;
-          },
-        ),
-      );
+    builder: (_, userManager, _) => CustomFormField(
+      hintText: 'Senha',
+      obscureText: _obscureText,
+      enabled: !userManager.isLoading,
+      controller: context
+          .findAncestorStateOfType<_LoginScreenState>()
+          ?._passwordController,
+      suffixIcon: _obscureText ? AppIcons.eyeOff : AppIcons.eyeOn,
+      suffixOnTap: () => obscureText = !_obscureText,
+      validator: (password) {
+        if (password == null || password.isEmpty || password.length < 6) {
+          return 'Senha inválida';
+        }
+        return null;
+      },
+    ),
+  );
 }
 
 class _FogortPasswordBtn extends StatelessWidget {
@@ -165,12 +160,9 @@ class _FogortPasswordBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Align(
-        alignment: Alignment.centerRight,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text('Esqueci a senha'),
-        ),
-      );
+    alignment: Alignment.centerRight,
+    child: TextButton(onPressed: () {}, child: const Text('Esqueci a senha')),
+  );
 }
 
 class _SubmitBtn extends StatelessWidget {
@@ -180,10 +172,10 @@ class _SubmitBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserManager>(
-        builder: (_, userManager, _) => SubmitFormButton(
-          text: 'Entrar',
-          isLoading: userManager.isLoading,
-          onPressed: userManager.isLoading ? null : onPressed,
-        ),
-      );
+    builder: (_, userManager, _) => SubmitFormButton(
+      text: 'Entrar',
+      isLoading: userManager.isLoading,
+      onPressed: userManager.isLoading ? null : onPressed,
+    ),
+  );
 }
