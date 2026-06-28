@@ -18,7 +18,6 @@ abstract class AppIcons {
   static const IconData edit = Icons.edit;
   static const IconData trash = Icons.delete;
   static const IconData addPhoto = Icons.add_a_photo;
-  static const IconData chevronUp = Icons.location_on;
-  static const IconData chevronDown = Icons.location_on;
+  static const IconData chevronLeft = Icons.chevron_left;
   static const IconData arrowBack = Icons.arrow_back;
 }

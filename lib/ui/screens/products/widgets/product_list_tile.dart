@@ -14,13 +14,15 @@ class ProductListTile extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
     onTap: () => context.push(AppRoutes.productDetails, extra: product),
     child: Card(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Container(
-        height: 100,
+        height: 105,
         padding: const EdgeInsets.all(8),
         child: Row(
           children: <Widget>[
             /// Imagem
             AspectRatio(aspectRatio: 1, child: Image.network(product.images.first)),
+
             const Gap(16),
 
             /// Produto
@@ -33,6 +35,8 @@ class ProductListTile extends StatelessWidget {
                   Text(
                     product.name,
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
 
                   const Gap(4),
@@ -40,7 +44,11 @@ class ProductListTile extends StatelessWidget {
                   /// -- A partir
                   const Text(
                     'A parte de',
-                    style: TextStyle(fontSize: 13, color: AppColors.base500),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.base500,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
 
                   /// -- Preço
@@ -52,6 +60,19 @@ class ProductListTile extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
+
+                  if (!product.hasStock) ...[
+                    Gap(4),
+
+                    Text(
+                      'Sem estoque',
+                      style: TextStyle(
+                        color: AppColors.warn,
+                        fontSize: 10,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

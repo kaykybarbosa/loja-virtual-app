@@ -89,8 +89,14 @@ class EditItemSize extends StatelessWidget {
             color: Theme.of(context).colorScheme.error,
             onTap: onRemove,
           ),
-          CustomIconButton(icon: AppIcons.chevronUp, onTap: onMoveUp),
-          CustomIconButton(icon: AppIcons.chevronDown, onTap: onMoveDown),
+          RotatedBox(
+            quarterTurns: 1,
+            child: CustomIconButton(icon: AppIcons.chevronLeft, onTap: onMoveUp),
+          ),
+          RotatedBox(
+            quarterTurns: -1,
+            child: CustomIconButton(icon: AppIcons.chevronLeft, onTap: onMoveDown),
+          ),
         ],
       ),
     );

@@ -7,13 +7,14 @@ import 'package:lojavirtualapp/domain/models/product_model.dart';
 import 'package:lojavirtualapp/ui/common/submit_form_button.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/image_form.dart';
 import 'package:lojavirtualapp/ui/screens/products/sub_screens/widgets/sizes_form.dart';
-import 'package:lojavirtualapp/utils/theme/colors/my_colors.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
+import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:provider/provider.dart';
 
 class EditProductScreen extends StatelessWidget {
   EditProductScreen(ProductModel? product, {super.key})
-      : product = product?.copyWith() ?? ProductModel().copyWith(),
-        isEditing = product != null;
+    : product = product?.copyWith() ?? ProductModel().copyWith(),
+      isEditing = product != null;
 
   ProductModel product;
   final bool isEditing;
@@ -26,13 +27,28 @@ class EditProductScreen extends StatelessWidget {
       context.read<ProductManager>().update(product);
 
       context.pop();
-      context.pop();
+
+      if (isEditing) context.pop();
     }
 
     return ChangeNotifierProvider.value(
       value: product,
       child: Scaffold(
-        appBar: AppBar(title: Text(isEditing ? 'Editar Produto' : 'Adicionar Produto')),
+        appBar: AppBar(
+          title: Text(isEditing ? 'Editar Produto' : 'Adicionar Produto'),
+          actions: [
+            if (isEditing)
+              IconButton(
+                onPressed: () {
+                  context.read<ProductManager>().delete(product);
+
+                  context.pop();
+                  context.pop();
+                },
+                icon: Icon(AppIcons.trash),
+              ),
+          ],
+        ),
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         body: Form(
           key: _formKey,
@@ -53,10 +69,7 @@ class EditProductScreen extends StatelessWidget {
                         hintText: 'Título',
                         border: InputBorder.none,
                       ),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                       validator: (name) {
                         if (name == null || name.isEmpty) {
                           return 'Título obrigatório';
@@ -71,10 +84,7 @@ class EditProductScreen extends StatelessWidget {
                     /// -- A partir
                     const Text(
                       'A partir de',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: MyColors.base500,
-                      ),
+                      style: TextStyle(fontSize: 14, color: AppColors.base500),
                     ),
 
                     /// -- Preço
@@ -82,7 +92,7 @@ class EditProductScreen extends StatelessWidget {
                       'R\$ ...',
                       style: TextStyle(
                         fontSize: 22,
-                        color: MyColors.primary,
+                        color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -117,7 +127,7 @@ class EditProductScreen extends StatelessWidget {
                       builder: (_, product, child) {
                         return SubmitFormButton(
                           isLoading: product.loading,
-                          disablebackgroundColor: MyColors.primary.withAlpha(100),
+                          disablebackgroundColor: AppColors.primary.withAlpha(100),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
@@ -130,7 +140,7 @@ class EditProductScreen extends StatelessWidget {
                           text: 'Salvar',
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -149,13 +159,7 @@ class _SubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(top: 16),
+    child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+  );
 }

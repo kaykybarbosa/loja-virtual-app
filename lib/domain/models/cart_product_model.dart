@@ -38,6 +38,8 @@ class CartProductModel extends Equatable with ChangeNotifier {
   num get unitPrice => itemSize?.price ?? 0;
 
   bool get hasStock {
+    if (product.isDeleted) return false;
+
     final size = itemSize;
 
     if (size == null) return false;

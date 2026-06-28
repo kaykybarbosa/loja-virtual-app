@@ -18,7 +18,8 @@ class ProductModel extends Equatable with ChangeNotifier {
     this.sizes = const [],
     this._selectedSize,
     this.newImages = const [],
-  }) ;
+    this.isDeleted = false,
+  });
 
   String id;
   String name;
@@ -26,6 +27,8 @@ class ProductModel extends Equatable with ChangeNotifier {
   List<String> images;
   List<ItemSizeModel> sizes;
   List<dynamic> newImages;
+  final bool isDeleted;
+
   ItemSizeModel? _selectedSize;
   bool _loading = false;
 
@@ -40,14 +43,15 @@ class ProductModel extends Equatable with ChangeNotifier {
   // G E T T E R S
   @override
   List<Object?> get props => [
-        id,
-        name,
-        description,
-        images,
-        sizes,
-        _selectedSize,
-        newImages,
-      ];
+    id,
+    name,
+    description,
+    images,
+    sizes,
+    isDeleted,
+    _selectedSize,
+    newImages,
+  ];
 
   ItemSizeModel? get getSelectedSize => _selectedSize;
 
@@ -61,7 +65,7 @@ class ProductModel extends Equatable with ChangeNotifier {
     return totalStock;
   }
 
-  bool get hasStock => totalStock > 0;
+  bool get hasStock => totalStock > 0 && !isDeleted;
 
   ItemSizeModel? findSize(String name) {
     try {
@@ -75,7 +79,7 @@ class ProductModel extends Equatable with ChangeNotifier {
     num lowest = double.infinity;
 
     for (final size in sizes) {
-      if (size.price < lowest && size.hasStock) {
+      if (size.price < lowest) {
         lowest = size.price;
       }
     }
@@ -91,31 +95,35 @@ class ProductModel extends Equatable with ChangeNotifier {
     notifyListeners();
   }
 
-  set loading(bool value) => {
-        _loading = value,
-        notifyListeners(),
-      };
+  set loading(bool value) => {_loading = value, notifyListeners()};
 
   // M E T H O D S
   Map<String, dynamic> toMap() => {
-        'name': name,
-        'description': description,
-        'sizes': sizes.map((size) => size.toMap()).toList(),
-      };
+    'name': name,
+    'description': description,
+    'isDeleted': isDeleted,
+    'sizes': sizes.map((size) => size.toMap()).toList(),
+  };
 
-  List<Map<String, dynamic>> exportSizeList() => sizes.map((size) => size.toMap()).toList();
+  List<Map<String, dynamic>> exportSizeList() =>
+      sizes.map((size) => size.toMap()).toList();
 
-  factory ProductModel.fromMap(Map<String, dynamic> map, {String? documentId}) => ProductModel(
+  factory ProductModel.fromMap(Map<String, dynamic> map, {String? documentId}) =>
+      ProductModel(
         id: documentId ?? '',
         name: map['name'],
         description: map['description'],
+        isDeleted: map['isDeleted'],
         images: List<String>.from((map['images'])),
-        sizes: map['sizes'].map<ItemSizeModel>((size) => ItemSizeModel.fromMap(size)).toList(),
+        sizes: map['sizes']
+            .map<ItemSizeModel>((size) => ItemSizeModel.fromMap(size))
+            .toList(),
       );
 
   String toJson() => json.encode(toMap());
 
-  factory ProductModel.fromJson(String source) => ProductModel.fromMap(json.decode(source));
+  factory ProductModel.fromJson(String source) =>
+      ProductModel.fromMap(json.decode(source));
 
   ProductModel copyWith({
     String? id,
@@ -123,6 +131,7 @@ class ProductModel extends Equatable with ChangeNotifier {
     String? description,
     List<String>? images,
     List<ItemSizeModel>? sizes,
+    bool? isDeleted,
   }) {
     return ProductModel(
       id: id ?? this.id,
@@ -130,6 +139,7 @@ class ProductModel extends Equatable with ChangeNotifier {
       description: description ?? this.description,
       images: images ?? this.images,
       sizes: sizes ?? this.sizes.map((size) => size.copyWith()).toList(),
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -153,17 +163,17 @@ class ProductModel extends Equatable with ChangeNotifier {
       if (images.contains(newImage)) {
         updateImages.add(newImage);
       } else {
-        _storageRef.child(const Uuid().v1()).putFile(newImage).snapshotEvents.listen(
-          (snapshot) async {
-            if (snapshot.state == TaskState.success) {
-              final String url = await snapshot.ref.getDownloadURL();
+        _storageRef.child(const Uuid().v1()).putFile(newImage).snapshotEvents.listen((
+          snapshot,
+        ) async {
+          if (snapshot.state == TaskState.success) {
+            final String url = await snapshot.ref.getDownloadURL();
 
-              updateImages.add(url);
+            updateImages.add(url);
 
-              _updateImages(updateImages);
-            }
-          },
-        );
+            _updateImages(updateImages);
+          }
+        });
       }
     }
 
@@ -187,5 +197,9 @@ class ProductModel extends Equatable with ChangeNotifier {
 
   void _updateImages(List<String> images) {
     _firestoreRef.update({'images': images});
+  }
+
+  void delete() {
+    _firestoreRef.update({'isDeleted': true});
   }
 }

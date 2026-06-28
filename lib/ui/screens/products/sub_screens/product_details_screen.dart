@@ -28,7 +28,7 @@ class ProductDetailsScreen extends StatelessWidget {
           actions: <Widget>[
             Consumer<UserManager>(
               builder: (_, userManager, _) {
-                return userManager.adminEnabled
+                return userManager.adminEnabled && !product.isDeleted
                     ? IconButton(
                         onPressed: () =>
                             context.push(AppRoutes.editProduct, extra: product),
@@ -95,13 +95,20 @@ class ProductDetailsScreen extends StatelessWidget {
                   const _SubTitle('Descrição'),
                   Text(product.description, style: const TextStyle(fontSize: 16)),
 
-                  /// -- Tamanhos
-                  const _SubTitle('Tamanhos'),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: product.sizes.map((size) => SizeWidget(size)).toList(),
-                  ),
+                  if (product.isDeleted)
+                    _SubTitle(
+                      'Este produto não está mais disponível!',
+                      color: AppColors.warn,
+                    )
+                  else ...[
+                    /// -- Tamanhos
+                    const _SubTitle('Tamanhos'),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: product.sizes.map((size) => SizeWidget(size)).toList(),
+                    ),
+                  ],
 
                   const Gap(16),
 
@@ -138,13 +145,17 @@ class ProductDetailsScreen extends StatelessWidget {
 }
 
 class _SubTitle extends StatelessWidget {
-  const _SubTitle(this.title);
+  const _SubTitle(this.title, {this.color});
 
   final String title;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.only(top: 16, bottom: 8),
-    child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+    child: Text(
+      title,
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: color),
+    ),
   );
 }

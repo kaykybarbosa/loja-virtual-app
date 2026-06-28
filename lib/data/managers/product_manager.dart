@@ -12,13 +12,13 @@ class ProductManager extends ChangeNotifier {
   String _search = '';
 
   Future<void> _loadAllProducts() async {
-    final snapProducts = await _store.collection('products').get();
+    final snapProducts = await _store
+        .collection('products')
+        .where('isDeleted', isEqualTo: false)
+        .get();
 
     _allProducts = snapProducts.docs
-        .map((doc) => ProductModel.fromMap(
-              doc.data(),
-              documentId: doc.id,
-            ))
+        .map((doc) => ProductModel.fromMap(doc.data(), documentId: doc.id))
         .toList();
 
     notifyListeners();
@@ -31,7 +31,9 @@ class ProductManager extends ChangeNotifier {
       filteredProducts.addAll(_allProducts);
     } else {
       filteredProducts.addAll(
-        _allProducts.where((product) => product.name.toLowerCase().contains(_search.toLowerCase())),
+        _allProducts.where(
+          (product) => product.name.toLowerCase().contains(_search.toLowerCase()),
+        ),
       );
     }
 
@@ -49,6 +51,14 @@ class ProductManager extends ChangeNotifier {
   void update(ProductModel product) {
     allProducts.removeWhere((p) => p.id == product.id);
     allProducts.add(product);
+
+    notifyListeners();
+  }
+
+  void delete(ProductModel product) {
+    product.delete();
+
+    allProducts.removeWhere((p) => p.id == product.id);
 
     notifyListeners();
   }
