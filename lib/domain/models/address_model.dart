@@ -26,15 +26,7 @@ class AddressModel extends Equatable {
   double long;
 
   @override
-  List<Object?> get props => [
-        street,
-        number,
-        complement,
-        district,
-        zipCode,
-        city,
-        state,
-      ];
+  List<Object?> get props => [street, number, complement, district, zipCode, city, state];
 
   factory AddressModel.fromCepAbertoAddress(CepAbertoAddressModel cep) {
     return AddressModel(
@@ -49,22 +41,22 @@ class AddressModel extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'street': street,
-        'number': number,
-        'complement': complement,
-        'district': district,
-        'zipCode': zipCode,
-        'city': city,
-        'state': state,
-        'lat': lat,
-        'long': long,
-      };
+    'street': street,
+    'number': number,
+    'complement': complement,
+    'district': district,
+    'zipCode': zipCode,
+    'city': city,
+    'state': state,
+    'lat': lat,
+    'long': long,
+  };
 
   factory AddressModel.fromMap(Map<String, dynamic> map) {
     return AddressModel(
       street: map['street'],
       number: map['number'],
-      complement: map['complement'],
+      complement: map['complement'] ?? '',
       district: map['district'],
       zipCode: map['zipCode'],
       city: map['city'],
