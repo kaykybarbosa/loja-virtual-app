@@ -15,6 +15,8 @@ class UserManager extends ChangeNotifier {
   bool _isLoading = false;
   UserModel? _currentUser;
 
+  bool _isLoadingFace = false;
+
   Future<void> _loadCurrentUser([User? firebaseUser]) async {
     final user = firebaseUser ?? _auth.currentUser;
 
@@ -23,7 +25,9 @@ class UserManager extends ChangeNotifier {
 
       currentUser = UserModel.fromMapDB(docUser.id, docUser.data() ?? {});
 
-      final adminDoc = await FirebaseFirestore.instance.doc('admins/${_currentUser?.id}').get();
+      final adminDoc = await FirebaseFirestore.instance
+          .doc('admins/${_currentUser?.id}')
+          .get();
 
       if (adminDoc.exists) {
         currentUser = _currentUser!.copyWith(isAdmin: true);
@@ -49,7 +53,9 @@ class UserManager extends ChangeNotifier {
 
       if (onSuccess != null) onSuccess();
     } on FirebaseAuthException catch (e) {
-      if (onFail != null) onFail(FirebaseErrors.getError(e.code, 'E-mail ou senha inválido'));
+      if (onFail != null) {
+        onFail(FirebaseErrors.getError(e.code, 'E-mail ou senha inválido'));
+      }
     } catch (e) {
       if (onFail != null) onFail('E-mail ou senha inválido');
     }
@@ -64,7 +70,10 @@ class UserManager extends ChangeNotifier {
   }) async {
     _setIsLoading = true;
     try {
-      final result = await _auth.createUserWithEmailAndPassword(email: user.email, password: user.password);
+      final result = await _auth.createUserWithEmailAndPassword(
+        email: user.email,
+        password: user.password,
+      );
 
       user = user.copyWith(id: result.user?.uid);
 
@@ -88,8 +97,16 @@ class UserManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> signWithFacebook() async {
+    _setIsLoadingFace = true;
+
+    _setIsLoadingFace = false;
+  }
+
   // G E T T E R S
   bool get isLoading => _isLoading;
+
+  bool get isLoadingFace => _isLoadingFace;
 
   UserModel? get currentUser => _currentUser;
 
@@ -99,6 +116,8 @@ class UserManager extends ChangeNotifier {
 
   // S E T T E R S
   set _setIsLoading(bool value) => {_isLoading = value, notifyListeners()};
+
+  set _setIsLoadingFace(bool value) => {_isLoadingFace = value, notifyListeners()};
 
   set currentUser(UserModel? user) => {_currentUser = user, notifyListeners()};
 }

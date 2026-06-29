@@ -7,7 +7,6 @@ class SubmitFormButton extends StatelessWidget {
     this.text = '',
     this.isLoading = false,
     this.width,
-    this.height = 44,
     this.disablebackgroundColor,
     this.onPressed,
     this.textStyle,
@@ -16,7 +15,6 @@ class SubmitFormButton extends StatelessWidget {
   final String text;
   final bool isLoading;
   final double? width;
-  final double? height;
   final Color? disablebackgroundColor;
   final Function()? onPressed;
   final TextStyle? textStyle;
@@ -24,7 +22,6 @@ class SubmitFormButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
     width: width,
-    height: height,
     child: ElevatedButton(
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(disabledBackgroundColor: disablebackgroundColor),
@@ -36,7 +33,7 @@ class SubmitFormButton extends StatelessWidget {
                 valueColor: AlwaysStoppedAnimation(AppColors.base100),
               ),
             )
-          : Text(text, style: textStyle ?? const TextStyle(fontSize: 18)),
+          : Text(text, style: textStyle ?? const TextStyle(fontSize: 15)),
     ),
   );
 }

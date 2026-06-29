@@ -10,6 +10,7 @@ import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:lojavirtualapp/utils/theme/icons/app_icons.dart';
 import 'package:lojavirtualapp/utils/validators.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -94,6 +95,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /// Submit
               _SubmitBtn(_formSubmitted),
+
+              SignInButton(
+                Buttons.facebook,
+                text: 'Entrar com Facebook',
+                onPressed: () {
+                  context.read<UserManager>().signWithFacebook();
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(50),
+                ),
+              ),
             ],
           ),
         ),
