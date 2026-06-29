@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/models/address_model.dart';
+import 'package:lojavirtualapp/utils/extensions/time_of_day_extension.dart';
 
 class StoreModel extends Equatable with ChangeNotifier {
   final String id;
   final String name;
   final String phone;
   final String image;
-  final Map<String, Map> opening;
+  final Map<String, Map<String, TimeOfDay>?> opening;
   final AddressModel address;
 
   StoreModel({
@@ -57,7 +58,7 @@ class StoreModel extends Equatable with ChangeNotifier {
             'to': TimeOfDay(hour: int.parse(splitted[2]), minute: int.parse(splitted[3])),
           });
         } else {
-          return MapEntry(key, {});
+          return MapEntry(key, null);
         }
       }),
     );
@@ -70,4 +71,16 @@ class StoreModel extends Equatable with ChangeNotifier {
   String get addressText =>
       '${address.street}, ${address.number}${address.complement!.isNotEmpty ? ' - ${address.complement}' : ''}'
       '${address.district}, ${address.city}/${address.state}';
+
+  String get openintText {
+    return 'Seg-Sex: ${formattedPeriod(opening['monfri'])}\n'
+        'Sáb: ${formattedPeriod(opening['saturday'])}\n'
+        'Dom: ${formattedPeriod(opening['sunday'])}\n';
+  }
+
+  String formattedPeriod(Map<String, TimeOfDay>? period) {
+    if (period == null) return 'Fechada';
+
+    return '${period['from']!.formatted} - ${period['to']!.formatted}';
+  }
 }
