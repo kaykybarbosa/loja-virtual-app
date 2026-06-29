@@ -4,6 +4,7 @@ import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/data/managers/home_manager.dart';
 import 'package:lojavirtualapp/data/managers/orders_manager.dart';
 import 'package:lojavirtualapp/data/managers/product_manager.dart';
+import 'package:lojavirtualapp/data/managers/store_manager.dart';
 import 'package:lojavirtualapp/data/managers/user_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -21,24 +22,22 @@ abstract class AppProviders {
     ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
       lazy: false,
       create: (context) => AdminUsersManager(),
-      update:
-          (_, userManager, adminUsersManager) =>
-              adminUsersManager!..updateUser(userManager),
+      update: (_, userManager, adminUsersManager) =>
+          adminUsersManager!..updateUser(userManager),
     ),
     ChangeNotifierProxyProvider<UserManager, OrdersManager>(
       lazy: false,
       create: (_) => OrdersManager(),
-      update:
-          (_, userManager, ordersManager) =>
-              ordersManager!..updateUser(userManager.currentUser),
+      update: (_, userManager, ordersManager) =>
+          ordersManager!..updateUser(userManager.currentUser),
     ),
     ChangeNotifierProxyProvider<UserManager, AdminOrdersManager>(
       lazy: false,
       create: (_) => AdminOrdersManager(),
-      update:
-          (_, userManager, adminOrdersManager) =>
-              adminOrdersManager!
-                ..updateAdmin(adminEnabled: userManager.currentUser?.isAdmin ?? false),
+      update: (_, userManager, adminOrdersManager) =>
+          adminOrdersManager!
+            ..updateAdmin(adminEnabled: userManager.currentUser?.isAdmin ?? false),
     ),
+    ChangeNotifierProvider(create: (_) => StoreManager()),
   ];
 }
