@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/domain/enums/store_enum.dart';
 import 'package:lojavirtualapp/domain/models/store_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
+import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StoreCard extends StatelessWidget {
   const StoreCard({super.key, required this.store});
@@ -19,6 +21,24 @@ class StoreCard extends StatelessWidget {
           return AppColors.green;
         case StoreStatus.closing:
           return AppColors.orange;
+      }
+    }
+
+    void snackBar() {
+      customSnackbar(
+        context,
+        message: 'Este dispositivo não possui esta função.',
+        type: AnimatedSnackBarType.warning,
+      );
+    }
+
+    Future<void> openPhone() async {
+      final url = Uri(scheme: 'tel', path: store.cleanPhone);
+
+      if (await canLaunchUrl(url)) {
+        launchUrl(url);
+      } else {
+        snackBar();
       }
     }
 
@@ -101,7 +121,7 @@ class StoreCard extends StatelessWidget {
                     CustomIconButton(
                       icon: Icons.phone,
                       color: AppColors.primary,
-                      onTap: () {},
+                      onTap: openPhone,
                     ),
                   ],
                 ),

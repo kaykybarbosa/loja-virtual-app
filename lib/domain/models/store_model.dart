@@ -109,6 +109,8 @@ class StoreModel extends Equatable with ChangeNotifier {
     }
   }
 
+  String get cleanPhone => phone.replaceAll(RegExp(r"[^\d]"), '');
+
   void updateStatus() {
     final weekDay = DateTime.now().weekday;
 
