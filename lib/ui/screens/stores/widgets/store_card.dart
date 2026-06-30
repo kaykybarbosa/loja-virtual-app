@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lojavirtualapp/domain/enums/store_enum.dart';
 import 'package:lojavirtualapp/domain/models/store_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StoreCard extends StatelessWidget {
@@ -38,6 +41,42 @@ class StoreCard extends StatelessWidget {
       if (await canLaunchUrl(url)) {
         launchUrl(url);
       } else {
+        snackBar();
+      }
+    }
+
+    Future<void> openMap() async {
+      try {
+        final availableMaps = await MapLauncher.installedMaps;
+
+        showModalBottomSheet(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (_) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final map in availableMaps)
+                    ListTile(
+                      title: Text(map.mapName),
+                      leading: SvgPicture.asset(map.icon, width: 30),
+                      onTap: () {
+                        map.showMarker(
+                          coords: Coords(store.address.lat, store.address.long),
+                          title: store.name,
+                          description: store.addressText,
+                        );
+
+                        context.pop();
+                      },
+                    ),
+                ],
+              ),
+            );
+          },
+        );
+      } catch (e) {
         snackBar();
       }
     }
@@ -115,7 +154,7 @@ class StoreCard extends StatelessWidget {
                     CustomIconButton(
                       icon: Icons.map,
                       color: AppColors.primary,
-                      onTap: () {},
+                      onTap: openMap,
                     ),
 
                     CustomIconButton(
