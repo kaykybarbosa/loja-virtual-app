@@ -11,4 +11,9 @@ abstract class InputFormatters {
     filter: {"#": RegExp(r'[0-9]'), "!": RegExp(r'[0-1]')},
     type: MaskAutoCompletionType.lazy,
   );
+  static MaskTextInputFormatter get creditCardCvv => MaskTextInputFormatter(
+    mask: '###',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 }

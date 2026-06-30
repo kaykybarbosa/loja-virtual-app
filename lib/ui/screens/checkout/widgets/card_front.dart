@@ -1,10 +1,22 @@
+import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualapp/ui/screens/checkout/widgets/card_text_field.dart';
 import 'package:lojavirtualapp/utils/input_formatters.dart';
 import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 
 class CardFront extends StatelessWidget {
-  const CardFront({super.key});
+  const CardFront({
+    super.key,
+    required this.numberFocus,
+    required this.dateFocus,
+    required this.nameFocus,
+    required this.onFinish,
+  });
+
+  final FocusNode numberFocus;
+  final FocusNode dateFocus;
+  final FocusNode nameFocus;
+  final VoidCallback onFinish;
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +24,10 @@ class CardFront extends StatelessWidget {
       elevation: 16,
       color: AppColors.creditCard,
       shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: SizedBox(
-          height: 200,
+      child: SizedBox(
+        height: 200,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
           child: Row(
             children: [
               Expanded(
@@ -31,10 +43,16 @@ class CardFront extends StatelessWidget {
                       validator: (value) {
                         if (value == null || value.length != 19) {
                           return '   inválido!';
+                        } else if (detectCCType(value).isEmpty) {
+                          return '   inválido!';
                         }
 
                         return null;
                       },
+                      onSubmitted: (_) {
+                        dateFocus.requestFocus();
+                      },
+                      focusNode: numberFocus,
                     ),
                     CardTextField(
                       title: 'Validade',
@@ -48,6 +66,10 @@ class CardFront extends StatelessWidget {
 
                         return null;
                       },
+                      onSubmitted: (_) {
+                        nameFocus.requestFocus();
+                      },
+                      focusNode: dateFocus,
                     ),
                     CardTextField(
                       bold: true,
@@ -61,6 +83,10 @@ class CardFront extends StatelessWidget {
 
                         return null;
                       },
+                      onSubmitted: (_) {
+                        onFinish();
+                      },
+                      focusNode: nameFocus,
                     ),
                   ],
                 ),

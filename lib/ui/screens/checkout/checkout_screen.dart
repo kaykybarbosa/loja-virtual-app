@@ -25,47 +25,52 @@ class CheckoutScreen extends StatelessWidget {
           checkoutManager!..updateCart(cartManager),
       child: Scaffold(
         appBar: AppBar(title: const Text('Pagamento')),
-        body: Consumer<CheckoutManager>(
-          builder: (_, checkout, _) => checkout.loading
-              ? _OrderLoading()
-              : Form(
-                  key: formKey,
-                  child: ListView(
-                    children: <Widget>[
-                      // Cartão de crédito
-                      CreditCard(),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Consumer<CheckoutManager>(
+            builder: (_, checkout, _) => checkout.loading
+                ? _OrderLoading()
+                : Form(
+                    key: formKey,
+                    child: ListView(
+                      children: <Widget>[
+                        // Cartão de crédito
+                        CreditCard(),
 
-                      // Card dos preços
-                      PriceCard(
-                        onPressed: () {
-                          if (formKey.currentState?.validate() ?? false) {
-                            checkout.checkout(
-                              onSuccess: (order) {
-                                Navigator.of(context).popUntil(
-                                  (route) => route.settings.name == AppRoutes.base,
-                                );
+                        // Card dos preços
+                        PriceCard(
+                          onPressed: () {
+                            if (formKey.currentState?.validate() ?? false) {
+                              checkout.checkout(
+                                onSuccess: (order) {
+                                  Navigator.of(context).popUntil(
+                                    (route) => route.settings.name == AppRoutes.base,
+                                  );
 
-                                context.push(AppRoutes.confirmation, extra: order);
-                              },
-                              onStockFail: (error) {
-                                Navigator.of(context).popUntil(
-                                  (route) => route.settings.name == AppRoutes.cart,
-                                );
+                                  context.push(AppRoutes.confirmation, extra: order);
+                                },
+                                onStockFail: (error) {
+                                  Navigator.of(context).popUntil(
+                                    (route) => route.settings.name == AppRoutes.cart,
+                                  );
 
-                                customSnackbar(
-                                  context,
-                                  message: error,
-                                  type: AnimatedSnackBarType.error,
-                                );
-                              },
-                            );
-                          }
-                        },
-                        buttonText: 'Finalizar Pedido',
-                      ),
-                    ],
+                                  customSnackbar(
+                                    context,
+                                    message: error,
+                                    type: AnimatedSnackBarType.error,
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          buttonText: 'Finalizar Pedido',
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+          ),
         ),
       ),
     );

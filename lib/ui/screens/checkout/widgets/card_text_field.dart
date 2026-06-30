@@ -11,6 +11,10 @@ class CardTextField extends StatelessWidget {
     this.textInputType,
     this.inputFormatters,
     this.validator,
+    this.textAlign,
+    this.focusNode,
+    this.onSubmitted,
+    this.textInputAction = TextInputAction.next,
   });
 
   final String title;
@@ -19,6 +23,10 @@ class CardTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatters;
   final FormFieldValidator<String>? validator;
+  final TextAlign? textAlign;
+  final FocusNode? focusNode;
+  final Function(String)? onSubmitted;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +39,18 @@ class CardTextField extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: AppColors.base100,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 10,
+                if (title.isNotEmpty)
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: AppColors.base100,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 10,
+                    ),
                   ),
-                ),
 
                 // Erro
-                if (state.hasError)
+                if (title.isNotEmpty && state.hasError)
                   Text(
                     state.errorText!,
                     style: TextStyle(
@@ -56,17 +65,30 @@ class CardTextField extends StatelessWidget {
             // Field
             TextFormField(
               style: TextStyle(
-                color: AppColors.base100,
+                color: title.isEmpty && state.hasError
+                    ? AppColors.warn
+                    : AppColors.base100,
                 fontWeight: bold ? FontWeight.bold : null,
               ),
+              textAlign: textAlign ?? TextAlign.start,
               decoration: InputDecoration(
                 hintText: hint,
+                hintStyle: TextStyle(
+                  color: title.isEmpty && state.hasError
+                      ? Colors.red.withAlpha(200)
+                      : AppColors.base100.withAlpha(100),
+                ),
                 isDense: true,
                 border: InputBorder.none,
+                counterText: '',
                 contentPadding: EdgeInsets.symmetric(vertical: 2),
               ),
+              cursorColor: AppColors.base100,
               keyboardType: textInputType,
               inputFormatters: inputFormatters,
+              focusNode: focusNode,
+              onFieldSubmitted: onSubmitted,
+              textInputAction: textInputAction,
               onChanged: (value) {
                 state.didChange(value);
               },
