@@ -4,6 +4,7 @@ import 'package:lojavirtualapp/data/managers/cart_manager.dart';
 import 'package:lojavirtualapp/data/managers/checkout_manager.dart';
 import 'package:lojavirtualapp/data/routes/app_routes.dart';
 import 'package:lojavirtualapp/ui/common/price_card.dart';
+import 'package:lojavirtualapp/ui/screens/checkout/widgets/credit_card.dart';
 import 'package:lojavirtualapp/utils/messages/custom_snackbar.dart';
 import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -18,44 +19,46 @@ class CheckoutScreen extends StatelessWidget {
     return ChangeNotifierProxyProvider<CartManager, CheckoutManager>(
       lazy: false,
       create: (_) => CheckoutManager(),
-      update:
-          (_, cartManager, checkoutManager) => checkoutManager!..updateCart(cartManager),
+      update: (_, cartManager, checkoutManager) =>
+          checkoutManager!..updateCart(cartManager),
       child: Scaffold(
         appBar: AppBar(title: const Text('Pagamento')),
         body: Consumer<CheckoutManager>(
-          builder:
-              (_, checkout, _) =>
-                  checkout.loading
-                      ? _OrderLoading()
-                      : ListView(
-                        children: <Widget>[
-                          PriceCard(
-                            onPressed: () {
-                              checkout.checkout(
-                                onSuccess: (order) {
-                                  Navigator.of(context).popUntil(
-                                    (route) => route.settings.name == AppRoutes.base,
-                                  );
+          builder: (_, checkout, _) => checkout.loading
+              ? _OrderLoading()
+              : ListView(
+                  children: <Widget>[
+                    // Cartão de crédito
+                    CreditCard(),
 
-                                  context.push(AppRoutes.confirmation, extra: order);
-                                },
-                                onStockFail: (error) {
-                                  Navigator.of(context).popUntil(
-                                    (route) => route.settings.name == AppRoutes.cart,
-                                  );
+                    // Card dos preços
+                    PriceCard(
+                      onPressed: () {
+                        checkout.checkout(
+                          onSuccess: (order) {
+                            Navigator.of(
+                              context,
+                            ).popUntil((route) => route.settings.name == AppRoutes.base);
 
-                                  customSnackbar(
-                                    context,
-                                    message: error,
-                                    type: AnimatedSnackBarType.error,
-                                  );
-                                },
-                              );
-                            },
-                            buttonText: 'Finalizar Pedido',
-                          ),
-                        ],
-                      ),
+                            context.push(AppRoutes.confirmation, extra: order);
+                          },
+                          onStockFail: (error) {
+                            Navigator.of(
+                              context,
+                            ).popUntil((route) => route.settings.name == AppRoutes.cart);
+
+                            customSnackbar(
+                              context,
+                              message: error,
+                              type: AnimatedSnackBarType.error,
+                            );
+                          },
+                        );
+                      },
+                      buttonText: 'Finalizar Pedido',
+                    ),
+                  ],
+                ),
         ),
       ),
     );

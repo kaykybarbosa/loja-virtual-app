@@ -19,4 +19,6 @@ abstract class AppColors {
   static const Color yellow = Colors.yellow;
   static const Color orange = Colors.orange;
   static Color warn50 = Colors.red.withAlpha(50);
+
+  static Color creditCard = Color(0xFF1B4B52);
 }

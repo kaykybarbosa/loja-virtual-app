@@ -41,6 +41,7 @@ dependencies:
   alphabet_list_scroll_view_fix: ^2.0.2
   flutter_sliding_up_panel: ^2.1.1
   sign_in_button: ^5.0.0
+  flip_card: ^0.7.0
 
   # Image picker
   image_picker: ^1.1.2
@@ -71,6 +72,7 @@ dependencies:
   map_launcher: ^4.5.0
 
   flutter_svg: ^2.3.0
+  mask_text_input_formatter: ^2.9.0
 
 dependency_overrides:
   vibration: ^3.1.3
