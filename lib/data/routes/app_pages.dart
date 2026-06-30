@@ -33,7 +33,7 @@ final routerConfig = GoRouter(
       builder: (_, state) => const SelectProductScreen(),
     ),
     GoRoute(path: AppRoutes.address, builder: (_, state) => const AddressScreen()),
-    GoRoute(path: AppRoutes.checkout, builder: (_, state) => const CheckoutScreen()),
+    GoRoute(path: AppRoutes.checkout, builder: (_, state) => CheckoutScreen()),
     GoRoute(
       path: AppRoutes.confirmation,
       builder: (_, state) => ConfirmationScreen(order: state.extra as OrderModel),

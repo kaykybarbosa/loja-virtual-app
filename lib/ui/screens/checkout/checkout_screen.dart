@@ -12,7 +12,9 @@ import 'package:provider/provider.dart';
 part 'widgets/_order_loading.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
+  CheckoutScreen({super.key});
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,38 +28,43 @@ class CheckoutScreen extends StatelessWidget {
         body: Consumer<CheckoutManager>(
           builder: (_, checkout, _) => checkout.loading
               ? _OrderLoading()
-              : ListView(
-                  children: <Widget>[
-                    // Cartão de crédito
-                    CreditCard(),
+              : Form(
+                  key: formKey,
+                  child: ListView(
+                    children: <Widget>[
+                      // Cartão de crédito
+                      CreditCard(),
 
-                    // Card dos preços
-                    PriceCard(
-                      onPressed: () {
-                        checkout.checkout(
-                          onSuccess: (order) {
-                            Navigator.of(
-                              context,
-                            ).popUntil((route) => route.settings.name == AppRoutes.base);
+                      // Card dos preços
+                      PriceCard(
+                        onPressed: () {
+                          if (formKey.currentState?.validate() ?? false) {
+                            checkout.checkout(
+                              onSuccess: (order) {
+                                Navigator.of(context).popUntil(
+                                  (route) => route.settings.name == AppRoutes.base,
+                                );
 
-                            context.push(AppRoutes.confirmation, extra: order);
-                          },
-                          onStockFail: (error) {
-                            Navigator.of(
-                              context,
-                            ).popUntil((route) => route.settings.name == AppRoutes.cart);
+                                context.push(AppRoutes.confirmation, extra: order);
+                              },
+                              onStockFail: (error) {
+                                Navigator.of(context).popUntil(
+                                  (route) => route.settings.name == AppRoutes.cart,
+                                );
 
-                            customSnackbar(
-                              context,
-                              message: error,
-                              type: AnimatedSnackBarType.error,
+                                customSnackbar(
+                                  context,
+                                  message: error,
+                                  type: AnimatedSnackBarType.error,
+                                );
+                              },
                             );
-                          },
-                        );
-                      },
-                      buttonText: 'Finalizar Pedido',
-                    ),
-                  ],
+                          }
+                        },
+                        buttonText: 'Finalizar Pedido',
+                      ),
+                    ],
+                  ),
                 ),
         ),
       ),
