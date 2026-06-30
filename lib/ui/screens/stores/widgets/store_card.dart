@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualapp/domain/enums/store_enum.dart';
 import 'package:lojavirtualapp/domain/models/store_model.dart';
 import 'package:lojavirtualapp/ui/common/custom_icon_button.dart';
 import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
@@ -10,11 +11,53 @@ class StoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color colorFromStatus(StoreStatus status) {
+      switch (status) {
+        case StoreStatus.closed:
+          return AppColors.warn;
+        case StoreStatus.open:
+          return AppColors.green;
+        case StoreStatus.closing:
+          return AppColors.orange;
+      }
+    }
+
     return Card(
+      clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Column(
         children: [
-          Image.network(store.image),
+          SizedBox(
+            height: 150,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Imagem
+                Image.network(store.image, fit: BoxFit.cover),
+
+                // Status
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: AppColors.base100,
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8)),
+                    ),
+                    child: Text(
+                      store.statusText,
+                      style: TextStyle(
+                        color: colorFromStatus(store.status),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           Container(
             height: 150,
             padding: EdgeInsets.all(16),

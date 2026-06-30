@@ -15,5 +15,8 @@ abstract class AppColors {
   static const Color gradientHome2 = Color.fromARGB(255, 253, 181, 168);
 
   static const Color warn = Colors.red;
+  static const Color green = Colors.green;
+  static const Color yellow = Colors.yellow;
+  static const Color orange = Colors.orange;
   static Color warn50 = Colors.red.withAlpha(50);
 }
