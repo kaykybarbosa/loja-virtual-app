@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:lojavirtualapp/data/managers/cart_manager.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
+import 'package:provider/provider.dart';
+
+class PriceCard extends StatelessWidget {
+  const PriceCard({super.key, this.buttonText = '', this.onPressed});
+
+  final String buttonText;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final cartProduct = context.watch<CartManager>();
+    final num productsPrice = cartProduct.productsPrice;
+    final num? deliveryPrice = cartProduct.deliveryPrice;
+    final num totalPrice = cartProduct.totalPrice;
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            /// Resumo
+            const Text(
+              'Resumo do pedido',
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            const Gap(12),
+
+            /// SubTotal
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Subtotal'),
+                Text('R\$ ${productsPrice.toStringAsFixed(2)}'),
+              ],
+            ),
+
+            Divider(color: AppColors.base300),
+
+            /// Frete
+            if (deliveryPrice != null) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Text('Entrega'),
+                  Text('R\$ ${deliveryPrice.toStringAsFixed(2)}'),
+                ],
+              ),
+              Divider(color: AppColors.base300),
+            ],
+
+            const Gap(12),
+
+            /// Total
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Total',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'R\$ ${totalPrice.toStringAsFixed(2)}',
+                  style: const TextStyle(fontSize: 16, color: AppColors.primary),
+                ),
+              ],
+            ),
+
+            const Gap(8),
+
+            /// Botão
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(onPressed: onPressed, child: Text(buttonText)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,84 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lojavirtualapp/data/routes/app_routes.dart';
+import 'package:lojavirtualapp/domain/models/product_model.dart';
+import 'package:lojavirtualapp/utils/theme/colors/app_colors.dart';
+
+class ProductListTile extends StatelessWidget {
+  const ProductListTile(this.product, {super.key});
+
+  final ProductModel product;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: () => context.push(AppRoutes.productDetails, extra: product),
+    child: Card(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Container(
+        height: 105,
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: <Widget>[
+            /// Imagem
+            AspectRatio(aspectRatio: 1, child: Image.network(product.images.first)),
+
+            const Gap(16),
+
+            /// Produto
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  /// -- Nome
+                  Text(
+                    product.name,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+
+                  const Gap(4),
+
+                  /// -- A partir
+                  const Text(
+                    'A parte de',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.base500,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+
+                  /// -- Preço
+                  Text(
+                    'R\$ ${product.basePrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16,
+                    ),
+                  ),
+
+                  if (!product.hasStock) ...[
+                    Gap(4),
+
+                    Text(
+                      'Sem estoque',
+                      style: TextStyle(
+                        color: AppColors.warn,
+                        fontSize: 10,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
