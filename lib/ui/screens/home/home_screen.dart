@@ -39,10 +39,7 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               flexibleSpace: const FlexibleSpaceBar(
                 centerTitle: true,
-                title: Text(
-                  'Loja do Kbuloso',
-                  style: TextStyle(color: AppColors.base100),
-                ),
+                title: Text('Loja Virtual', style: TextStyle(color: AppColors.base100)),
               ),
               actions: <Widget>[
                 /// -- Carrinho
