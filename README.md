@@ -107,4 +107,7 @@ https://github.com/KaykyBarbosa
 
 ## 📄 Licença
 
-Este projeto foi desenvolvido exclusivamente para fins de estudo.
+Este projeto está licenciado sob a **Apache License 2.0**.
+
+Copyright © 2025 Kayky Barbosa.
+Consulte o arquivo `LICENSE` para mais informações.
