@@ -21,7 +21,7 @@ class CustomDrawerHeader extends StatelessWidget {
           children: <Widget>[
             /// Título
             const Text(
-              'Loja do\nKbuloso',
+              'Loja \nVirtual',
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
 
